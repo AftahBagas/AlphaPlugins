@@ -35,12 +35,12 @@ async def meme_(message: Message):
         cmd = f"lottie_convert.py --frame 0 -if lottie -of png {dls_loc} {file_1}"
         stdout, stderr = (await runcmd(cmd))[:2]
         if not os.path.lexists(file_1):
-            await message.err("```Sticker not found, cuz its gay...```", del_in=5)
+            await message.err("```Sticker not found...```", del_in=5)
             raise Exception(stdout + stderr)
         meme_file = file_1
     elif replied.animation or replied.video:
         if replied.video:
-            await message.edit("```Memifying this gay video...```")
+            await message.edit("```Memifying this video...```")
         else:
             await message.edit("```What a Gif, Memifying...```")
         file_2 = os.path.join(Config.DOWN_PATH, "meme.png")
@@ -50,7 +50,7 @@ async def meme_(message: Message):
             return
         meme_file = file_2
     elif replied.sticker and replied.sticker.file_name.endswith(".webp"):
-        await message.edit("```Memifying this gay sticker...```")
+        await message.edit("```Memifying this sticker...```")
         file_3 = os.path.join(Config.DOWN_PATH, "meme.png")
         os.rename(dls_loc, file_3)
         if not os.path.lexists(file_3):
@@ -67,13 +67,13 @@ async def meme_(message: Message):
             await conv.get_response(mark_read=True)
         except YouBlockedUser:
             await message.err(
-                "```This cmd not for you, If you want to use, Unblock``` **@MemeAutobot**",
+                "```If you want to use, Unblock``` **@MemeAutobot**",
                 del_in=5)
             return
         await conv.send_message(args)
         response = await conv.get_response(mark_read=True)
         if "Okay..." in response.text:
-            await message.edit("```Sending gay media to gay...```")
+            await message.edit("```Sending media...```")
         await userge.send_photo(chat, meme_file)
         response = await conv.get_response(mark_read=True)
         if not response.photo:

@@ -43,11 +43,11 @@ async def google_img(message: Message):
     fetcher = GIS(GCS_API_KEY, GCS_IMAGE_E_ID)
     query = message.input_str
     search = {'q': query,
-              'num': 9,
+              'num': 5,
               'safe': "off",
               'fileType': "jpg",
               'imgType': "photo",
-              'imgSize': "HUGE"}
+              'imgSize': "MEDIUM"}
     await message.edit("`Processing...`")
     fetcher.search(search_params=search)
     for image in fetcher.results():
@@ -59,7 +59,7 @@ async def google_img(message: Message):
     for img in os.listdir(PATH):
         imgs = PATH + img
         ss.append(InputMediaPhoto(str(imgs)))
-        if len(ss) == 9:
+        if len(ss) == 5:
             break
     await message.reply_chat_action("upload_photo")
     await message.reply_media_group(ss, True)

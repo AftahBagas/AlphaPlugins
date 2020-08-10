@@ -6,7 +6,7 @@ import os
 import requests
 from validators.url import url
 from html_telegraph_poster.upload_images import upload_image
-from userge import userge, Message, Config
+from userge import userge, Message, Config, deEmojify
 
 
 @userge.on_cmd("ph", about={
@@ -36,6 +36,7 @@ async def ph_comment(message: Message):
         return
     await message.delete()
     await message.edit("```Creating A PH Comment 😜```", del_in=1)
+    comment = deEmojify(comment)
     if replied.from_user.photo:
         pfp_photo = replied.from_user.photo.small_file_id
         file_name = os.path.join(Config.DOWN_PATH, "profile_pic.jpg")

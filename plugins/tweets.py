@@ -1,6 +1,7 @@
 """ Fun Stickers for Tweet """
 
 # By @Krishna_Singhal
+# Improved by code-rgb
 
 import os
 import re
@@ -9,26 +10,10 @@ import requests
 from PIL import Image
 from validators.url import url
 
-from userge import userge, Config, Message
+from userge import userge, Config, Message, deEmojify
 
 CONVERTED_IMG = Config.DOWN_PATH + "img.png"
 CONVERTED_STIKR = Config.DOWN_PATH + "sticker.webp"
-
-EMOJI_PATTERN = re.compile(
-    "["
-    "\U0001F1E0-\U0001F1FF"  # flags (iOS)
-    "\U0001F300-\U0001F5FF"  # symbols & pictographs
-    "\U0001F600-\U0001F64F"  # emoticons
-    "\U0001F680-\U0001F6FF"  # transport & map symbols
-    "\U0001F700-\U0001F77F"  # alchemical symbols
-    "\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
-    "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
-    "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
-    "\U0001FA00-\U0001FA6F"  # Chess Symbols
-    "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
-    "\U00002702-\U000027B0"  # Dingbats
-    "]+")
-
 
 @userge.on_cmd("trump", about={
     'header': "Custom Sticker of Trump Tweet",
@@ -147,16 +132,10 @@ async def tweet(msg: Message):
     await msg.edit("```Creating a Tweet Sticker 😏```")
     await _tweets(msg, text.strip(), username.strip())
 
-
-def _deEmojify(inputString: str) -> str:
-    """Remove emojis and other non-safe characters from string"""
-    return re.sub(EMOJI_PATTERN, '', inputString)
-
-
 async def _tweets(msg: Message, text: str, username: str = '', type_: str = "tweet") -> None:
-    api_url = f"https://nekobot.xyz/api/imagegen?type={type_}&text={_deEmojify(text)}"
+    api_url = f"https://nekobot.xyz/api/imagegen?type={type_}&text={deEmojify(text)}"
     if username:
-        api_url += f"&username={_deEmojify(username)}"
+        api_url += f"&username={deEmojify(username)}"
     res = requests.get(api_url).json()
     tweets_ = res.get("message")
     if not url(tweets_):
@@ -181,3 +160,81 @@ async def _tweets(msg: Message, text: str, username: str = '', type_: str = "twe
     os.remove(tmp_file)
     os.remove(CONVERTED_IMG)
     os.remove(CONVERTED_STIKR)
+
+    
+    
+@userge.on_cmd("clb", about={
+    'header': "Custom text Sticker for Any Celebrity",
+    'flags': {
+        '-s': "To get tweet in Sticker"},
+    'usage': "{tr}clb [short_name | text or reply to text]",
+    'Fonts': "<code>Check this</code> "
+    "<a href='https://telegra.ph/Famous-Twitter-Handles-08-08'><b>short_name</b></a>"
+    " <code>to know available twitter accounts</code>"})
+    
+async def celeb_(msg: Message):
+    """ Fun Famous Twitter Tweets """
+
+    CELEBS = {
+        "salman": "BeingSalmanKhan",
+        "srk": "iamsrk",
+        "ab": "SrBachchan",
+        "ambani": "Asliambani",
+        "jio": "reliancejio",
+        "telegram": "telegram",
+        "whatsapp": "WhatsApp",
+        "ananya": "ananyapandayy",
+        "sonakshi": "Aslisonagold",
+        "sonam": "sonamakapoor",
+        "johar": "karanjohar",
+        "yogi": "myogiadityanath",
+        "ramdev": "yogrishiramdev",
+        "arnab": "ArnabGoswamiRTV",
+        "rahul": "RahulGandhi",
+        "rajni" : "rajinikanth",
+        "apple" : "apple",
+        "fb" : "facebook",
+        "bjp" : "bjp4india",
+        "yt" : "youtube",
+        "kiara" : "advani_kiara",
+        "rdj" : "RobertDowneyJr",
+        "chris" : "chrishhemsworth",
+        "netflix" : "netflix",
+        "setu" : "Arogyasetu",
+        "ph" : "pornhub",
+        "osama" : "ItstherealOsama",
+        "hashmi" : "emraanhashmi",
+        "android" : "Android",
+        "ht" : "htTweets",
+        "zee" : "ZeeNews"
+    }
+
+    replied = msg.reply_to_message
+    texxt = msg.filtered_input_str
+    if replied:
+        if "|" in texxt:
+            celeb_name, msg_text = texxt.split('|')
+            celeb_name = celeb_name.strip()
+            comment = msg_text or replied.text
+        else:
+            celeb_name = texxt
+            comment = replied.text
+        if not celeb_name and comment:
+            await msg.err("```Input not found! Give celeb name and text, See Help for more!...```", del_in=3)
+            return
+    else:
+        if "|" in texxt:
+                celeb_name, msg_text = texxt.split('|')
+                celeb_name = celeb_name.strip()
+                comment = msg_text
+        else:
+            await msg.err("```Input not found! See Help...```", del_in=3)
+            return
+    celebrity = CELEBS[celeb_name]
+    if not celebrity:
+       await msg.err("```Not A Valid Celeb Name```", del_in=3)
+       return 
+    await msg.edit(f"```{celeb_name} is writing for You 😀```")
+    await _tweets(msg, comment, celebrity)
+
+    

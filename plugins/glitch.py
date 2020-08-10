@@ -1,7 +1,4 @@
 """ Glitch Media """
-
-# By @Krishna_Singhal
-
 import os
 
 from PIL import Image
@@ -40,7 +37,7 @@ async def glitch_(message: Message):
         args = 2
     if not os.path.isdir(Config.DOWN_PATH):
         os.makedirs(Config.DOWN_PATH)
-    await message.edit("```Glitching... 😁```")
+    await message.edit("```Glitching Media...```")
     dls = await message.client.download_media(
         message=replied,
         file_name=Config.DOWN_PATH

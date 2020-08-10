@@ -3,8 +3,10 @@ import textwrap
 
 from PIL import Image, ImageFont, ImageDraw
 
-from userge import userge, Message, Config
+from userge import userge, Message, Config, media_to_image
 from userge.utils import progress, take_screen_shot, runcmd
+
+
 
 
 @userge.on_cmd("mmf", about={
@@ -20,39 +22,10 @@ async def memify(message: Message):
         await message.client.send_sticker(
             sticker="CAADAQADhAAD3gkwRviGxMVn5813FgQ", chat_id=message.chat.id)
         return
-    if not (replied.photo or replied.sticker or replied.animation):
-        await message.err("Bruh, U Comedy me? Read help or gtfo (¬_¬)")
-        return
-    if not os.path.isdir(Config.DOWN_PATH):
-        os.makedirs(Config.DOWN_PATH)
-    await message.edit("He he, let me use my skills")
-    dls = await message.client.download_media(
-        message=message.reply_to_message,
-        file_name=Config.DOWN_PATH,
-        progress=progress,
-        progress_args=(message, "Trying to Posses given content")
-    )
-    dls_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dls))
-    if replied.sticker and replied.sticker.file_name.endswith(".tgs"):
-        await message.edit("OMG, an Animated sticker ⊙_⊙, lemme do my bleck megik...")
-        png_file = os.path.join(Config.DOWN_PATH, "meme.png")
-        cmd = f"lottie_convert.py --frame 0 -if lottie -of png {dls_loc} {png_file}"
-        stdout, stderr = (await runcmd(cmd))[:2]
-        os.remove(dls_loc)
-        if not os.path.lexists(png_file):
-            await message.err("This sticker is Gey, i won't memify it ≧ω≦")
-            raise Exception(stdout + stderr)
-        dls_loc = png_file
-    elif replied.animation:
-        await message.edit("Look it's GF. Oh, no it's just a Gif ")
-        jpg_file = os.path.join(Config.DOWN_PATH, "meme.jpg")
-        await take_screen_shot(dls_loc, 0, jpg_file)
-        os.remove(dls_loc)
-        if not os.path.lexists(jpg_file):
-            await message.err("This Gif is Gey (｡ì _ í｡), won't memify it.")
-            return
-        dls_loc = jpg_file
-    await message.edit("Decoration Time ≧∇≦, I'm an Artist")
+    
+# Here the Magic happens
+    dls_loc = await media_to_image(message)
+# UWU
     webp_file = await draw_meme_text(dls_loc, message.input_str)
     await message.client.send_sticker(chat_id=message.chat.id,
                                       sticker=webp_file,

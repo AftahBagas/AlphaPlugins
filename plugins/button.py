@@ -68,13 +68,15 @@ async def inline_buttons(message: Message):
          await message.err("Reply a text Msg")
          return
     if replied.caption:
-        text = replied.text
+        text = replied.caption
+        text = check_brackets(text)
         dls_loc = await down_image(message)
-        photo_url = upload_image(dls_loc)
+        photo_url = str(upload_image(dls_loc))
+        BUTTON_BASE.insert_one({'msg_data': text, 'photo_url': photo_url})
     else:
         text = replied.text
-    text = check_brackets(text)
-    BUTTON_BASE.insert_one({'msg_data': text, 'photo_url': photo_url})
+        text = check_brackets(text)
+        BUTTON_BASE.insert_one({'msg_data': text})
     bot = await userge.bot.get_me()
     x = await userge.get_inline_bot_results(bot.username, "buttonnn")
     await userge.send_inline_bot_result(chat_id=message.chat.id,

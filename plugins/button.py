@@ -70,7 +70,7 @@ async def inline_buttons(message: Message):
     if replied.caption:
         text = replied.text
         dls_loc = await down_image(message)
-        photo_url = await upload_image(dls_loc)
+        photo_url = upload_image(dls_loc)
     else:
         text = replied.text
     text = check_brackets(text)

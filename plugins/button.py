@@ -6,10 +6,12 @@
 from pyrogram.errors.exceptions.bad_request_400 import (
     UserIsBot, BadRequest, MessageEmpty)
 
+from html_telegraph_poster.upload_images import upload_image
 from userge import userge, Config, Message, get_collection
 from userge.utils import parse_buttons as pb
 import re
-
+import os
+BUTTON_BASE = get_collection("TEMP_BUTTON")
 BTN = r"\[([^\[]+?)\](\[buttonurl:(?:/{0,2})(.+?)(:same)?\])|\[([^\[]+?)\](\(buttonurl:(?:/{0,2})(.+?)(:same)?\))"
 BTNX = re.compile(BTN)
 
@@ -18,7 +20,7 @@ BTNX = re.compile(BTN)
     'description': "First Create a Bot via @Botfather and "
                    "Add bot token To Config Vars",
     'usage': "{tr}cbutton [reply to button msg]",
-    'buttons': "<code>[name][buttonurl:link]</code> - <b>add a url button</b>\n"
+    'buttons': "<code>[name][buttonurl:link] or [name](buttonurl:link)</code> - <b>add a url button</b>\n"
                "<code>[name][buttonurl:link:same]</code> - "
                "<b>add a url button to same row</b>"})
 async def create_button(msg: Message):
@@ -31,6 +33,7 @@ async def create_button(msg: Message):
         await msg.err("Reply a text Msg")
         return
     text, buttons = pb(replied.text)
+    text = check_brackets(text)
     try:
         await userge.bot.send_message(
             chat_id=msg.chat.id, text=text,
@@ -47,37 +50,61 @@ async def create_button(msg: Message):
     else:
         await msg.delete()
 
-
+""" Create Buttons Through Inline Bots """
 @userge.on_cmd("ibutton", about={
-     'header': "Creates Button Via Inline bot in any chat",
-     'flags': {
-     "c": "replace all () bracket to [] "},
-    'usage': "{tr}ibutton [ reply to message]\n"
-              "{tr}ibutton -c [ reply to message]"})
+    'header': "Create buttons Using Inline Bot",
+    'description': "First Create a Inline via @Botfather and "
+                   "Add bot token To Config Vars",
+    'usage': "{tr}ibutton [reply to button msg]",
+    'buttons': "<code>[name][buttonurl:link] or [name](buttonurl:link)</code> - <b>add a url button</b>\n"
+               "<code>[name][buttonurl:link:same]</code> - "
+               "<b>add a url button to same row</b>"})
 async def inline_buttons(message: Message):
+    if Config.BOT_TOKEN is None:
+        await message.err("First Create a Inline Bot via @Botfather to Create Buttons...")
+        return
     replied = message.reply_to_message
-    if not (replied and replied.text):
+    if not (replied and (replied.text or replied.caption)):
          await message.err("Reply a text Msg")
          return
-    text = replied.text
-    # Lmao Weird code but works xD
-    if '-c' in message.flags:
-        unmatch = re.sub(BTN, '', text)
-        textx = ""
-        for m in BTNX.finditer(text):
-            if m.group(1):
-                word = m.group(0)
-            else:
-                change = m.group(6).replace('(', '[').replace(')', ']')
-                word = "[" + m.group(5) + "]"
-                word += change
-            textx += word 
-        text = unmatch + textx
-    BUTTON_BASE = get_collection("TEMP_BUTTON")
-    BUTTON_BASE.insert_one({'msg_data': text})
+    if replied.caption:
+        text = replied.text
+        dls_loc = await down_image(message)
+        photo_url = await upload_image(dls_loc)
+    else:
+        text = replied.text
+    text = check_brackets(text)
+    BUTTON_BASE.insert_one({'msg_data': text, 'photo_url': photo_url})
     bot = await userge.bot.get_me()
     x = await userge.get_inline_bot_results(bot.username, "buttonnn")
     await userge.send_inline_bot_result(chat_id=message.chat.id,
                                         query_id=x.query_id,
                                         result_id=x.results[1].id)
     await BUTTON_BASE.drop()
+
+
+def check_brackets(text):
+    unmatch = re.sub(BTN, '', text)
+    textx = ""
+    for m in BTNX.finditer(text):
+        if m.group(1):
+            word = m.group(0)
+        else:
+            change = m.group(6).replace('(', '[').replace(')', ']')
+            word = "[" + m.group(5) + "]"
+            word += change
+        textx += word 
+    text = unmatch + textx
+    return text
+
+
+async def down_image(message):
+    replied = message.reply_to_message
+    if not os.path.isdir(Config.DOWN_PATH):
+        os.makedirs(Config.DOWN_PATH)
+    dls = await userge.download_media(
+        message=message.reply_to_message,
+        file_name=Config.DOWN_PATH
+    )
+    dls_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dls))
+    return dls_loc

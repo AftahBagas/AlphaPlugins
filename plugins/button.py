@@ -32,8 +32,8 @@ async def create_button(msg: Message):
     if not (replied and replied.text):
         await msg.err("Reply a text Msg")
         return
-    text, buttons = pb(replied.text)
-    text = check_brackets(text)
+    rep_txt = check_brackets(replied.text)
+    text, buttons = pb(rep_txt)
     try:
         await userge.bot.send_message(
             chat_id=msg.chat.id, text=text,

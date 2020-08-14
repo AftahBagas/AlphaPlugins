@@ -74,7 +74,7 @@ async def inline_buttons(message: Message):
         dls_loc = await down_image(message)
         photo_url = str(upload_image(dls_loc))
         BUTTON_BASE.insert_one({'msg_data': text, 'photo_url': photo_url})
-        await os.remove(dls_loc)
+        os.remove(dls_loc)
     else:
         text = replied.text
         text = check_brackets(text)

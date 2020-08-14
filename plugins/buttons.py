@@ -46,7 +46,7 @@ async def create_button(msg: Message):
     except MessageEmpty:
         await msg.err("Message Object is Empty!")
     except Exception as error:
-        await msg.edit(f"`Something went Wrong! 😁`\n\n**ERROR:** `{error}`")
+        await msg.edit(f"`Something went Wrong! `\n\n**ERROR:** `{error}`")
     else:
         await msg.delete()
 
@@ -67,12 +67,14 @@ async def inline_buttons(message: Message):
     if not (replied and (replied.text or replied.caption)):
          await message.err("Reply a text Msg")
          return
+    await message.edit("<code>Creating an inline button...</code>")
     if replied.caption:
         text = replied.caption
         text = check_brackets(text)
         dls_loc = await down_image(message)
         photo_url = str(upload_image(dls_loc))
         BUTTON_BASE.insert_one({'msg_data': text, 'photo_url': photo_url})
+        await os.remove(dls_loc)
     else:
         text = replied.text
         text = check_brackets(text)
@@ -83,6 +85,7 @@ async def inline_buttons(message: Message):
                                         query_id=x.query_id,
                                         result_id=x.results[1].id)
     await BUTTON_BASE.drop()
+    await message.delete()
 
 
 def check_brackets(text):

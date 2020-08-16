@@ -3,7 +3,7 @@
 from userge import userge, Message
 @userge.on_cmd("gapps", about={
     'header': "Get Gapps"}, allow_channels=False)
-async def alive_inline(message: Message):
+async def gapps_inline(message: Message):
     await message.edit("`🔍 Finding Latest Gapps...`")
     bot = await userge.bot.get_me()
     x = await userge.get_inline_bot_results(bot.username, "gapps")

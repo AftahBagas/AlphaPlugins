@@ -21,15 +21,19 @@ async def ph_comment(message: Message):
     """ Create P*rnhub Comment for Replied User """
     replied = message.reply_to_message
     if replied:
+        if replied.forward_from:
+            user = replied.forward_from
+        else:
+            user = replied.from_user
         if "|" in message.input_str:
             u_name, msg_text = message.input_str.split('|')
             name = u_name.strip()
             comment = msg_text or replied.text
         else:
-            if replied.from_user.last_name:
-                name = replied.from_user.first_name + " " + replied.from_user.last_name
+            if user.last_name:
+                name = user.first_name + " " + user.last_name
             else:
-                name = replied.from_user.first_name
+                name = user.first_name
             comment = message.input_str or replied.text
     else:
         await message.err("```Input not found!...```", del_in=3)
@@ -37,10 +41,7 @@ async def ph_comment(message: Message):
     await message.delete()
     await message.edit("```Creating A PH Comment 😜```", del_in=1)
     comment = deEmojify(comment)
-    if replied.forward_from:
-        user = replied.forward_from
-    else:
-        user = replied.from_user
+
 
     if user.photo:
         pfp_photo = user.photo.small_file_id

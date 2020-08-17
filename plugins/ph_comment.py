@@ -37,8 +37,13 @@ async def ph_comment(message: Message):
     await message.delete()
     await message.edit("```Creating A PH Comment 😜```", del_in=1)
     comment = deEmojify(comment)
-    if replied.from_user.photo:
-        pfp_photo = replied.from_user.photo.small_file_id
+    if replied.forward_from:
+        user = replied.forward_from
+    else:
+        user = replied.from_user
+
+    if user.photo:
+        pfp_photo = user.photo.small_file_id
         file_name = os.path.join(Config.DOWN_PATH, "profile_pic.jpg")
         picture = await userge.download_media(
             pfp_photo,

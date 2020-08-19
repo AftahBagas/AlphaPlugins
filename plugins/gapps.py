@@ -4,7 +4,10 @@ from requests import get
 from bs4 import BeautifulSoup
 """Gapps via inline bot"""
 from userge import userge, Message, Config
-from pyrogram import Filters, CallbackQuery
+from pyrogram import (
+    InlineKeyboardMarkup, InlineKeyboardButton,
+    Filters, CallbackQuery)
+
 
 
 
@@ -91,7 +94,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         link = "https://sourceforge.net/projects/nikgapps/files/Releases/NikGapps-Q/"
         url = get(link)
         if url.status_code == 404:
-           return
+            return
         page = BeautifulSoup(url.content, 'lxml')
         content = page.tbody.tr
         date = content['title']
@@ -117,29 +120,3 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
             "**LATEST Android 10 arm64 Gapps**",
             reply_markup=InlineKeyboardMarkup(buttons)
         )
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#opengapps
-           
-
-
-
-
-
-# Flame

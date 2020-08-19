@@ -107,15 +107,15 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
     @ubot.on_callback_query(filters=Filters.regex(pattern=r"^back_gapps$"))
     async def back_cb(_, callback_query: CallbackQuery):
 
-    buttons = [[InlineKeyboardButton("Open Gapps", callback_data="open_gapps")],
+        buttons = [[InlineKeyboardButton("Open Gapps", callback_data="open_gapps")],
                              [InlineKeyboardButton("Flame Gapps", callback_data="flame_gapps")],
                              [InlineKeyboardButton("Nik Gapps", callback_data="nik_gapps")]]
-
-    await callback_query.edit_message_text(callback_query.chat.id,
+ 
+        await callback_query.edit_message_text(callback_query.chat.id,
             callback_query.message_id,
             "**LATEST Android 10 arm64 Gapps**",
             reply_markup=InlineKeyboardMarkup(buttons)
-    )
+        )
     
 
 

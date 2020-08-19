@@ -10,9 +10,9 @@ from pyrogram import (
 # TODO Make Check Admin and Sudos Wrapper
 
 @userge.on_cmd("gapps", about={
-    'header': "Get Android 10 arm64 Gapps"}, allow_channels=False)
+    'header': "Get Android 10 arm64 GApps"}, allow_channels=False)
 async def gapps_inline(message: Message):
-    await message.edit("`🔍 Finding Latest Gapps...`")
+    await message.edit("`🔍 Finding Latest GApps...`")
     bot = await userge.bot.get_me()
     x = await userge.get_inline_bot_results(bot.username, "gapps")
     await userge.send_inline_bot_result(chat_id=message.chat.id,
@@ -55,7 +55,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
             InlineKeyboardButton(text="micro", url=gapps_link[5])],
             [InlineKeyboardButton(text="nano", url=gapps_link[6]),
             InlineKeyboardButton(text="pico", url=gapps_link[7])],
-            [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]
+            [InlineKeyboardButton(text="⏪  BACK", callback_data="back_gapps")]
             ]
 
             await ubot.edit_inline_text(callback_query.inline_message_id,
@@ -84,14 +84,14 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         
             flame_g = [[InlineKeyboardButton(text="FULL", url=full),
                     InlineKeyboardButton(text="BASIC", url=basic)],
-                    [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]]
+                    [InlineKeyboardButton(text="⏪  BACK", callback_data="back_gapps")]]
 
             await ubot.edit_inline_text(callback_query.inline_message_id,
                 "[\u200c](https://telegra.ph/file/c3cdea0642e1723f3304c.jpg)**FLAME GAPPS**",
                 reply_markup=InlineKeyboardMarkup(flame_g)
             )
         else:
-            await callback_query.answer("Sorry You Can't Access This!\n\n 𝘿𝙚𝙥𝙡𝙤𝙮 𝙔𝙤𝙪𝙧 𝙊𝙬𝙣 𝙐𝙎𝙀𝙍𝙂𝙀-𝙓", show_alert=True)
+            await callback_query.answer("Sorry You Can't Access This!\n\n  𝘿𝙚𝙥𝙡𝙤𝙮 𝙔𝙤𝙪𝙧 𝙊𝙬𝙣 𝙐𝙎𝙀𝙍𝙂𝙀-𝙓", show_alert=True)
 
 
     @ubot.on_callback_query(filters=Filters.regex(pattern=r"^nik_gapps$"))
@@ -107,7 +107,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
             date = content['title']
             latest_niks = f"{link}{date}/"
             nik_g = [[InlineKeyboardButton(text="Lastest", url=latest_niks)],
-                    [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]]
+                    [InlineKeyboardButton(text="⏪  BACK", callback_data="back_gapps")]]
 
             await ubot.edit_inline_text(callback_query.inline_message_id,
                 "[\u200c](https://i.imgur.com/Iv9ZTDW.jpg) **NIK GAPPS**",

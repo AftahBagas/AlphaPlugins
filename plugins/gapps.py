@@ -59,7 +59,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]
         ]
 
-        await callback_query.edit_message_text(callback_query.chat.id,
+        await callback_query.edit_message_text(callback_query.message.chat.id,
             callback_query.message_id,
             "**OPEN GAPPS**",
             reply_markup=InlineKeyboardMarkup(open_g)
@@ -83,7 +83,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
                    InlineKeyboardButton(text="BASIC", url=basic)],
                    [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]]
 
-        await callback_query.edit_message_text(callback_query.chat.id,
+        await callback_query.edit_message_text(callback_query.message.chat.id,
             callback_query.message_id,
             "**FLAME GAPPS**",
             reply_markup=InlineKeyboardMarkup(flame_g)
@@ -102,7 +102,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         nik_g = [[InlineKeyboardButton(text="Lastest", url=latest_niks)],
                  [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]]
 
-        await callback_query.edit_message_text(callback_query.chat.id,
+        await callback_query.edit_message_text(callback_query.message.chat.id,
             callback_query.message_id,
             "**NIK GAPPS**",
             reply_markup=InlineKeyboardMarkup(nik_g)

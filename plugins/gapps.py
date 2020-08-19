@@ -56,7 +56,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         InlineKeyboardButton(text="micro", url=gapps_link[5])],
         [InlineKeyboardButton(text="nano", url=gapps_link[6]),
         InlineKeyboardButton(text="pico", url=gapps_link[7])],
-        [InlineKeyboardButton(text="⏪ Back", callback_data=back_gapps)]
+        [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]
         ]
 
         await callback_query.edit_message_text(callback_query.chat.id,
@@ -81,7 +81,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
        
         flame_g = [[InlineKeyboardButton(text="FULL", url=full),
                    InlineKeyboardButton(text="BASIC", url=basic)],
-                   [InlineKeyboardButton(text="⏪ Back", callback_data=back_gapps)]]
+                   [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]]
 
         await callback_query.edit_message_text(callback_query.chat.id,
             callback_query.message_id,
@@ -100,7 +100,7 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
         date = content['title']
         latest_niks = f"{link}{date}/"
         nik_g = [[InlineKeyboardButton(text="Lastest", url=latest_niks)],
-                 [InlineKeyboardButton(text="⏪ Back", callback_data=back_gapps)]]
+                 [InlineKeyboardButton(text="⏪ Back", callback_data="back_gapps")]]
 
         await callback_query.edit_message_text(callback_query.chat.id,
             callback_query.message_id,
@@ -112,8 +112,8 @@ if Config.BOT_TOKEN and Config.OWNER_ID:
     async def back_cb(_, callback_query: CallbackQuery):
 
         buttons = [[InlineKeyboardButton("Open Gapps", callback_data="open_gapps")],
-                             [InlineKeyboardButton("Flame Gapps", callback_data="flame_gapps")],
-                             [InlineKeyboardButton("Nik Gapps", callback_data="nik_gapps")]]
+                   [InlineKeyboardButton("Flame Gapps", callback_data="flame_gapps")],
+                   [InlineKeyboardButton("Nik Gapps", callback_data="nik_gapps")]]
  
         await callback_query.edit_message_text(callback_query.chat.id,
             callback_query.message_id,

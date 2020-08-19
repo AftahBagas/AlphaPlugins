@@ -3,8 +3,9 @@
 from requests import get
 from bs4 import BeautifulSoup
 """Gapps via inline bot"""
-from userge import userge, Message
+from userge import userge, Message, Config
 from pyrogram import Filters, CallbackQuery
+
 
 
 

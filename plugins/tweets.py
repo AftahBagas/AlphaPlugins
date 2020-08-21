@@ -167,7 +167,7 @@ async def _tweets(msg: Message, text: str, username: str = '', type_: str = "twe
     'header': "Custom text Sticker for Any Celebrity",
     'flags': {
         '-s': "To get tweet in Sticker"},
-    'usage': "{tr}clb [short_name | text or reply to text]",
+    'usage': "{tr}clb [short_name , text or reply to text]",
     'Fonts': "<code>Check this</code> "
     "<a href='https://telegra.ph/Famous-Twitter-Handles-08-08'><b>short_name</b></a>"
     " <code>to know available twitter accounts</code>"})
@@ -212,8 +212,8 @@ async def celeb_(msg: Message):
     replied = msg.reply_to_message
     texxt = msg.filtered_input_str
     if replied:
-        if "|" in texxt:
-            celeb_name, msg_text = texxt.split('|')
+        if "," in texxt:
+            celeb_name, msg_text = texxt.split(',')
             celeb_name = celeb_name.strip()
             comment = msg_text or replied.text
         else:
@@ -223,8 +223,8 @@ async def celeb_(msg: Message):
             await msg.err("```Input not found! Give celeb name and text, See Help for more!...```", del_in=3)
             return
     else:
-        if "|" in texxt:
-                celeb_name, msg_text = texxt.split('|')
+        if "," in texxt:
+                celeb_name, msg_text = texxt.split(',')
                 celeb_name = celeb_name.strip()
                 comment = msg_text
         else:

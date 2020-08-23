@@ -6,8 +6,8 @@ import time
 
 
 @userge.on_cmd("tg", about={'header': "For Posting Text on Telegraph",
-  'usage': "{tr}tg Title [reply to text]\n",
-           "{tr}tg [reply to text]"})
+  'usage': "{tr}tg Title [reply to text]"})
+
 async def tele_text(message: Message):
     """Paste on Telegra.ph"""
     start = time.time()

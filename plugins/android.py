@@ -32,7 +32,7 @@ async def device_recovery(message: Message):
 
 
 @userge.on_cmd("magisk$", about={'header': "Get Latest Magisk Zip and Manager"})
-async def insult_(message: Message):
+async def magisk_(message: Message):
     """Get Latest MAGISK"""
 
     magisk_dict = {
@@ -40,11 +40,9 @@ async def insult_(message: Message):
             "https://raw.githubusercontent.com/topjohnwu/magisk_files/master/stable.json",
             "⦁ 𝗕𝗲𝘁𝗮":
             "https://raw.githubusercontent.com/topjohnwu/magisk_files/master/beta.json",
-            "⦁ 𝗖𝗮𝗻𝗮𝗿𝘆 (𝗥𝗲𝗹𝗲𝗮𝘀𝗲)":
-            "https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/release.json",
             "⦁ 𝗖𝗮𝗻𝗮𝗿𝘆 (𝗗𝗲𝗯𝘂𝗴)":
             "https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/debug.json"
-        }
+    }
     releases = "<code><i>𝗟𝗮𝘁𝗲𝘀𝘁 𝗠𝗮𝗴𝗶𝘀𝗸 𝗥𝗲𝗹𝗲𝗮𝘀𝗲:</i></code>\n\n" 
     for name, release_url in magisk_dict.items():
         data = get(release_url).json()

@@ -1,6 +1,7 @@
 """P*rnhub Comment"""
-
+# @Mrconfused [catuserbot] for the idea of nekobot API
 # BY code-rgb [https://github.com/code-rgb]
+
 
 import os
 import requests
@@ -26,7 +27,7 @@ async def ph_comment(message: Message):
         else:
             user = replied.from_user
         if "," in message.input_str:
-            u_name, msg_text = message.input_str.split(',')
+            u_name, msg_text = message.input_str.split(',', 1)
             name = u_name.strip()
             comment = msg_text or replied.text
         else:

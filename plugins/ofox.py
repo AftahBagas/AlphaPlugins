@@ -1,8 +1,7 @@
 """By code-rgb"""
 
 
-from pyrogram import InlineKeyboardMarkup, InlineKeyboardButton
-import pyrogram
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from userge import userge, Message
 import json
 import requests

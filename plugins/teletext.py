@@ -1,4 +1,5 @@
-# Author: github.com/code-rgb (TG - @deleteduser420)
+# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
+# All rights reserved.
 
 from html_telegraph_poster import TelegraphPoster
 from userge import userge, Message

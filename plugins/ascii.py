@@ -37,7 +37,7 @@ async def ascii_(message: Message):
     color1 = c_list[0]
     color2 = c_list[1]
     bgcolor = "#080808"
-    webp_file = asciiart(dls_loc, 0.3, 1.9, color1, color2, bgcolor, ascii_type)
+    img_file = asciiart(dls_loc, 0.3, 1.9, color1, color2, bgcolor, ascii_type)
     await message.client.send_photo(
         chat_id=message.chat.id,
         photo=img_file,

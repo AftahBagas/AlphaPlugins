@@ -1,4 +1,4 @@
-"""Reply to an Media to convert to ascii sticker"""
+"""Reply to an Media to convert to ascii Image"""
 # Module by @deleteduser420 (https://github.com/code-rgb)
 # Copyright 2017, Shanshan Wang, MIT license
 # Based on https://gist.github.com/wshanshan/c825efca4501a491447056849dd207d6
@@ -12,11 +12,11 @@ import random
 
 
 @userge.on_cmd("ascii", about={
-    'header': "Ascii Sticker",
-    'description': "transform on any gif/sticker/image to an Ascii Sticker. ",
+    'header': "Ascii Image",
+    'description': "transform on any Media to an Ascii Image. ",
     'usage': " {tr}ascii [reply to media]",
     'flags': {
-        '-alt': "To get inverted Ascii Sticker"},
+        '-alt': "To get inverted Ascii Image"},
     'examples': [
         "{tr}ascii [reply to media]",
         "{tr}ascii -alt [reply to media]"]})
@@ -37,13 +37,13 @@ async def ascii_(message: Message):
     color1 = c_list[0]
     color2 = c_list[1]
     bgcolor = "#080808"
-    webp_file = asciiart(dls_loc, 0.1, 1.9, color1, color2, bgcolor, ascii_type)
-    await message.client.send_sticker(
+    webp_file = asciiart(dls_loc, 0.3, 1.9, color1, color2, bgcolor, ascii_type)
+    await message.client.send_photo(
         chat_id=message.chat.id,
-        sticker=webp_file,
+        photo=img_file,
         reply_to_message_id=replied.message_id)
     await message.delete()
-    os.remove(webp_file)
+    os.remove(img_file)
     os.remove(dls_loc)
 
 
@@ -80,10 +80,10 @@ def asciiart(in_f, SC, GCF, color1, color2, bgcolor, ascii_type):
         lineIdx += 1
         draw.text((leftpadding, y), line, color.hex, font=font)
         y += letter_height
-    image_name = "ascii.webp"
-    webp_file = os.path.join(Config.DOWN_PATH, image_name)
-    newImg.save(webp_file, "WebP")
-    return webp_file
+    image_name = "ascii.png"
+    img_file = os.path.join(Config.DOWN_PATH, image_name)
+    newImg.save(img_file)
+    return img_file
 
 
 def random_color():

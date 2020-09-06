@@ -13,7 +13,7 @@ from userge import userge, Message
     allow_private=False)
 async def create_poll(msg: Message):
     """" Create poll """
-    options = ["Yes, Sure 😎", "No interest 🙄", "What..? 😳😳🤔🤔"]
+    options = ["👌 Yes, Perfect", "🙅‍♂️ no no please god no", "🤷🏻‍♂️ Maybe IDK"]
     anonymous = True
     if '-n' in msg.flags:
         anonymous = False

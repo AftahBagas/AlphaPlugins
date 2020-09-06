@@ -38,9 +38,10 @@ async def ascii_(message: Message):
     color2 = c_list[1]
     bgcolor = "#080808"
     img_file = asciiart(dls_loc, 0.3, 1.9, color1, color2, bgcolor, ascii_type)
-    await message.client.send_photo(
+    await message.client.send_document(
         chat_id=message.chat.id,
-        photo=img_file,
+        document=img_file,
+        force_document=True,
         reply_to_message_id=replied.message_id)
     await message.delete()
     os.remove(img_file)

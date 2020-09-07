@@ -43,7 +43,6 @@ async def honka_says_bot(message: Message):
             query_id=stickers.query_id,
             result_id=stickers.results[font_size].id,
             reply_to_message_id=message_id
-            hide_via=True
         )
     except IndexError:
         await message.err("List index out of range")

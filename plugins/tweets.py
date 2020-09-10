@@ -11,7 +11,8 @@ import requests
 from PIL import Image
 from validators.url import url
 
-from userge import userge, Config, Message, deEmojify
+from userge import userge, Config, Message
+from userge.utils import deEmojify
 
 CONVERTED_IMG = Config.DOWN_PATH + "img.png"
 CONVERTED_STIKR = Config.DOWN_PATH + "sticker.webp"

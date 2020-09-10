@@ -7,8 +7,8 @@ import os
 import requests
 from validators.url import url
 from html_telegraph_poster.upload_images import upload_image
-from userge import userge, Message, Config, deEmojify
-
+from userge import userge, Message, Config
+from userge.utils import deEmojify
 
 @userge.on_cmd("ph", about={
     'header': "P*rnhub Comment",

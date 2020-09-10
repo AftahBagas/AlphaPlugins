@@ -5,7 +5,8 @@
 
 import os
 from PIL import Image, ImageOps, ImageFont, ImageDraw
-from userge import userge, Message, Config, media_to_image
+from userge import userge, Message, Config
+from userge.utils import media_to_image
 import numpy as np
 from colour import Color
 import random

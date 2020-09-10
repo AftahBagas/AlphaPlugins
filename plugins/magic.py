@@ -3,7 +3,8 @@
 import os
 import time
 from PIL import Image, ImageOps
-from userge import userge, Message, Config, media_to_image
+from userge import userge, Message, Config
+from userge.utils import media_to_image
 
 
 @userge.on_cmd("(invert|mirror|flip)$", about={

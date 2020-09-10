@@ -2,7 +2,8 @@
 
 import random
 import re
-from userge import userge, Message, deEmojify
+from userge import userge, Message
+from userge.utils import deEmojify
 
 @userge.on_cmd("waifu", about={
     'header': "Creates random anime sticker",

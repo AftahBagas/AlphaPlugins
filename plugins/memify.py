@@ -3,8 +3,8 @@ import textwrap
 
 from PIL import Image, ImageFont, ImageDraw
 
-from userge import userge, Message, Config, media_to_image
-from userge.utils import progress, take_screen_shot, runcmd
+from userge import userge, Message, Config
+from userge.utils import progress, take_screen_shot, runcmd, media_to_image
 
 
 

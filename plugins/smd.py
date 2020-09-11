@@ -21,8 +21,8 @@ async def song_search(message: Message):
     f_id = ""
     f_ref = ""
     try:
-        async for message in userge.search_messages(-1001271479322, query=song,  limit=1, filter="audio"):
-            f_id, f_ref = get_file_id_and_ref(message)
+        async for msg in userge.search_messages(-1001271479322, query=song,  limit=1, filter="audio"):
+            f_id, f_ref = get_file_id_and_ref(msg)
     except BadRequest:
         await search.edit("Join [THIS](https://t.me/joinchat/DdR2SUvJPBouSW4QlbJU4g) channel first")
         return

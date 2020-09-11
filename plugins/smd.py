@@ -9,7 +9,7 @@ from userge.utils import get_file_id_and_ref
 
 @userge.on_cmd("smd", about={
     'header': "Search from already uploaded 1M Songs",
-    'usage': ".smd lady gaga - poker face"}, allow_bots=False)
+    'usage': ".smd lady gaga - poker face"})
 async def song_search(message: Message):
     """get songs from channel"""
     song = message.input_str

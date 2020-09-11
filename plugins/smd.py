@@ -6,8 +6,8 @@ from pyrogram.errors import BadRequest
 from userge import userge, Message
 from userge.utils import get_file_id_and_ref
 
-file_id = None
-file_ref = None
+f_id = None
+f_ref = None
 
 @userge.on_cmd("smd", about={
     'header': "Search from already uploaded 1M Songs",

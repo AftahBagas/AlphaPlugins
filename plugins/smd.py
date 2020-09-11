@@ -6,8 +6,6 @@ from pyrogram.errors import BadRequest
 from userge import userge, Message
 from userge.utils import get_file_id_and_ref
 
-f_id = None
-f_ref = None
 
 @userge.on_cmd("smd", about={
     'header': "Search from already uploaded 1M Songs",
@@ -19,7 +17,9 @@ async def song_search(message: Message):
         await message.err("Provide a song name or artist name to search", del_in=10)
         return
     search = await message.edit("🔍 __Searching For__ **{}**".format(song))
-    chat_id = message.chat.id 
+    chat_id = message.chat.id
+    f_id = ""
+    f_ref = ""
     try:
         async for message in userge.search_messages(-1001271479322, query=song,  limit=1, filter="audio"):
             f_id, f_ref = get_file_id_and_ref(message)

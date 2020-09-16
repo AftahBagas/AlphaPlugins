@@ -46,7 +46,7 @@ async def detect_(message: Message):
     if detections:
         for parts in detections:
             name = parts['name']
-            confidence = float(parts['confidence']) * 100
-            result += "• {}:\n <code>{:.2f} %</code>\n".format(name, confidence)
+            confidence = int(float(parts['confidence']) * 100)
+            result += f"• {name}:\n   <code>{confidence} %</code>\n"
     await message.edit(result, disable_web_page_preview=True)
     

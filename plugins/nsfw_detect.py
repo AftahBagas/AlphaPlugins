@@ -38,9 +38,9 @@ async def detect_(message: Message):
         await message.err(r.json()['status'], del_in=6)
         return
     r_json = r.json()['output']
+    pic_id = r.json()['id']
     percentage = r_json['nsfw_score'] * 100
     detections = r_json['detections']
-    pic_id = r_json['id']
     result = "<b>[>> 🖼](https://api.deepai.org/job-view-file/{}/inputs/image.jpg) Detected Nudity :</b> <code>{:.3f} %</code>\n".format(pic_id, percentage)
 
     if detections:

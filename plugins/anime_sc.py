@@ -25,15 +25,16 @@ from validators.url import url
 async def anime_Scene(message: Message):
     """ Creates random anime Cut Scene! """
 
-    monika_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r"]
+    monika_faces = [x for x in "abcdefghijklmnopqr"]
 
-    natsuki_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1t", "2bt", "2bta"]
-    natsuki_faces.append("2btb", "2btc", "2btd", "2bte", "2btf", "2btg", "2bth", "2bti", "2t", "2ta", "2tb", "2tc", "2td", "2te", "2tf", "2tg", "2th", "2ti")
+    natsuki_faces = [x for x in "abcdefghijklmnopqrstuvwxyz"]
+    natsuki_faces.extend(["1t", "2bt", "2bta", "2btb", "2btc", "2btd", "2bte", "2btf", "2btg", "2bth", "2bti",
+                      "2t", "2ta", "2tb", "2tc", "2td", "2te", "2tf", "2tg", "2th", "2ti"])
 
-    sayori_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y"]
-
-    yuri_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y1", "y2", "y3", "y4", "y5", "y6", "y7"]
-
+    sayori_faces = [x for x in "abcdefghijklmnopqrstuvwxy"]
+    
+    yuri_faces = [x for x in "abcdefghijklmnopqrstuvwx"]
+    
     background = ["bedroom", "class", "closet", "club", "corridor", "house", "kitchen", "residential", "sayori_bedroom"]
 
 

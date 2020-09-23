@@ -1,5 +1,6 @@
 import random
 from userge import userge, Message
+from userge.utils import rand_array
 
 @userge.on_cmd("rand", about={
     'header': "Gives a random Output from given Input",
@@ -14,7 +15,7 @@ async def random_pick_(message: Message):
     if len(a) < 2:
         await message.err("Atleast 2 or more items are required!", del_in=5)
         return
-    pick = rand(a)
+    pick = rand_array(a)
     result = f"""
 **Query: **
 `{input_str}`
@@ -22,8 +23,3 @@ async def random_pick_(message: Message):
 `{pick}`
 """
     await message.edit(result)
-
-
-def rand(array):
-    random_num = random.choice(array) 
-    return (str(random_num)) 

@@ -1,4 +1,3 @@
-import random
 from userge import userge, Message
 from userge.utils import rand_array
 

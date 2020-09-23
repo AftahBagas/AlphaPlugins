@@ -2,9 +2,9 @@
 
 # BY code-rgb [https://github.com/code-rgb]
 
-import random
+
 from userge import userge, Message
-from userge.utils import deEmojify
+from userge.utils import deEmojify, rand_array
 import requests
 from validators.url import url
 
@@ -27,7 +27,8 @@ async def anime_Scene(message: Message):
 
     monika_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r"]
 
-    natsuki_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1t", "2bt", "2bta", "2btb", "2btc", "2btd", "2bte", "2btf", "2btg", "2bth", "2bti", "2t", "2ta", "2tb", "2tc", "2td", "2te", "2tf", "2tg", "2th", "2ti"]
+    natsuki_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1t", "2bt", "2bta"]
+    natsuki_faces.append("2btb", "2btc", "2btd", "2bte", "2btf", "2btg", "2bth", "2bti", "2t", "2ta", "2tb", "2tc", "2td", "2te", "2tf", "2tg", "2th", "2ti")
 
     sayori_faces = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y"]
 
@@ -72,13 +73,13 @@ async def anime_Scene(message: Message):
     elif '-s' in message.flags:
         character = "sayori"
     else:
-        character = rand(ddlc_char)
+        character = rand_array(ddlc_char)
 
     body = ddlc_items["body"][character]
-    rando_body = rand(body)
+    rando_body = rand_array(body)
     face = ddlc_items["face"][character]
-    rando_face = rand(face)
-    rand_background = rand(background)
+    rando_face = rand_array(face)
+    rand_background = rand_array(background)
     text = str(deEmojify(text))
 
     path = await ddlc(character, rando_face, rando_body, rand_background, text)
@@ -102,12 +103,3 @@ async def ddlc(text1, text2, text3, text4, text5):
     if not anim_url:
         return "ERROR"
     return urlx
-
-
-def rand(array):
-    random_num = random.choice(array) 
-    return (str(random_num)) 
-
-
-
-

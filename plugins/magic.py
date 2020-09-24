@@ -1,4 +1,7 @@
-#By @deleteduser420
+# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
+# All rights reserved.
+
+
 """ Invert, filp/mirror, rotate """
 import os
 import time

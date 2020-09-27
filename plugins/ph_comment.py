@@ -44,7 +44,7 @@ async def ph_comment(message: Message):
     if user.photo:
         pfp_photo = user.photo.small_file_id
         file_name = os.path.join(Config.DOWN_PATH, "profile_pic.jpg")
-        picture = await userge.download_media(
+        picture = await message.client.download_media(
             pfp_photo,
             file_name=file_name
         )

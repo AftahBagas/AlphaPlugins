@@ -27,9 +27,14 @@ async def honka_says_bot(message: Message):
         await message.err("Input not found!")
         return
     await message.delete()
+    
     if '-l' in message.flags:
         font_size = 2
-    font_size = 1 if '-m' in message.flags else 0
+    elif '-m' in message.flags:
+        font_size = 1
+    else:
+        font_size = 0
+
     try:
         stickers = await userge.get_inline_bot_results(
             "honka_says_bot",

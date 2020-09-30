@@ -6,7 +6,7 @@
 import os
 from datetime import datetime
 
-from pyrogram.errors.exceptions.bad_request_400 import (
+from pyrogram.errors import (
     UsernameOccupied, AboutTooLong, UsernameNotOccupied, VideoFileInvalid)
 
 from userge import userge, Config, Message

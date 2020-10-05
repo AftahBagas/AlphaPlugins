@@ -20,7 +20,7 @@ async def gps_locate_(message: Message):
     lon = geoloc.longitude
     lat = geoloc.latitude
     await message.delete()
-    await messgae.client.send_venue(
+    await message.client.send_venue(
         message.chat.id, 
         lat, 
         lon,

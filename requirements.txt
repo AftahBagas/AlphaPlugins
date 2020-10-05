@@ -14,3 +14,4 @@ qrcode
 spotdl
 tracemoepy
 validators
+geopy

@@ -1,11 +1,16 @@
+"""GPS"""
+
 from userge import userge, Message
 from geopy.geocoders import Nominatim
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 @userge.on_cmd("gps", about={
-    'header': "locate the coordinates of addresses, cities, countries, and landmarks",
+    'header': "locate the coordinates by address, cities, countries"\
+              "or landmarks",
     'usage': "{tr}gps [location]\ne.g {tr}gps 175 5th Avenue NYC"})
 async def gps_locate_(message: Message):
+    """send a venue"""
     loc_ = message.input_str
     if not loc_:
         return await message.err('Provide a valid location name', del_in=5)
@@ -28,11 +33,18 @@ async def gps_locate_(message: Message):
     await message.delete()
     reply = message.reply_to_message
     reply_id = reply.message_id if reply else None
+    buttons = None
+    if message.client.is_bot:
+        g_maps = f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
+        buttons = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("🗺️ Google Maps", url=g_maps)]]
+        )
     await message.client.send_venue(
-        message.chat.id, 
-        lat, 
+        message.chat.id,
+        lat,
         lon,
-        name, 
+        name,
         address,
-        reply_to_message_id=reply_id
+        reply_to_message_id=reply_id,
+        reply_markup=buttons
     )

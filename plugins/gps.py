@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 @userge.on_cmd("gps", about={
-    'header': "locate the coordinates by address, cities, countries"\
+    'header': "locate the coordinates by address, cities, countries "\
               "or landmarks",
     'usage': "{tr}gps [location]\ne.g {tr}gps 175 5th Avenue NYC"})
 async def gps_locate_(message: Message):

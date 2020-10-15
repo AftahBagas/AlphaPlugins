@@ -23,11 +23,8 @@ async def walld(strin: str):
     if len(strin.split()) > 1:
         strin = '+'.join(strin.split())
     url = 'https://wall.alphacoders.com/search.php?search='
-    none_got = [
-        'https://wall.alphacoders.com/finding_wallpapers.php',
-        'https://wall.alphacoders.com/search-no-results.php',
-    ]
-
+    none_got = ['https://wall.alphacoders.com/finding_wallpapers.php']
+    none_got.append('https://wall.alphacoders.com/search-no-results.php')
     page_link = 'https://wall.alphacoders.com/search.php?search={}&page={}'
     resp = requests.get(f'{url}{strin}')
     if resp.url in none_got:
@@ -54,14 +51,14 @@ async def walld(strin: str):
     a_s = resp.find_all('a')
     list_a_s = []
     tit_links = []
-    r = ['thumb', '350', 'img', 'big.php?i', 'data-src', 'title']
+    r = ['thumb', '350', 'img', 'big.php?i', 'src', 'title']
     for a_tag in a_s:
         if all(d in str(a_tag) for d in r):
             list_a_s.append(a_tag)
     try:
         for df in list_a_s:
             imgi = df.find('img')
-            li = str(imgi['data-src']).replace('thumb-350-', '')
+            li = str(imgi['src']).replace('thumb-350-', '')
             titl = str(df['title']).replace('|', '')
             titl = titl.replace('  ', '')
             titl = titl.replace('Image', '')
@@ -73,10 +70,10 @@ async def walld(strin: str):
     except Exception:
         pass
     del list_a_s
-    if not tit_links:
-        return False
-    else:
+    if len(tit_links) != 0:
         tit_link = choice(tit_links)
+    else:
+        return False
     return tit_link
 
 

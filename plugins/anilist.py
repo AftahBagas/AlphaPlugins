@@ -185,8 +185,8 @@ async def _init():
 
 async def return_json_senpai(query, vars_):
     """ Makes a Post to https://graphql.anilist.co. """
+    url_ = "https://graphql.anilist.co"
     async with ClientSession() as api_:
-        url_ = "https://graphql.anilist.co"
         post_con = await api_.post(url_, json={'query': query, 'variables': vars_})
         json_data = await post_con.json()
         return json_data
@@ -568,7 +568,7 @@ async def trace_bek(message: Message):
         dls_loc = img_loc
     if dls_loc:
         tracemoe = tracemoepy.async_trace.Async_Trace()
-        search = await tracemoe.search(dls_loc, encode=True)
+        search = await tracemoe.search(dls_loc, upload_file=True)
         os.remove(dls_loc)
         result = search['docs'][0]
         caption = (f"**Title**: **{result['title_english']}**\n"
@@ -576,7 +576,7 @@ async def trace_bek(message: Message):
                    f"\n**Anilist ID:** `{result['anilist_id']}`"
                    f"\n**Similarity**: `{result['similarity']*100}`"
                    f"\n**Episode**: `{result['episode']}`")
-        preview = await tracemoe.video_preview(search)
+        preview = await tracemoe.natural_preview(search)
         with open('preview.mp4', 'wb') as f:
             f.write(preview)
         await message.reply_video('preview.mp4', caption=caption)

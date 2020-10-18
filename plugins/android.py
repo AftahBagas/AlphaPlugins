@@ -57,7 +57,7 @@ async def magisk_(message: Message):
             )
             data['magisk']['link'] = (
                 magisk_repo +
-                "canary/" + ['magisk']['link']
+                "canary/" + data['magisk']['link']
             )
             data['uninstaller']['link'] = (
                 magisk_repo +

@@ -28,11 +28,11 @@ async def device_recovery(message: Message):
     dl_file = download.text
     size = page.find("span", {"class": "filesize"}).text
     date = page.find("em").text.strip()
-    reply = f"""
-    **Latest TWRP for {device}:**
-    [{dl_file}]({dl_link}) - __{size}__
-    Updated:** __{date}__
-    """
+    reply = (
+    f"**Latest TWRP for {device}:**\n"
+    f"[{dl_file}]({dl_link}) - __{size}__\n"
+    f"**Updated:** __{date}__"
+    )
     await message.edit(reply)
 
 

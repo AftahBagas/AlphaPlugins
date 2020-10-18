@@ -1,6 +1,6 @@
 """ Chat info, Join and leave chat, tagall and tag admins """
 
-# by @krishna_singhal
+
 
 import html
 import os
@@ -27,11 +27,14 @@ def mention_html(user_id, name):
 @userge.on_cmd("join", about={
     'header': "Join chat",
     'usage': "{tr}join [chat username | reply to Chat username Text]",
-    'examples': "{tr}join UserGeOt"})
+    'examples': "{tr}join x_xtests"})
 async def join_chat(message: Message):
     """ Join chat """
     replied = message.reply_to_message
-    text = replied.text if replied else message.input_str
+    if replied:
+        text = replied.text
+    else:
+        text = message.input_str
     if not text:
         await message.edit(
             "```Bruh, Without chat name, I can't Join...^_^```", del_in=3)
@@ -59,18 +62,19 @@ async def join_chat(message: Message):
     allow_private=False)
 async def leave_chat(message: Message):
     """ Leave chat """
-    replied = message.reply_to_message
-    text = replied.text if replied else message.input_str
-    if not text:
+    input_str = message.input_str
+    if input_str:
+        text = input_str
+    else:
         text = message.chat.id
     try:
         await userge.send_message(text, "```Good bye, Cruel World... :-) ```")
         await userge.leave_chat(text)
     except UsernameNotOccupied:
-        await message.edit("```Username, you entered, is not exist... ```", del_in=3)
+        await message.edit("```Username that you entered, doesn't exist... ```", del_in=3)
         return
     except PeerIdInvalid:
-        await message.edit("```Chat id, you entered, is not exist...```", del_in=3)
+        await message.edit("```Chat id which you entered seems not to be exist...```", del_in=3)
         return
     else:
         await message.delete()
@@ -115,7 +119,10 @@ async def invite_link(message: Message):
 async def tagall_(message: Message):
     """ Tag recent members """
     replied = message.reply_to_message
-    text = replied.text if replied else message.input_str
+    if replied:
+        text = replied.text
+    else:
+        text = message.input_str
     if not text:
         await message.edit("```Without reason, I will not tag Members...(=_=)```", del_in=5)
         return
@@ -129,7 +136,10 @@ async def tagall_(message: Message):
                 u_id = members.user.id
                 u_name = members.user.username or None
                 f_name = (await message.client.get_user_dict(u_id))['fname']
-                text += f"@{u_name} " if u_name else f"[{f_name}](tg://user?id={u_id}) "
+                if u_name:
+                    text += f"@{u_name} "
+                else:
+                    text += f"[{f_name}](tg://user?id={u_id}) "
     except Exception as e:
         text += " " + str(e)
     await message.client.send_message(c_id, text)
@@ -146,7 +156,10 @@ async def stagall_(message: Message):
     chat = await userge.get_chat(chat_id)
     await message.edit(f"```tagging everyone in {chat.title}```")
     replied = message.reply_to_message
-    text = replied.text if replied else message.input_str
+    if replied:
+        text = replied.text
+    else:
+        text = message.input_str
     if not text:
         await message.edit("```Without reason, I will not tag Members... (*>_<*)```", del_in=5)
         return
@@ -170,7 +183,10 @@ async def stagall_(message: Message):
 async def tadmins_(message: Message):
     """ Tag admins in a group """
     replied = message.reply_to_message
-    text = replied.text if replied else message.input_str
+    if replied:
+        text = replied.text
+    else:
+        text = message.input_str
     if not text:
         await message.edit("```Without reason, I will not tag admins...```", del_in=5)
         return
@@ -184,15 +200,16 @@ async def tadmins_(message: Message):
             u_id = members.user.id
             u_name = members.user.username or None
             f_name = (await message.client.get_user_dict(u_id))['fname']
-            if (
-                status == "administrator"
-                and u_name
-                or status == "creator"
-                and u_name
-            ):
-                text += f"@{u_name} "
-            elif status in ["administrator", "creator"]:
-                text += f"[{f_name}](tg://user?id={u_id}) "
+            if status == "administrator":
+                if u_name:
+                    text += f"@{u_name} "
+                else:
+                    text += f"[{f_name}](tg://user?id={u_id}) "
+            elif status == "creator":
+                if u_name:
+                    text += f"@{u_name} "
+                else:
+                    text += f"[{f_name}](tg://user?id={u_id}) "
     except Exception as e:
         text += " " + str(e)
     await message.client.send_message(c_id, text)

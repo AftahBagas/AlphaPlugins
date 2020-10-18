@@ -1,6 +1,5 @@
 """Last FM"""
 
-
 from userge import userge, Message
 
 
@@ -18,6 +17,7 @@ async def last_fm_(message: Message):
                 "**Set Up Last Fm Bot First !**\nGoto @lastfmrobot do /set\n"
                 "then follow the instructions"
             )
+    await message.delete()
     await userge.send_inline_bot_result(
             chat_id=message.chat.id,
             query_id=inline_msg.query_id,

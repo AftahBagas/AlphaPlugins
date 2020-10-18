@@ -12,7 +12,7 @@ import re
     'usage': "{tr}cdown [text] %%day-hour-min.%% [more text]",
     'examples': [
         "{tr}cdown Bomb Blast in %%10-25-45%% , Run For Life !"]}, allow_via_bot=False)
-async def honka_says_bot(message: Message):
+async def count_it_down(message: Message):
     """ Start A CountDown """
     reply = message.reply_to_message
     args = message.input_str

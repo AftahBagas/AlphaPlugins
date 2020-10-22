@@ -47,12 +47,12 @@ async def get_stats_(message: Message):
             else:
                 users_ += 1
         else:
-            if dialog.top_message.migrate_to_chat_id:
-                is_admin = False
-                is_creator = False
-            else:
+            try:
                 is_admin = await admin_check(dialog.chat.id, owner.id)
                 is_creator = dialog.chat.is_creator
+            except UserNotParticipant:
+                is_admin = False
+                is_creator = False
             if chat_type in ["group", "supergroup"]:
                 groups += 1
                 if is_admin:

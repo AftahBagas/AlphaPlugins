@@ -1,15 +1,14 @@
 import os
 
+from gtts import gTTS
 from hachoir.metadata import extractMetadata as XMan
 from hachoir.parser import createParser as CPR
-from gtts import gTTS
-
-from userge import userge, Message
+from userge import Message, userge
 
 
-@userge.on_cmd("tts", about={
-    'header': "Text To Speech",
-    'examples': "{tr}tts en|Userge"})
+@userge.on_cmd(
+    "tts", about={"header": "Text To Speech", "examples": "{tr}tts en|Userge"}
+)
 async def text_to_speech(message: Message):
     req_file_name = "gtts.mp3"
     inp_text = message.input_str
@@ -37,7 +36,7 @@ async def text_to_speech(message: Message):
             caption=a_cap,
             duration=a_len,
             performer=a_perf,
-            title=a_title
+            title=a_title,
         )
         os.remove(req_file_name)
         await message.delete()

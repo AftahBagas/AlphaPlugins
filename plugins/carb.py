@@ -4,40 +4,67 @@
 # All rights reserved.
 
 import requests
+from userge import Message, userge
 
-from userge import userge, Message
 
-
-@userge.on_cmd("carb", about={
-    'header': "Create a carbon",
-    'usage': "{tr}carb [text or reply to msg | theme-name | colour code]",
-    'examples': "{tr}carb Carbon Plugin by Sumanjay | one-dark | #FF0000",
-    'themes': "`3024-night`, `a11y-dark`, `blackboard`, `base16-dark`, `base16-light`"
-              "`cobalt`, `dracula`, `duotone-dark`, `hopscotch`, `lucario`, `material`"
-              "`monokai`, `night-owl`, `nord`, `oceanic-next`, `one-light`, `one-dark`"
-              "`panda-syntax`, `paraiso-dark`, `seti`, `shades-of-purple`, `solarized-dark`"
-              "`solarized-light`, `synthwave-84`, `twilight`, `verminal`, `vscode`"
-              "`yeti`, `zenburn`"})
+@userge.on_cmd(
+    "carb",
+    about={
+        "header": "Create a carbon",
+        "usage": "{tr}carb [text or reply to msg | theme-name | colour code]",
+        "examples": "{tr}carb Carbon Plugin by Sumanjay | one-dark | #FF0000",
+        "themes": "`3024-night`, `a11y-dark`, `blackboard`, `base16-dark`, `base16-light`"
+        "`cobalt`, `dracula`, `duotone-dark`, `hopscotch`, `lucario`, `material`"
+        "`monokai`, `night-owl`, `nord`, `oceanic-next`, `one-light`, `one-dark`"
+        "`panda-syntax`, `paraiso-dark`, `seti`, `shades-of-purple`, `solarized-dark`"
+        "`solarized-light`, `synthwave-84`, `twilight`, `verminal`, `vscode`"
+        "`yeti`, `zenburn`",
+    },
+)
 async def carb(message: Message):
     # Setting Default Theme and Background Colour
-    theme = 'dracula'
+    theme = "dracula"
     bg = "rgba(144, 19, 254, 100)"
     replied = message.reply_to_message
     if replied:
         text = replied.text
-        args = message.input_str.split('|')
+        args = message.input_str.split("|")
     else:
         text = message.input_str
-        args = text.split('|')
+        args = text.split("|")
 
     if len(args) > 0:
         themes = [
-            '3024-night', 'a11y-dark', 'blackboard', 'base16-dark', 'base16-light',
-            'cobalt', 'dracula', 'duotone-dark', 'hopscotch', 'lucario', 'material',
-            'monokai', 'night-owl', 'nord', 'oceanic-next', 'one-light', 'one-dark',
-            'panda-syntax', 'paraiso-dark', 'seti', 'shades-of-purple', 'solarized-dark',
-            'solarized-light', 'synthwave-84', 'twilight', 'verminal', 'vscode',
-            'yeti', 'zenburn']
+            "3024-night",
+            "a11y-dark",
+            "blackboard",
+            "base16-dark",
+            "base16-light",
+            "cobalt",
+            "dracula",
+            "duotone-dark",
+            "hopscotch",
+            "lucario",
+            "material",
+            "monokai",
+            "night-owl",
+            "nord",
+            "oceanic-next",
+            "one-light",
+            "one-dark",
+            "panda-syntax",
+            "paraiso-dark",
+            "seti",
+            "shades-of-purple",
+            "solarized-dark",
+            "solarized-light",
+            "synthwave-84",
+            "twilight",
+            "verminal",
+            "vscode",
+            "yeti",
+            "zenburn",
+        ]
 
         for arg in args:
             arg = arg.strip()
@@ -57,8 +84,11 @@ async def carb(message: Message):
     try:
         carbon_result = requests.get(
             "https://sjprojectsapi.herokuapp.com/carbon/?"
-            f"text={text}&theme={theme}&bg={bg}").json()
-        await message.client.send_photo(chat_id=message.chat.id, photo=carbon_result['link'])
+            f"text={text}&theme={theme}&bg={bg}"
+        ).json()
+        await message.client.send_photo(
+            chat_id=message.chat.id, photo=carbon_result["link"]
+        )
         await message.delete()
     except Exception:
         await message.edit("API is Down! Try again later.")

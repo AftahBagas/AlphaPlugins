@@ -3,19 +3,24 @@
 # By @Krishna_Singhal
 
 import random
-from userge import userge, Message
+
+from userge import Message, userge
 
 
-@userge.on_cmd("poll", about={
-    'header': "Create Poll of Suggestion to get opinion",
-    'flags': {'-n': "Use to Make poll non-anonymous"},
-    'usage': "{tr}poll [reply to ques text]"},
-    allow_private=False)
+@userge.on_cmd(
+    "poll",
+    about={
+        "header": "Create Poll of Suggestion to get opinion",
+        "flags": {"-n": "Use to Make poll non-anonymous"},
+        "usage": "{tr}poll [reply to ques text]",
+    },
+    allow_private=False,
+)
 async def create_poll(msg: Message):
     """" Create poll """
     options = ["👌 Yes, Perfect", "🙅‍♂️ no no please god no", "🤷🏻‍♂️ Maybe IDK"]
     anonymous = True
-    if '-n' in msg.flags:
+    if "-n" in msg.flags:
         anonymous = False
     replied = msg.reply_to_message
     if replied:
@@ -26,23 +31,26 @@ async def create_poll(msg: Message):
             question=query,
             options=options,
             is_anonymous=anonymous,
-            reply_to_message_id=msg_id)
+            reply_to_message_id=msg_id,
+        )
     else:
         query = "Do you agree with that Suggestion..?"
         await userge.send_poll(
-            chat_id=msg.chat.id,
-            question=query,
-            options=options,
-            is_anonymous=anonymous)
+            chat_id=msg.chat.id, question=query, options=options, is_anonymous=anonymous
+        )
     await msg.delete()
 
 
-@userge.on_cmd("vote", about={
-    'header': "Vote poll",
-    'description': "Options Should be in numeric",
-    'usage': "{tr}vote [option | reply to poll]",
-    'examples': "{tr}vote 1 (with reply to poll)"},
-    allow_private=False)
+@userge.on_cmd(
+    "vote",
+    about={
+        "header": "Vote poll",
+        "description": "Options Should be in numeric",
+        "usage": "{tr}vote [option | reply to poll]",
+        "examples": "{tr}vote 1 (with reply to poll)",
+    },
+    allow_private=False,
+)
 async def vote_poll(msg: Message):
     """ vote poll """
 
@@ -63,10 +71,14 @@ async def vote_poll(msg: Message):
         await msg.err("How can I vote without reply to poll")
 
 
-@userge.on_cmd("stop", about={
-    'header': "Stop a poll which was sent by you.",
-    'usage': "{tr}stop [reply to poll]"},
-    allow_private=False)
+@userge.on_cmd(
+    "stop",
+    about={
+        "header": "Stop a poll which was sent by you.",
+        "usage": "{tr}stop [reply to poll]",
+    },
+    allow_private=False,
+)
 async def stop_poll(msg: Message):
     """ Stop poll """
 
@@ -83,10 +95,14 @@ async def stop_poll(msg: Message):
         await msg.err("How can I stop poll without reply a poll")
 
 
-@userge.on_cmd("retract", about={
-    'header': "Retract your vote in a Poll",
-    'usage': "{tr}retract [reply to poll]"},
-    allow_private=False)
+@userge.on_cmd(
+    "retract",
+    about={
+        "header": "Retract your vote in a Poll",
+        "usage": "{tr}retract [reply to poll]",
+    },
+    allow_private=False,
+)
 async def retract_vote(msg: Message):
     """ Retract vote """
 

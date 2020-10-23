@@ -3,22 +3,28 @@
 # plugin by @aryanvikash
 
 import re
+
 # import json
 import time
+
 try:
     from urllib.parse import unquote
 except ImportError:
     from urllib import unquote
 
 import requests
+from userge import Message, pool, userge
 
-from userge import userge, Message, pool
 
-
-@userge.on_cmd("zippy", about={
-    'header': "generate Direct link of zippyshare url",
-    'usage': "{tr}zippy : [Zippyshare Link ]",
-    'examples': "{tr}zippy https://www10.zippyshare.com/v/dyh988sh/file.html"}, del_pre=True)
+@userge.on_cmd(
+    "zippy",
+    about={
+        "header": "generate Direct link of zippyshare url",
+        "usage": "{tr}zippy : [Zippyshare Link ]",
+        "examples": "{tr}zippy https://www10.zippyshare.com/v/dyh988sh/file.html",
+    },
+    del_pre=True,
+)
 async def zippyshare(message: Message):
     """ zippy to direct """
     url = message.input_str
@@ -26,7 +32,8 @@ async def zippyshare(message: Message):
     try:
         direct_url, fname = await _generate_zippylink(url)
         await message.edit(
-            f"Original : {url}\n\nFilename : `{fname}`\n\nDirect link : {direct_url}")
+            f"Original : {url}\n\nFilename : `{fname}`\n\nDirect link : {direct_url}"
+        )
     except Exception as z_e:  # pylint: disable=broad-except
         await message.edit(f"`{z_e}`")
 
@@ -48,7 +55,7 @@ async def zippyshare(message: Message):
 
 
 def _check_url(url):
-    regex = r'https://www(\d{1,3}).zippyshare.com/v/([a-zA-Z\d]{8})/file.html'
+    regex = r"https://www(\d{1,3}).zippyshare.com/v/([a-zA-Z\d]{8})/file.html"
     match = re.match(regex, url)
     if match:
         return match.group(1), match.group(2)
@@ -69,17 +76,16 @@ def _extract(ses, url, server, id_):
     res.raise_for_status()
     meta = re.search(regex, res.text)
     if not meta:
-        raise Exception('Failed to get file URL. Down?')
+        raise Exception("Failed to get file URL. Down?")
     num_1 = int(meta.group(2))
     num_2 = int(meta.group(3))
     num_3 = int(meta.group(4))
     num_4 = int(meta.group(5))
     enc_fname = meta.group(6)
     final_num = num_1 % num_2 + num_3 % num_4
-    file_url = "https://www{}.zippyshare.com/d/{}/{}/{}".format(server,
-                                                                id_,
-                                                                final_num,
-                                                                enc_fname)
+    file_url = "https://www{}.zippyshare.com/d/{}/{}/{}".format(
+        server, id_, final_num, enc_fname
+    )
     fname = unquote(enc_fname)
     return file_url, fname
 
@@ -100,10 +106,12 @@ def _extract(ses, url, server, id_):
 @pool.run_in_thread
 def _generate_zippylink(url):
     ses = requests.Session()
-    ses.headers.update({
-        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                      "AppleWebKit/537.36 (KHTML, like Gecko) Chrome"
-                      "/75.0.3770.100 Safari/537.36"
-    })
+    ses.headers.update(
+        {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome"
+            "/75.0.3770.100 Safari/537.36"
+        }
+    )
     server, id_ = _check_url(url)
     return _extract(ses, url, server, id_)

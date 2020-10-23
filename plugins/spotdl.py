@@ -2,30 +2,34 @@ import os
 import shutil
 from pathlib import Path
 
-from userge.utils import runcmd
-from userge import userge, Message
+from userge import Message, userge
 from userge.plugins.misc.upload import audio_upload
+from userge.utils import runcmd
 
 TEMP_DIR = "spotdl/"
 
 
-@userge.on_cmd("spotdl", about={
-    'header': "Spotify Downloader",
-    'description': "Download Songs via Spotify Links"
-                   " or just by giving song names. ",
-    'usage': "{tr}spotdl [Spotify Link or Song Name]|[Quality (optional)]",
-    'examples': "{tr}spotdl https://open.spotify.com/track/0Cy7wt6IlRfBPHXXjmZbcP|flac"})
+@userge.on_cmd(
+    "spotdl",
+    about={
+        "header": "Spotify Downloader",
+        "description": "Download Songs via Spotify Links"
+        " or just by giving song names. ",
+        "usage": "{tr}spotdl [Spotify Link or Song Name]|[Quality (optional)]",
+        "examples": "{tr}spotdl https://open.spotify.com/track/0Cy7wt6IlRfBPHXXjmZbcP|flac",
+    },
+)
 async def spotify_dl(message: Message):
     if not os.path.exists(TEMP_DIR):
         os.makedirs(TEMP_DIR)
     await message.edit("Checking? 🧐😳🤔🤔")
-    cmd = ''
-    link = ''
-    song_n = ''
+    cmd = ""
+    link = ""
+    song_n = ""
     quality = "mp3"
     if "|" in message.input_str:
         input_, quality = message.input_str.split("|")
-        if 'spotify.com' in input_:
+        if "spotify.com" in input_:
             await message.edit("Link, Hmm, Make sure to give valid one")
             link = input_
         else:
@@ -33,7 +37,7 @@ async def spotify_dl(message: Message):
             song_n = input_
     else:
         input_ = message.input_str
-        if 'spotify.com' in input_:
+        if "spotify.com" in input_:
             await message.edit("Link, Hmm, Make sure to gave valid one")
             link = input_
         else:
@@ -41,7 +45,7 @@ async def spotify_dl(message: Message):
             song_n = input_
 
     if song_n or link:
-        if 'track/' in link:
+        if "track/" in link:
             song_n = link
         if not song_n:
             await message.edit("Selling Brain is not yet Legalized")

@@ -5,22 +5,25 @@
 # Improved by code-rgb
 
 import os
+
 import requests
-
 from PIL import Image
-from validators.url import url
-
-from userge import userge, Config, Message
+from userge import Config, Message, userge
 from userge.utils import deEmojify
+from validators.url import url
 
 CONVERTED_IMG = Config.DOWN_PATH + "img.png"
 CONVERTED_STIKR = Config.DOWN_PATH + "sticker.webp"
 
-@userge.on_cmd("trump", about={
-    'header': "Custom Sticker of Trump Tweet",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}trump [text | reply to text]"})
+
+@userge.on_cmd(
+    "trump",
+    about={
+        "header": "Custom Sticker of Trump Tweet",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}trump [text | reply to text]",
+    },
+)
 async def trump_tweet(msg: Message):
     """ Fun sticker of Trump Tweet """
     replied = msg.reply_to_message
@@ -34,11 +37,14 @@ async def trump_tweet(msg: Message):
     await _tweets(msg, text, type_="trumptweet")
 
 
-@userge.on_cmd("modi", about={
-    'header': "Custom Sticker of Modi Tweet",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}modi [text | reply to text]"})
+@userge.on_cmd(
+    "modi",
+    about={
+        "header": "Custom Sticker of Modi Tweet",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}modi [text | reply to text]",
+    },
+)
 async def modi_tweet(msg: Message):
     """ Fun Sticker of Modi Tweet """
     replied = msg.reply_to_message
@@ -52,11 +58,14 @@ async def modi_tweet(msg: Message):
     await _tweets(msg, text, "narendramodi")
 
 
-@userge.on_cmd("cmm", about={
-    'header': "Custom Sticker of Change My Mind",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}cmm [text | reply to text]"})
+@userge.on_cmd(
+    "cmm",
+    about={
+        "header": "Custom Sticker of Change My Mind",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}cmm [text | reply to text]",
+    },
+)
 async def Change_My_Mind(msg: Message):
     """ Custom Sticker or Banner of Change My Mind """
     replied = msg.reply_to_message
@@ -70,11 +79,14 @@ async def Change_My_Mind(msg: Message):
     await _tweets(msg, text, type_="changemymind")
 
 
-@userge.on_cmd("kanna", about={
-    'header': "Custom text Sticker of kanna",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}kanna [text | reply to text]"})
+@userge.on_cmd(
+    "kanna",
+    about={
+        "header": "Custom text Sticker of kanna",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}kanna [text | reply to text]",
+    },
+)
 async def kanna(msg: Message):
     """ Fun sticker of Kanna """
     replied = msg.reply_to_message
@@ -88,11 +100,14 @@ async def kanna(msg: Message):
     await _tweets(msg, text, type_="kannagen")
 
 
-@userge.on_cmd("carry", about={
-    'header': "Custom text Sticker of Carryminati",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}carry [text | reply to text]"})
+@userge.on_cmd(
+    "carry",
+    about={
+        "header": "Custom text Sticker of Carryminati",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}carry [text | reply to text]",
+    },
+)
 async def carry_minati(msg: Message):
     """ Fun Sticker of Carryminati Tweet """
     replied = msg.reply_to_message
@@ -106,13 +121,16 @@ async def carry_minati(msg: Message):
     await _tweets(msg, text, "carryminati")
 
 
-@userge.on_cmd("tweet", about={
-    'header': "Tweet With Custom text Sticker",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}tweet Text , Username\n"
-             "{tr}tweet Text\n"
-             "{tr}tweet [Text | with reply to User]"})
+@userge.on_cmd(
+    "tweet",
+    about={
+        "header": "Tweet With Custom text Sticker",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}tweet Text , Username\n"
+        "{tr}tweet Text\n"
+        "{tr}tweet [Text | with reply to User]",
+    },
+)
 async def tweet(msg: Message):
     """ Tweet with your own Username """
     replied = msg.reply_to_message
@@ -122,9 +140,9 @@ async def tweet(msg: Message):
     if not text:
         await msg.err("Give Me some text to Tweet 😕")
         return
-    username = ''
-    if ',' in text:
-        text, username = text.split(',', 1)
+    username = ""
+    if "," in text:
+        text, username = text.split(",", 1)
     if not username:
         if replied:
             username = replied.from_user.username or replied.from_user.first_name
@@ -133,7 +151,10 @@ async def tweet(msg: Message):
     await msg.edit("```Creating a Tweet Sticker 😏```")
     await _tweets(msg, text.strip(), username.strip())
 
-async def _tweets(msg: Message, text: str, username: str = '', type_: str = "tweet") -> None:
+
+async def _tweets(
+    msg: Message, text: str, username: str = "", type_: str = "tweet"
+) -> None:
     api_url = f"https://nekobot.xyz/api/imagegen?type={type_}&text={deEmojify(text)}"
     if username:
         api_url += f"&username={deEmojify(username)}"
@@ -150,29 +171,30 @@ async def _tweets(msg: Message, text: str, username: str = '', type_: str = "twe
     img.save(CONVERTED_STIKR)
     await msg.delete()
     msg_id = msg.reply_to_message.message_id if msg.reply_to_message else None
-    if '-s' in msg.flags:
-        await msg.client.send_sticker(chat_id=msg.chat.id,
-                                      sticker=CONVERTED_STIKR,
-                                      reply_to_message_id=msg_id)
+    if "-s" in msg.flags:
+        await msg.client.send_sticker(
+            chat_id=msg.chat.id, sticker=CONVERTED_STIKR, reply_to_message_id=msg_id
+        )
     else:
-        await msg.client.send_photo(chat_id=msg.chat.id,
-                                    photo=CONVERTED_IMG,
-                                    reply_to_message_id=msg_id)
+        await msg.client.send_photo(
+            chat_id=msg.chat.id, photo=CONVERTED_IMG, reply_to_message_id=msg_id
+        )
     os.remove(tmp_file)
     os.remove(CONVERTED_IMG)
     os.remove(CONVERTED_STIKR)
 
-    
-    
-@userge.on_cmd("clb", about={
-    'header': "Custom text Sticker of Celebrity",
-    'flags': {
-        '-s': "To get tweet in Sticker"},
-    'usage': "{tr}clb short_name , [text or reply to message]",
-    'Twitter': "<code>Check this</code> "
-    "<a href='https://telegra.ph/Famous-Twitter-Handles-08-24'><b>short_name</b></a>"
-    " <code>to know available twitter accounts</code>"})
-    
+
+@userge.on_cmd(
+    "clb",
+    about={
+        "header": "Custom text Sticker of Celebrity",
+        "flags": {"-s": "To get tweet in Sticker"},
+        "usage": "{tr}clb short_name , [text or reply to message]",
+        "Twitter": "<code>Check this</code> "
+        "<a href='https://telegra.ph/Famous-Twitter-Handles-08-24'><b>short_name</b></a>"
+        " <code>to know available twitter accounts</code>",
+    },
+)
 async def celeb_(msg: Message):
     """ Fun Famous Twitter Tweets """
 
@@ -192,50 +214,51 @@ async def celeb_(msg: Message):
         "ramdev": "yogrishiramdev",
         "arnab": "ArnabGoswamiRTV",
         "rahul": "RahulGandhi",
-        "rajni" : "rajinikanth",
-        "apple" : "apple",
-        "fb" : "facebook",
-        "bjp" : "bjp4india",
-        "yt" : "youtube",
-        "kiara" : "advani_kiara",
-        "rdj" : "RobertDowneyJr",
-        "chris" : "chrishhemsworth",
-        "netflix" : "netflix",
-        "setu" : "Arogyasetu",
-        "ph" : "pornhub",
-        "osama" : "ItstherealOsama",
-        "hashmi" : "emraanhashmi",
-        "android" : "Android",
-        "ht" : "htTweets",
-        "zee" : "ZeeNews"
+        "rajni": "rajinikanth",
+        "apple": "apple",
+        "fb": "facebook",
+        "bjp": "bjp4india",
+        "yt": "youtube",
+        "kiara": "advani_kiara",
+        "rdj": "RobertDowneyJr",
+        "chris": "chrishhemsworth",
+        "netflix": "netflix",
+        "setu": "Arogyasetu",
+        "ph": "pornhub",
+        "osama": "ItstherealOsama",
+        "hashmi": "emraanhashmi",
+        "android": "Android",
+        "ht": "htTweets",
+        "zee": "ZeeNews",
     }
 
     replied = msg.reply_to_message
     texxt = msg.filtered_input_str
     if replied:
         if "," in texxt:
-            celeb_name, msg_text = texxt.split(',', 1)
+            celeb_name, msg_text = texxt.split(",", 1)
             celeb_name = celeb_name.strip()
             comment = msg_text or replied.text
         else:
             celeb_name = texxt
             comment = replied.text
         if not celeb_name and comment:
-            await msg.err("```Input not found! Give celeb name and text, See Help for more!...```", del_in=3)
+            await msg.err(
+                "```Input not found! Give celeb name and text, See Help for more!...```",
+                del_in=3,
+            )
             return
     else:
         if "," in texxt:
-                celeb_name, msg_text = texxt.split(',', 1)
-                celeb_name = celeb_name.strip()
-                comment = msg_text
+            celeb_name, msg_text = texxt.split(",", 1)
+            celeb_name = celeb_name.strip()
+            comment = msg_text
         else:
             await msg.err("```Input not found! See Help...```", del_in=3)
             return
     celebrity = CELEBS[celeb_name]
     if not celebrity:
-       await msg.err("```Not A Valid Celeb Name```", del_in=3)
-       return 
+        await msg.err("```Not A Valid Celeb Name```", del_in=3)
+        return
     await msg.edit(f"```{celeb_name} is writing for You 😀```")
     await _tweets(msg, comment, celebrity)
-
-    

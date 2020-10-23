@@ -12,19 +12,22 @@ from userge import Message, userge
 from userge.utils import mention_html, time_formatter
 
 
-@userge.on_cmd("stats", about={
-    'header': "Get your Telegram Stats like no. Groups, Channels etc.",
-    'usage': "{tr}stats"})
+@userge.on_cmd(
+    "stats",
+    about={
+        "header": "Get your Telegram Stats like no. Groups, Channels etc.",
+        "usage": "{tr}stats",
+    },
+)
 async def get_stats_(message: Message):
     """get info about your TG account"""
     start = time.time()
-    await message.edit("💁‍♂️ `Collecting your Telegram Stats ...`\n"
-                       "<b>Please wait it will take some time</b>")
-    owner = await userge.get_me()
-    u_mention = mention_html(
-        owner.id,
-        owner.first_name
+    await message.edit(
+        "💁‍♂️ `Collecting your Telegram Stats ...`\n"
+        "<b>Please wait it will take some time</b>"
     )
+    owner = await userge.get_me()
+    u_mention = mention_html(owner.id, owner.first_name)
     unread_mentions = 0
     unread_msg = 0
     private_chats = 0
@@ -91,14 +94,6 @@ async def get_stats_(message: Message):
 #  https://git.colinshark.de/PyroBot/PyroBot/src/branch
 #  /master/pyrobot/modules/admin.py#L69
 async def admin_check(chat_id: int, user_id: int) -> bool:
-    check_status = (
-        await userge.get_chat_member(
-            chat_id,
-            user_id
-        )
-    )
-    admin_strings = [
-        "creator",
-        "administrator"
-    ]
+    check_status = await userge.get_chat_member(chat_id, user_id)
+    admin_strings = ["creator", "administrator"]
     return check_status.status in admin_strings

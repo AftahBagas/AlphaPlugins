@@ -4,27 +4,35 @@
 
 
 import os
-import requests
-from validators.url import url
-from html_telegraph_poster.upload_images import upload_image
-from userge import userge, Message, Config
-from userge.utils import deEmojify
 
-@userge.on_cmd("ph", about={
-    'header': "P*rnhub Comment",
-    'description': "Creates a P*rnhub Comment of Replied User With Custom Name",
-    'usage': "{tr}ph Name , [reply or reply with text]",
-    'examples': [
-        "{tr}ph Did they ever get the pizza?",
-        "{tr}ph David , Did they ever get the pizza?",
-        "{tr}ph David , "]}, check_downpath=True)
+import requests
+from html_telegraph_poster.upload_images import upload_image
+from userge import Config, Message, userge
+from userge.utils import deEmojify
+from validators.url import url
+
+
+@userge.on_cmd(
+    "ph",
+    about={
+        "header": "P*rnhub Comment",
+        "description": "Creates a P*rnhub Comment of Replied User With Custom Name",
+        "usage": "{tr}ph Name , [reply or reply with text]",
+        "examples": [
+            "{tr}ph Did they ever get the pizza?",
+            "{tr}ph David , Did they ever get the pizza?",
+            "{tr}ph David , ",
+        ],
+    },
+    check_downpath=True,
+)
 async def ph_comment(message: Message):
     """ Create P*rnhub Comment for Replied User """
     replied = message.reply_to_message
     if replied:
         user = replied.forward_from or replied.from_user
         if "," in message.input_str:
-            u_name, msg_text = message.input_str.split(',', 1)
+            u_name, msg_text = message.input_str.split(",", 1)
             name = u_name.strip()
             comment = msg_text or replied.text
         else:
@@ -40,14 +48,10 @@ async def ph_comment(message: Message):
     await message.edit("```Creating A PH Comment 😜```", del_in=1)
     comment = deEmojify(comment)
 
-
     if user.photo:
         pfp_photo = user.photo.small_file_id
         file_name = os.path.join(Config.DOWN_PATH, "profile_pic.jpg")
-        picture = await message.client.download_media(
-            pfp_photo,
-            file_name=file_name
-        )
+        picture = await message.client.download_media(pfp_photo, file_name=file_name)
         loc_f = upload_image(picture)
         os.remove(picture)
     else:
@@ -58,9 +62,7 @@ async def ph_comment(message: Message):
     chat_id = message.chat.id
     await message.delete()
     await message.client.send_photo(
-        chat_id=chat_id,
-        photo=path,
-        reply_to_message_id=replied.message_id
+        chat_id=chat_id, photo=path, reply_to_message_id=replied.message_id
     )
 
 

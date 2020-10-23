@@ -3,13 +3,17 @@
 
 
 from pyrogram.errors import BadRequest
-from userge import userge, Message
+from userge import Message, userge
 from userge.utils import get_file_id_and_ref
 
 
-@userge.on_cmd("smd", about={
-    'header': "Search from already uploaded 1M Songs",
-    'usage': ".smd lady gaga - poker face"})
+@userge.on_cmd(
+    "smd",
+    about={
+        "header": "Search from already uploaded 1M Songs",
+        "usage": ".smd lady gaga - poker face",
+    },
+)
 async def song_search(message: Message):
     """get songs from channel"""
     song = message.input_str
@@ -21,10 +25,14 @@ async def song_search(message: Message):
     f_id = ""
     f_ref = ""
     try:
-        async for msg in userge.search_messages(-1001271479322, query=song,  limit=1, filter="audio"):
+        async for msg in userge.search_messages(
+            -1001271479322, query=song, limit=1, filter="audio"
+        ):
             f_id, f_ref = get_file_id_and_ref(msg)
     except BadRequest:
-        await search.edit("Join [THIS](https://t.me/joinchat/DdR2SUvJPBouSW4QlbJU4g) channel first")
+        await search.edit(
+            "Join [THIS](https://t.me/joinchat/DdR2SUvJPBouSW4QlbJU4g) channel first"
+        )
         return
     if not (f_id or f_ref):
         await search.edit("⚠️ Song Not Found !", del_in=5)

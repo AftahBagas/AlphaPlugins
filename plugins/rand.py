@@ -1,9 +1,14 @@
-from userge import userge, Message
+from userge import Message, userge
 from userge.utils import rand_array
 
-@userge.on_cmd("rand", about={
-    'header': "Gives a random Output from given Input",
-    'usage': "{tr}rand 1 2 3 4"})
+
+@userge.on_cmd(
+    "rand",
+    about={
+        "header": "Gives a random Output from given Input",
+        "usage": "{tr}rand 1 2 3 4",
+    },
+)
 async def random_pick_(message: Message):
     """random picker"""
     input_str = message.input_str

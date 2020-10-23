@@ -3,24 +3,28 @@
 import os
 import random
 
-from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
-
 from PIL import Image, ImageEnhance, ImageOps
+from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
+from userge import Config, Message, userge
+from userge.utils import progress, runcmd, take_screen_shot
 
-from userge import userge, Message, Config
-from userge.utils import progress, take_screen_shot, runcmd
 
-
-@userge.on_cmd("deepfry", about={
-    'header': "Deep Fryer",
-    'description': "Well deepfy any image/sticker/gif and make it look ugly",
-    'usage': "{tr}deepfry [fry count] as a reply.",
-    'examples': "{tr}deepfry 1"})
+@userge.on_cmd(
+    "deepfry",
+    about={
+        "header": "Deep Fryer",
+        "description": "Well deepfy any image/sticker/gif and make it look ugly",
+        "usage": "{tr}deepfry [fry count] as a reply.",
+        "examples": "{tr}deepfry 1",
+    },
+)
 async def deepfryer(message: Message):
     """ deepfryer """
     replied = message.reply_to_message
     if not (replied and message.input_str):
-        await message.edit("LMAO no one's gonna help you, if u use .help now then u **Gey**")
+        await message.edit(
+            "LMAO no one's gonna help you, if u use .help now then u **Gey**"
+        )
         await message.reply_sticker(sticker="CAADAQADhAAD3gkwRviGxMVn5813FgQ")
         return
     if not (replied.photo or replied.sticker or replied.video or replied.animation):
@@ -37,7 +41,7 @@ async def deepfryer(message: Message):
         message=message.reply_to_message,
         file_name=Config.DOWN_PATH,
         progress=progress,
-        progress_args=(message, "Lemme add some seasonings")
+        progress_args=(message, "Lemme add some seasonings"),
     )
     dls_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dls))
     if replied.sticker and replied.sticker.file_name.endswith(".tgs"):
@@ -66,9 +70,11 @@ async def deepfryer(message: Message):
         for _ in range(fry_c):
             fried_file = await deepfry(fried_file)
 
-    await message.client.send_photo(chat_id=message.chat.id,
-                                    photo=fried_file,
-                                    reply_to_message_id=replied.message_id)
+    await message.client.send_photo(
+        chat_id=message.chat.id,
+        photo=fried_file,
+        reply_to_message_id=replied.message_id,
+    )
     await message.delete()
     os.remove(fried_file)
 
@@ -76,26 +82,40 @@ async def deepfryer(message: Message):
 async def deepfry(img):
 
     img = Image.open(img)
-    colours = ((random.randint(50, 200), random.randint(40, 170),
-                random.randint(40, 190)), (random.randint(190, 255),
-                                           random.randint(170, 240),
-                                           random.randint(180, 250)))
+    colours = (
+        (random.randint(50, 200), random.randint(40, 170), random.randint(40, 190)),
+        (random.randint(190, 255), random.randint(170, 240), random.randint(180, 250)),
+    )
 
     img = img.convert("RGB")
     width, height = img.width, img.height
-    img = img.resize((int(width**random.uniform(
-        0.8, 0.9)), int(height**random.uniform(0.8, 0.9))), resample=Image.LANCZOS)
-    img = img.resize((int(width**random.uniform(
-        0.85, 0.95)), int(height**random.uniform(0.85, 0.95))), resample=Image.BILINEAR)
-    img = img.resize((int(width**random.uniform(
-        0.89, 0.98)), int(height**random.uniform(0.89, 0.98))), resample=Image.BICUBIC)
+    img = img.resize(
+        (
+            int(width ** random.uniform(0.8, 0.9)),
+            int(height ** random.uniform(0.8, 0.9)),
+        ),
+        resample=Image.LANCZOS,
+    )
+    img = img.resize(
+        (
+            int(width ** random.uniform(0.85, 0.95)),
+            int(height ** random.uniform(0.85, 0.95)),
+        ),
+        resample=Image.BILINEAR,
+    )
+    img = img.resize(
+        (
+            int(width ** random.uniform(0.89, 0.98)),
+            int(height ** random.uniform(0.89, 0.98)),
+        ),
+        resample=Image.BICUBIC,
+    )
     img = img.resize((width, height), resample=Image.BICUBIC)
     img = ImageOps.posterize(img, random.randint(3, 7))
 
     overlay = img.split()[0]
     overlay = ImageEnhance.Contrast(overlay).enhance(random.uniform(1.0, 2.0))
-    overlay = ImageEnhance.Brightness(overlay).enhance(random.uniform(
-        1.0, 2.0))
+    overlay = ImageEnhance.Brightness(overlay).enhance(random.uniform(1.0, 2.0))
 
     overlay = ImageOps.colorize(overlay, colours[0], colours[1])
 
@@ -111,16 +131,22 @@ async def deepfry(img):
 # fry by @krishna_singhal
 
 
-@userge.on_cmd("fry", about={
-    'header': "frying media",
-    'usage': "{tr}fry [fry count (recommendation 3)] [reply to any media]",
-    'examples': "{tr}fry 3 [reply to any media]"})
+@userge.on_cmd(
+    "fry",
+    about={
+        "header": "frying media",
+        "usage": "{tr}fry [fry count (recommendation 3)] [reply to any media]",
+        "examples": "{tr}fry 3 [reply to any media]",
+    },
+)
 async def fry_(message: Message):
     """ fryer for any media """
     frying_file = None
     replied = message.reply_to_message
     if not (replied and message.input_str):
-        await message.err("```Reply to Media and gib fry count to deepfry !...```", del_in=5)
+        await message.err(
+            "```Reply to Media and gib fry count to deepfry !...```", del_in=5
+        )
         return
     if not (replied.photo or replied.sticker or replied.video or replied.animation):
         await message.err("```Reply to Media only !...```", del_in=5)
@@ -140,11 +166,13 @@ async def fry_(message: Message):
         message=replied,
         file_name=Config.DOWN_PATH,
         progress=progress,
-        progress_args=(message, "Downloading to my local")
+        progress_args=(message, "Downloading to my local"),
     )
     dls_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dls))
     if replied.sticker and replied.sticker.file_name.endswith(".tgs"):
-        await message.edit("```Ohh nice sticker, Lemme deepfry this Animated sticker ...```")
+        await message.edit(
+            "```Ohh nice sticker, Lemme deepfry this Animated sticker ...```"
+        )
         webp_file = os.path.join(Config.DOWN_PATH, "fry.png")
         cmd = f"lottie_convert.py --frame 0 -if lottie -of png {dls_loc} {webp_file}"
         stdout, stderr = (await runcmd(cmd))[:2]
@@ -180,7 +208,8 @@ async def fry_(message: Message):
         except YouBlockedUser:
             await message.edit(
                 "**For your kind information, you blocked @Image_DeepfryBot, Unblock it**",
-                del_in=5)
+                del_in=5,
+            )
             return
         await conv.get_response(mark_read=True)
         media = await userge.send_photo(chat, frying_file)
@@ -200,9 +229,7 @@ async def fry_(message: Message):
             directory = Config.DOWN_PATH
             files_name = "fry.webp"
             deep_fry = os.path.join(directory, files_name)
-            await userge.download_media(
-                message=response,
-                file_name=deep_fry)
+            await userge.download_media(message=response, file_name=deep_fry)
             await userge.send_sticker(
                 message.chat.id,
                 sticker=deep_fry,

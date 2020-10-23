@@ -3,54 +3,83 @@
 # BY code-rgb [https://github.com/code-rgb]
 
 
-from userge import userge, Message
-from userge.utils import deEmojify, rand_array
 import requests
+from userge import Message, userge
+from userge.utils import deEmojify, rand_array
 from validators.url import url
 
 
-@userge.on_cmd("sc", about={
-    'header': "Creates Random Anime Cut Scene",
-    'flags': {
-    "y": "yuri",
-    "n": "natsuki",
-    "m": "monika",
-    "s": "sayori"
-   },
-    'usage': "{tr}sc [text | reply to message]\n"
-             "{tr}sc [flags] [text | reply to message]",
-    'examples': [
-        "{tr}sc Hello Anon",
-        "{tr}sc [flags] Hello Anon"]})
+@userge.on_cmd(
+    "sc",
+    about={
+        "header": "Creates Random Anime Cut Scene",
+        "flags": {"y": "yuri", "n": "natsuki", "m": "monika", "s": "sayori"},
+        "usage": "{tr}sc [text | reply to message]\n"
+        "{tr}sc [flags] [text | reply to message]",
+        "examples": ["{tr}sc Hello Anon", "{tr}sc [flags] Hello Anon"],
+    },
+)
 async def anime_Scene(message: Message):
     """ Creates random anime Cut Scene! """
 
     monika_faces = list("abcdefghijklmnopqr")
 
     natsuki_faces = list("abcdefghijklmnopqrstuvwxyz")
-    natsuki_faces.extend(["1t", "2bt", "2bta", "2btb", "2btc", "2btd", "2bte", "2btf", "2btg", "2bth", "2bti",
-                      "2t", "2ta", "2tb", "2tc", "2td", "2te", "2tf", "2tg", "2th", "2ti"])
+    natsuki_faces.extend(
+        [
+            "1t",
+            "2bt",
+            "2bta",
+            "2btb",
+            "2btc",
+            "2btd",
+            "2bte",
+            "2btf",
+            "2btg",
+            "2bth",
+            "2bti",
+            "2t",
+            "2ta",
+            "2tb",
+            "2tc",
+            "2td",
+            "2te",
+            "2tf",
+            "2tg",
+            "2th",
+            "2ti",
+        ]
+    )
 
     sayori_faces = list("abcdefghijklmnopqrstuvwxy")
 
     yuri_faces = list("abcdefghijklmnopqrstuvwx")
 
-    background = ["bedroom", "class", "closet", "club", "corridor", "house", "kitchen", "residential", "sayori_bedroom"]
-
+    background = [
+        "bedroom",
+        "class",
+        "closet",
+        "club",
+        "corridor",
+        "house",
+        "kitchen",
+        "residential",
+        "sayori_bedroom",
+    ]
 
     ddlc_items = {
         "body": {
-            "monika": [ "1", "2" ],
-            "natsuki": [ "1b", "1", "2b", "2"],
+            "monika": ["1", "2"],
+            "natsuki": ["1b", "1", "2b", "2"],
             "yuri": ["1b", "1", "2b", "2"],
-            "sayori": ["1b", "1", "2b", "2"]
+            "sayori": ["1b", "1", "2b", "2"],
         },
         "face": {
             "monika": monika_faces,
             "natsuki": natsuki_faces,
             "yuri": yuri_faces,
-            "sayori": sayori_faces
-        }
+            "sayori": sayori_faces,
+        },
     }
 
     ddlc_char = ["yuri", "natsuki", "monika", "sayori"]
@@ -65,13 +94,13 @@ async def anime_Scene(message: Message):
         await message.err("`Input not found!...`", del_in=5)
         return
     await message.delete()
-    if '-y' in message.flags:
+    if "-y" in message.flags:
         character = "yuri"
-    if '-n' in message.flags:
+    if "-n" in message.flags:
         character = "natsuki"
-    if '-m' in message.flags:
+    if "-m" in message.flags:
         character = "monika"
-    elif '-s' in message.flags:
+    elif "-s" in message.flags:
         character = "sayori"
     else:
         character = rand_array(ddlc_char)
@@ -90,15 +119,15 @@ async def anime_Scene(message: Message):
     message_id = replied.message_id if replied else None
     await message.delete()
     await message.client.send_photo(
-        chat_id=chat_id,
-        photo=path,
-        reply_to_message_id=message_id
+        chat_id=chat_id, photo=path, reply_to_message_id=message_id
     )
 
 
 async def ddlc(text1, text2, text3, text4, text5):
     site = "https://nekobot.xyz/api/imagegen?type=ddlc&character="
-    r = requests.get(f"{site}{text1}&face={text2}&body={text3}&background={text4}&text={text5}").json()
+    r = requests.get(
+        f"{site}{text1}&face={text2}&body={text3}&background={text4}&text={text5}"
+    ).json()
     urlx = r.get("message")
     anim_url = url(urlx)
     if not anim_url:

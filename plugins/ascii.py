@@ -4,30 +4,32 @@
 # Based on https://gist.github.com/wshanshan/c825efca4501a491447056849dd207d6
 
 import os
-from PIL import Image, ImageOps, ImageFont, ImageDraw
-from userge import userge, Message, Config
-from userge.utils import media_to_image
-import numpy as np
-from colour import Color
 import random
 
+import numpy as np
+from colour import Color
+from PIL import Image, ImageDraw, ImageFont, ImageOps
+from userge import Config, Message, userge
+from userge.utils import media_to_image
 
-@userge.on_cmd("ascii", about={
-    'header': "Ascii Image",
-    'description': "transform on any Media to an Ascii Image. ",
-    'usage': " {tr}ascii [reply to media]",
-    'flags': {
-        '-alt': "To get inverted Ascii Image"},
-    'examples': [
-        "{tr}ascii [reply to media]",
-        "{tr}ascii -alt [reply to media]"]})
+
+@userge.on_cmd(
+    "ascii",
+    about={
+        "header": "Ascii Image",
+        "description": "transform on any Media to an Ascii Image. ",
+        "usage": " {tr}ascii [reply to media]",
+        "flags": {"-alt": "To get inverted Ascii Image"},
+        "examples": ["{tr}ascii [reply to media]", "{tr}ascii -alt [reply to media]"],
+    },
+)
 async def ascii_(message: Message):
     replied = message.reply_to_message
     if not replied:
         await message.edit("```Reply To Message Dummy```")
-        await message.reply_sticker('CAADAQADhgADwKwII4f61VT65CNGFgQ')
+        await message.reply_sticker("CAADAQADhgADwKwII4f61VT65CNGFgQ")
         return
-    ascii_type = "alt" if '-alt' in message.flags else ""
+    ascii_type = "alt" if "-alt" in message.flags else ""
     dls_loc = await media_to_image(message)
     if not dls_loc:
         return
@@ -40,21 +42,22 @@ async def ascii_(message: Message):
         chat_id=message.chat.id,
         document=img_file,
         force_document=True,
-        reply_to_message_id=replied.message_id)
+        reply_to_message_id=replied.message_id,
+    )
     await message.delete()
     os.remove(img_file)
     os.remove(dls_loc)
 
 
 def asciiart(in_f, SC, GCF, color1, color2, bgcolor, ascii_type):
-    chars = np.asarray(list(' .,:irs?@9B&#'))
+    chars = np.asarray(list(" .,:irs?@9B&#"))
     font = ImageFont.load_default()
     letter_width = font.getsize("x")[0]
     letter_height = font.getsize("x")[1]
     WCF = letter_height / letter_width
     img = Image.open(in_f)
-    if img.mode != 'RGB':
-        img = img.convert('RGB')
+    if img.mode != "RGB":
+        img = img.convert("RGB")
     if ascii_type == "alt":
         img = ImageOps.invert(img)
     widthByLetter = round(img.size[0] * SC * WCF)
@@ -85,5 +88,7 @@ def asciiart(in_f, SC, GCF, color1, color2, bgcolor, ascii_type):
 
 def random_color():
     number_of_colors = 2
-    return ['#' + ''.join([random.choice('0123456789ABCDEF') for j in
-             range(6)]) for i in range(number_of_colors)]
+    return [
+        "#" + "".join([random.choice("0123456789ABCDEF") for j in range(6)])
+        for i in range(number_of_colors)
+    ]

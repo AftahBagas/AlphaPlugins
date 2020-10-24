@@ -2,10 +2,9 @@
 
 
 import asyncio
-import html
 import os
 
-from pyrogram.errors.exceptions.bad_request_400 import (
+from pyrogram.errors import (
     BadRequest,
     PeerIdInvalid,
     UsernameInvalid,
@@ -13,14 +12,11 @@ from pyrogram.errors.exceptions.bad_request_400 import (
     UsernameOccupied,
 )
 from userge import Config, Message, userge
+from userge.utils import mention_html
 
 LOG = userge.getLogger(__name__)
 
 PATH = Config.DOWN_PATH + "chat_pic.jpg"
-
-
-def mention_html(user_id, name):
-    return '<a href="tg://user?id={}">{}</a>'.format(user_id, html.escape(name))
 
 
 @userge.on_cmd(

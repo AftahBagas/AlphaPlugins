@@ -17,10 +17,7 @@ HEROKU_API_KEY = Config.HEROKU_API_KEY
     "usage", about={"header": "Get Dyno hours usage"}
 )  # pylint:disable=E0602
 async def usage(message: Message):
-    # async def dyno_usage(dyno):
-    """
-    Get your account Dyno Usage
-    """
+    """ Get your account Dyno Usage """
     await message.edit("`Processing...`")
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
@@ -43,14 +40,14 @@ async def usage(message: Message):
     quota = result["account_quota"]
     quota_used = result["quota_used"]
 
-    """ - Used - """
+    #  """ - Used - """
     remaining_quota = quota - quota_used
     percentage = math.floor(remaining_quota / quota * 100)
     minutes_remaining = remaining_quota / 60
     hours = math.floor(minutes_remaining / 60)
     minutes = math.floor(minutes_remaining % 60)
 
-    """ - Current - """
+    #  """ - Current - """
     App = result["apps"]
     try:
         App[0]["quota_used"]

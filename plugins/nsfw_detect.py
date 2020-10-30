@@ -9,8 +9,6 @@ import requests
 from userge import Config, Message, userge
 from userge.utils import media_to_image
 
-VARS = Config.HEROKU_APP.config()
-
 
 @userge.on_cmd(
     "detect",
@@ -25,19 +23,18 @@ async def detect_(message: Message):
     if not reply:
         await message.err("reply to media !", del_in=5)
         return
-    if "DEEP_AI" not in VARS:
+    if not Config.DEEP_AI:
         await message.edit(
             "add VAR `DEEP_AI` get Api Key from https://deepai.org/", del_in=7
         )
         return
-    api_key = VARS["DEEP_AI"]
     photo = await media_to_image(message)
     r = requests.post(
         "https://api.deepai.org/api/nsfw-detector",
         files={
             "image": open(photo, "rb"),
         },
-        headers={"api-key": api_key},
+        headers={"api-key": Config.DEEP_AI},
     )
     os.remove(photo)
     if "status" in r.json():

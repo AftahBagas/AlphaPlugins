@@ -20,7 +20,6 @@ GMUTE_USER_BASE = get_collection("GMUTE_USER")
         "{tr}info [Username | User Id]\n"
         "{tr}info [reply to User]",
     },
-    allow_via_bot=False,
 )
 async def info(msg: Message):
     """ To check User's info """
@@ -37,14 +36,14 @@ async def info(msg: Message):
         else:
             user_id = msg.from_user.id
     try:
-        user = await msg.client.get_users(user_id)
+        user = await userge.get_users(user_id)
     except Exception:
         await msg.edit("```I don't know that User...```", del_in=5)
         return
-    await msg.edit("```Getiing Info...```")
+    await msg.edit("```Getting Info...```")
     l_name = user.last_name or ""
     username = "@" + user.username if user.username else "`None`"
-    common_chats = await msg.client.get_common_chats(user.id)
+    common_chats = await userge.get_common_chats(user.id)
     user_info = f"""
 **About [{user.first_name} {l_name}](tg://user?id={user.id})**:
   - **UserID**: `{user.id}`

@@ -29,7 +29,7 @@ async def tele_text(message: Message):
     t.create_api_token("USERGE-X")
     user = await userge.get_me()
     user_n = f"@{user.username}" if user.username else user.first_name
-    text = replied.text
+    text = replied.text.html
     title = message.input_str
     if not title:
         title = f"By {user_n}"

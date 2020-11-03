@@ -3,8 +3,9 @@
 
 import time
 
-from html_telegraph_poster import TelegraphPoster
+from userge.utils import post_to_telegraph, time_formatter
 from userge import Message, userge
+from ..utils.telegraph import upload_media_
 
 
 @userge.on_cmd(
@@ -21,22 +22,30 @@ async def tele_text(message: Message):
     if not replied:
         await message.err("Reply To Message First !", del_in=5)
         return
-    if not replied.text:
+    if not replied.text or replied.caption:
         await message.err("Replied Message Doesn't Contain Text. 🤨", del_in=5)
         return
     await message.edit("Pasting...")
-    t = TelegraphPoster(use_api=True)
-    t.create_api_token("USERGE-X")
+    text = replied.text.html if replied.text else replied.caption.html
+    if '-m' in message.flags:
+        if not (replied.photo or  replied.video or replied.document or replied.animation):
+            return await message.err('Media Type Not Supported', del_in=3)
+        link = await upload_media_(message)
+        if link == 'error':
+            return
+        if link.endswith((".mp4", ".mkv")):
+            media_link = f'<video controls src=\"https://telegra.ph{link}\">Browser not supported</video>'
+        else:
+            media_link = f'<img src=\"https://telegra.ph{link}\">'
+        text = media_link + text
     user = await userge.get_me()
     user_n = f"@{user.username}" if user.username else user.first_name
-    text = replied.text
-    title = message.input_str
+    title = message.filtered_input_str
     if not title:
         title = f"By {user_n}"
-    link = t.post(title=title, author=user_n, text=text)
+    link = post_to_telegraph(title, text)
     msg = "**Pasted to -** "
-    msg += f"<a href={link['url']}>{link['path']}</a>\n"
+    msg += f"<b><a href={link}>{link.replace('http://telegra.ph/', '')}</a></b>\n"
     end = time.time()
-    total = "{:.2f}".format(end - start)
-    msg += f"in <code>{total}</code> sec"
+    msg += f"in <code>{time_formatter(end - start)}</code> sec"
     await message.edit(msg, disable_web_page_preview=True)

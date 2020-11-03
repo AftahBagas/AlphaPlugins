@@ -12,6 +12,7 @@ from ..utils.telegraph import upload_media_
     "tg",
     about={
         "header": "For Posting Text on Telegraph",
+        "flags": {"-m": "To Post Media with Caption"},
         "usage": "{tr}tg Title [reply to text]",
     },
 )
@@ -22,7 +23,7 @@ async def tele_text(message: Message):
     if not replied:
         await message.err("Reply To Message First !", del_in=5)
         return
-    if not replied.text or replied.caption:
+    if not (replied.text or replied.caption):
         await message.err("Replied Message Doesn't Contain Text. 🤨", del_in=5)
         return
     await message.edit("Pasting...")

@@ -1,8 +1,10 @@
+""" Invert, filp/mirror, rotate """
+
+
 # Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
 # All rights reserved.
 
 
-""" Invert, filp/mirror, rotate """
 import os
 
 from PIL import Image, ImageOps
@@ -61,9 +63,6 @@ async def transform_media(image_path, transform_choice):
     return webp_file
 
 
-"""Rotate any media"""
-
-
 @userge.on_cmd(
     "rotate",
     about={
@@ -73,6 +72,7 @@ async def transform_media(image_path, transform_choice):
     },
 )
 async def rotate_(message: Message):
+    """Rotate any media"""
     replied = message.reply_to_message
     if not replied:
         await message.err("<code>Give Me Something to Rotate (¬_¬)</code>")

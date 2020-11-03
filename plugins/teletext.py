@@ -13,10 +13,7 @@ from ..utils.telegraph import upload_media_
     "tg",
     about={
         "header": "For Posting Text on Telegraph",
-        "flags": {
-            "-m": "To Post Media with Caption",
-            "-mono": "For Monospace text"
-         },
+        "flags": {"-m": "To Post Media with Caption", "-mono": "For Monospace text"},
         "usage": "{tr}tg Title [reply to text]",
     },
 )

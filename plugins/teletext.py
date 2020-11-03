@@ -13,7 +13,10 @@ from ..utils.telegraph import upload_media_
     "tg",
     about={
         "header": "For Posting Text on Telegraph",
-        "flags": {"-m": "To Post Media with Caption"},
+        "flags": {
+            "-m": "To Post Media with Caption",
+            "-mono": "For Monospace text"
+         },
         "usage": "{tr}tg Title [reply to text]",
     },
 )
@@ -28,7 +31,11 @@ async def tele_text(message: Message):
         await message.err("Replied Message Doesn't Contain Text. 🤨", del_in=5)
         return
     await message.edit("Pasting...")
-    text = replied.text.html if replied.text else replied.caption.html
+    text = replied.text if replied.text else replied.caption
+    if "-mono" in message.flags:
+        text = "<code>{}</code>".format(text)
+    else:
+        text = text.html
     if "-m" in message.flags:
         if not (
             replied.photo or replied.video or replied.document or replied.animation

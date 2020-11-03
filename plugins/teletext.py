@@ -3,8 +3,9 @@
 
 import time
 
-from userge.utils import post_to_telegraph, time_formatter
 from userge import Message, userge
+from userge.utils import post_to_telegraph, time_formatter
+
 from ..utils.telegraph import upload_media_
 
 
@@ -27,16 +28,18 @@ async def tele_text(message: Message):
         return
     await message.edit("Pasting...")
     text = replied.text.html if replied.text else replied.caption.html
-    if '-m' in message.flags:
-        if not (replied.photo or  replied.video or replied.document or replied.animation):
-            return await message.err('Media Type Not Supported', del_in=3)
+    if "-m" in message.flags:
+        if not (
+            replied.photo or replied.video or replied.document or replied.animation
+        ):
+            return await message.err("Media Type Not Supported", del_in=3)
         link = await upload_media_(message)
-        if link == 'error':
+        if link == "error":
             return
         if link.endswith((".mp4", ".mkv")):
-            media_link = f'<video controls src=\"https://telegra.ph{link}\">Browser not supported</video>'
+            media_link = f'<video controls src="https://telegra.ph{link}">Browser not supported</video>'
         else:
-            media_link = f'<img src=\"https://telegra.ph{link}\">'
+            media_link = f'<img src="https://telegra.ph{link}">'
         text = media_link + text
     user = await userge.get_me()
     user_n = f"@{user.username}" if user.username else user.first_name

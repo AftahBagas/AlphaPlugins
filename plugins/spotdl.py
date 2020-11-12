@@ -1,21 +1,25 @@
+import asyncio
 import os
 import shutil
-import asyncio
 from pathlib import Path
 
-from userge import userge, Message
+from userge import Message, userge
 from userge.plugins.misc.upload import audio_upload
 from userge.plugins.tools.executor import Term
 
 TEMP_DIR = "spotdl/"
 
 
-@userge.on_cmd("spotdl", about={
-    'header': "Spotify Downloader",
-    'description': "Download Songs via Spotify Links"
-                   " or just by giving song names. ",
-    'usage': "{tr}spotdl [Spotify Link or Song Name]",
-    'examples': "{tr}spotdl https://open.spotify.com/track/0Cy7wt6IlRfBPHXXjmZbcP"})
+@userge.on_cmd(
+    "spotdl",
+    about={
+        "header": "Spotify Downloader",
+        "description": "Download Songs via Spotify Links"
+        " or just by giving song names. ",
+        "usage": "{tr}spotdl [Spotify Link or Song Name]",
+        "examples": "{tr}spotdl https://open.spotify.com/track/0Cy7wt6IlRfBPHXXjmZbcP",
+    },
+)
 async def spotify_dl(message: Message):
     if not os.path.exists(TEMP_DIR):
         os.makedirs(TEMP_DIR)

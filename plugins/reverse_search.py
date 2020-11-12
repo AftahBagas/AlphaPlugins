@@ -3,30 +3,34 @@ from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
-
+from userge import Config, Message, userge
 from userge.utils import take_screen_shot
-from userge import userge, Message, Config
 
 
-@userge.on_cmd("grs", about={
-    'header': "Google Reverse Search",
-    'description': "Reverse Search any Image/Gif",
-    'usage': "{tr}grs [Reply to image | gif]"})
+@userge.on_cmd(
+    "grs",
+    about={
+        "header": "Google Reverse Search",
+        "description": "Reverse Search any Image/Gif",
+        "usage": "{tr}grs [Reply to image | gif]",
+    },
+)
 async def google_rs(message: Message):
     start = datetime.now()
-    dis_loc = ''
+    dis_loc = ""
     base_url = "http://www.google.com"
     out_str = "Reply to an image to do Google Reverse Search"
     if message.reply_to_message:
         await message.edit("Downloading Media to my Local")
         message_ = message.reply_to_message
-        if message_.sticker and message_.sticker.file_name.endswith('.tgs'):
-            await message.edit('Bruh, Searching Animated Sticker is no(T YET) implemented')
+        if message_.sticker and message_.sticker.file_name.endswith(".tgs"):
+            await message.edit(
+                "Bruh, Searching Animated Sticker is no(T YET) implemented"
+            )
             return
         if message_.photo or message_.animation or message_.sticker:
             dis = await message.client.download_media(
-                message=message_,
-                file_name=Config.DOWN_PATH
+                message=message_, file_name=Config.DOWN_PATH
             )
             dis_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dis))
         if message_.animation:
@@ -41,9 +45,11 @@ async def google_rs(message: Message):
             search_url = "{}/searchbyimage/upload".format(base_url)
             multipart = {
                 "encoded_image": (dis_loc, open(dis_loc, "rb")),
-                "image_content": ""
+                "image_content": "",
             }
-            google_rs_response = requests.post(search_url, files=multipart, allow_redirects=False)
+            google_rs_response = requests.post(
+                search_url, files=multipart, allow_redirects=False
+            )
             the_location = google_rs_response.headers.get("Location")
             os.remove(dis_loc)
         else:
@@ -58,7 +64,9 @@ async def google_rs(message: Message):
         try:
             prs_div = soup.find_all("div", {"class": "r5a77d"})[0]
         except IndexError:
-            return await message.err("Index went out of range, Maybe no results were found")
+            return await message.err(
+                "Index went out of range, Maybe no results were found"
+            )
         prs_anchor_element = prs_div.find("a")
         prs_url = base_url + prs_anchor_element.get("href")
         prs_text = prs_anchor_element.text

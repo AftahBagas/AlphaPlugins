@@ -1,9 +1,11 @@
 import os
 import shutil
 
-from google_images_search import GoogleImagesSearch as GIS
 from pyrogram.types import InputMediaPhoto
-from userge import Message, userge
+from PIL import Image
+from google_images_search import GoogleImagesSearch as GIS
+
+from userge import userge, Message
 
 
 PATH = "temp_img_down/"
@@ -27,16 +29,12 @@ option and for "Sites to search" option select "Search the entire
  web but emphasize included sites"."""
 
 
-@userge.on_cmd(
-    "gimg",
-    about={
-        "header": "Google Image Search",
-        "description": "Search and Download Images from"
-        " Google and upload to Telegram",
-        "usage": "{tr}gimg [Query]",
-        "examples": "{tr}gimg Dogs",
-    },
-)
+@userge.on_cmd("gimg", about={
+    'header': "Google Image Search",
+    'description': "Search and Download Images from"
+                   " Google and upload to Telegram",
+    'usage': "{tr}gimg [Query]",
+    'examples': "{tr}gimg Dogs"})
 async def google_img(message: Message):
     if (GCS_API_KEY and GCS_IMAGE_E_ID) is None:
         await message.edit(REQ_ERR, disable_web_page_preview=True)
@@ -46,14 +44,12 @@ async def google_img(message: Message):
 
     fetcher = GIS(GCS_API_KEY, GCS_IMAGE_E_ID)
     query = message.input_str
-    search = {
-        "q": query,
-        "num": 5,
-        "safe": "off",
-        "fileType": "jpg",
-        "imgType": "photo",
-        "imgSize": "MEDIUM",
-    }
+    search = {'q': query,
+              'num': 5,
+              'safe': "off",
+              'fileType': "jpg",
+              'imgType': "photo",
+              'imgSize': "MEDIUM"}
     await message.edit("`Processing...`")
     fetcher.search(search_params=search)
     for image in fetcher.results():

@@ -5,11 +5,11 @@
 
 import os
 from datetime import datetime as dt
-from userge import Message, userge
+
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-
+from userge import Message, userge
 
 COUNTRY_CITY = os.environ.get("COUNTRY_CITY", None)
 
@@ -39,7 +39,6 @@ async def get_tz(con):
         return
 
 
-
 @userge.on_cmd(
     "dt(?: |$)(.*)(?<![0-9])(?: |$)([0-9]+)?",
     about={
@@ -47,14 +46,14 @@ async def get_tz(con):
         "description": "Get the Date and Time of a country. If a country has multiple timezones, it will list all of them and let you select one.",
         "usage": "{tr}dt <country name/code> <timezone number>",
         "examples": ["{tr}dt Russia 2"],
-        "default timezone" : "Choose from the <b><a href=\"https://pastebin.com/raw/0KSh9CMj\">Timezones Avaliable</a></b>\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone"
+        "default timezone": 'Choose from the <b><a href="https://pastebin.com/raw/0KSh9CMj">Timezones Avaliable</a></b>\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone',
     },
 )
 async def date_time_func(message: Message):
-    """ For .dt command, return the date and time of
-        1. The country passed as an argument,
-        2. The default userbot country,
-        3. The server where the userbot runs.
+    """For .dt command, return the date and time of
+    1. The country passed as an argument,
+    2. The default userbot country,
+    3. The server where the userbot runs.
     """
     con = message.matches[0].group(1).title()
     tz_num = message.matches[0].group(2)
@@ -71,7 +70,9 @@ async def date_time_func(message: Message):
     elif COUNTRY_CITY:
         timezones = [COUNTRY_CITY]
     else:
-        await message.edit(f"`It's` **{dt.now().strftime(t_form)}** on **{dt.now().strftime(d_form)}**  `here.`")
+        await message.edit(
+            f"`It's` **{dt.now().strftime(t_form)}** on **{dt.now().strftime(d_form)}**  `here.`"
+        )
         return
 
     if not timezones:
@@ -101,5 +102,5 @@ async def date_time_func(message: Message):
     dttime = dt.now(tz(time_zone)).strftime(t_form)
 
     await message.edit(
-        f"`It's`  **{dttime}** `on` **{dtnow}**  `in {c_name} ({time_zone} timezone).`")
-        
+        f"`It's`  **{dttime}** `on` **{dtnow}**  `in {c_name} ({time_zone} timezone).`"
+    )

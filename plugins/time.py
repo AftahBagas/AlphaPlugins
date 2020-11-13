@@ -107,5 +107,5 @@ async def date_time_func(message: Message):
         c_name = Config.WEATHER_DEFCITY.capitalize() if Config.WEATHER_DEFCITY else ""
 
     await message.edit(
-            f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name} ({time_zone} timezone).`"
+        f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name} ({time_zone} timezone).`"
     )

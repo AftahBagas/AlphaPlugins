@@ -43,10 +43,12 @@ async def get_tz(con):
     "dt(?: |$)(.*)(?<![0-9])(?: |$)([0-9]+)?",
     about={
         "header": "Get Date and Time of a country",
-        "description": "Get the Date and Time of a country. If a country has multiple timezones, it will list all of them and let you select one.",
+        "description": "Get the Date and Time of a country. If a country has multiple timezones, "
+                       "it will list all of them and let you select one.",
         "usage": "{tr}dt <country name/code> <timezone number>",
         "examples": ["{tr}dt Russia 2"],
-        "default timezone": 'Choose from the <b><a href="https://pastebin.com/raw/0KSh9CMj">Timezones Avaliable</a></b>\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone',
+        "default timezone": 'Choose from the <b><a href="https://pastebin.com/raw/0KSh9CMj">Timezones Avaliable</a></b>'
+                            '\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone',
     },
 )
 async def date_time_func(message: Message):
@@ -58,8 +60,9 @@ async def date_time_func(message: Message):
     con = message.matches[0].group(1).title()
     tz_num = message.matches[0].group(2)
     d_form = "%d/%m/%y - %A"
-    c_name = None
     t_form = "%I:%M %p"
+    c_name = None
+    
 
     if len(con) > 4:
         try:
@@ -71,7 +74,7 @@ async def date_time_func(message: Message):
         timezones = [COUNTRY_CITY]
     else:
         await message.edit(
-            f"`It's` **{dt.now().strftime(t_form)}** on **{dt.now().strftime(d_form)}**  `here.`"
+            f"`It's`  **{dt.now().strftime(t_form)}** `on` **{dt.now().strftime(d_form)}**  `here.`"
         )
         return
 

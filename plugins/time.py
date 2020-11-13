@@ -44,11 +44,11 @@ async def get_tz(con):
     about={
         "header": "Get Date and Time of a country",
         "description": "Get the Date and Time of a country. If a country has multiple timezones, "
-                       "it will list all of them and let you select one.",
+        "it will list all of them and let you select one.",
         "usage": "{tr}dt <country name/code> <timezone number>",
         "examples": ["{tr}dt Russia 2"],
         "default timezone": 'Choose from the <b><a href="https://pastebin.com/raw/0KSh9CMj">Timezones Avaliable</a></b>'
-                            '\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone',
+        "\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone",
     },
 )
 async def date_time_func(message: Message):
@@ -62,7 +62,6 @@ async def date_time_func(message: Message):
     d_form = "%d/%m/%y - %A"
     t_form = "%I:%M %p"
     c_name = None
-    
 
     if len(con) > 4:
         try:

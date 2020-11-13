@@ -9,7 +9,7 @@ from datetime import datetime as dt
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-from userge import Message, userge
+from userge import Message, userge, Config
 
 COUNTRY_CITY = os.environ.get("COUNTRY_CITY", None)
 
@@ -48,7 +48,7 @@ async def get_tz(con):
         "usage": "{tr}dt <country name/code> <timezone number>",
         "examples": ["{tr}dt Russia 2"],
         "default timezone": 'Choose from the <b><a href="https://pastebin.com/raw/0KSh9CMj">Timezones Avaliable</a></b>'
-        "\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone",
+        "\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone and <code>WEATHER_DEFCITY</code> is your City Name (Optional)",
     },
 )
 async def date_time_func(message: Message):
@@ -103,6 +103,13 @@ async def date_time_func(message: Message):
     dtnow = dt.now(tz(time_zone)).strftime(d_form)
     dttime = dt.now(tz(time_zone)).strftime(t_form)
 
-    await message.edit(
-        f"`It's`  **{dttime}** `on` **{dtnow}**  `in {c_name} ({time_zone} timezone).`"
-    )
+    if time_zone != COUNTRY_CITY:
+        await message.edit(
+            f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name}({time_zone} timezone).`")
+        return
+
+    elif COUNTRY_CITY:
+        city_ = Config.WEATHER_DEFCITY.capitalize() if Config.WEATHER_DEFCITY else ""
+        await message.edit(f"`It's`  **{dttime}** `on` **{dtnow}**  `here, in {city_}"
+                       f"({time_zone} timezone).`")
+        return

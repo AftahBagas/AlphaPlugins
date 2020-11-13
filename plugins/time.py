@@ -9,7 +9,7 @@ from datetime import datetime as dt
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-from userge import Message, userge, Config
+from userge import Config, Message, userge
 
 COUNTRY_CITY = os.environ.get("COUNTRY_CITY", None)
 
@@ -105,11 +105,14 @@ async def date_time_func(message: Message):
 
     if time_zone != COUNTRY_CITY:
         await message.edit(
-            f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name}({time_zone} timezone).`")
+            f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name}({time_zone} timezone).`"
+        )
         return
 
     elif COUNTRY_CITY:
         city_ = Config.WEATHER_DEFCITY.capitalize() if Config.WEATHER_DEFCITY else ""
-        await message.edit(f"`It's`  **{dttime}** `on` **{dtnow}**  `here, in {city_}"
-                       f"({time_zone} timezone).`")
+        await message.edit(
+            f"`It's`  **{dttime}** `on` **{dtnow}**  `here, in {city_}"
+            f"({time_zone} timezone).`"
+        )
         return

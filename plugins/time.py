@@ -103,16 +103,9 @@ async def date_time_func(message: Message):
     dtnow = dt.now(tz(time_zone)).strftime(d_form)
     dttime = dt.now(tz(time_zone)).strftime(t_form)
 
-    if time_zone != COUNTRY_CITY:
-        await message.edit(
-            f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name}({time_zone} timezone).`"
-        )
-        return
+    if not c_name:
+        c_name = Config.WEATHER_DEFCITY.capitalize() if Config.WEATHER_DEFCITY else ""
 
-    elif COUNTRY_CITY:
-        city_ = Config.WEATHER_DEFCITY.capitalize() if Config.WEATHER_DEFCITY else ""
-        await message.edit(
-            f"`It's`  **{dttime}** `on` **{dtnow}**  `here, in {city_}"
-            f"({time_zone} timezone).`"
-        )
-        return
+    await message.edit(
+            f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name} ({time_zone} timezone).`"
+    )

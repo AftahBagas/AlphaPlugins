@@ -4,7 +4,7 @@
 from userge import Config, Message, userge
 from userge.utils.helper import AioHttp
 
-##The following command has been taken from lastfm plugin of a group management bot that can be found on telegram as @TheRealPhoebixBot (https://t.me/TheRealPhoenixBot)##
+##The following command has been taken from lastfm plugin of a group management bot that can be found on telegram as @TheRealPhoenixBot (https://t.me/TheRealPhoenixBot)##
 ##The above stated bot's repo link - https://github.com/rsktg/TheRealPhoenixBot##
 ##The owner of this command and the above stated bot can be found on telegram as @TheRealPhoenix and on github as Real Phoenix (https://github.com/rsktg)##
 

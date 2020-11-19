@@ -9,11 +9,11 @@ from datetime import datetime as dt
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-from userge import Config, Message, userge, get_collection
-
+from userge import Message, get_collection, userge
 
 COUNTRY_CITY = os.environ.get("COUNTRY_CITY", None)
 LOC_NAME = get_collection("LOC_NAME")
+
 
 async def get_tz(con):
     """ Get time zone of the given country. """
@@ -122,7 +122,7 @@ async def date_time_func(message: Message):
 async def set_loc_(message: Message):
     loc_name = message.input_str
     if not loc_name:
-        return await message.err('Input Not found', del_in=3)
+        return await message.err("Input Not found", del_in=3)
     result = await LOC_NAME.update_one(
         {"_id": "LOC_NAME"}, {"$set": {"name": loc_name}}, upsert=True
     )

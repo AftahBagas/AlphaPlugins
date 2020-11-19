@@ -9,10 +9,11 @@ from datetime import datetime as dt
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-from userge import Config, Message, userge
+from userge import Config, Message, userge, get_collection
+
 
 COUNTRY_CITY = os.environ.get("COUNTRY_CITY", None)
-
+LOC_NAME = get_collection("LOC_NAME")
 
 async def get_tz(con):
     """ Get time zone of the given country. """
@@ -48,7 +49,7 @@ async def get_tz(con):
         "usage": "{tr}dt <country name/code> <timezone number>",
         "examples": ["{tr}dt Russia 2"],
         "default timezone": 'Choose from the <b><a href="https://pastebin.com/raw/0KSh9CMj">Timezones Avaliable</a></b>'
-        "\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone and <code>WEATHER_DEFCITY</code> is your City Name (Optional)",
+        "\n and Set any of them in (<code>COUNTRY_CITY</code>) for your default timezone and see help `{tr}setloc` to set Display Location",
     },
 )
 async def date_time_func(message: Message):
@@ -104,8 +105,30 @@ async def date_time_func(message: Message):
     dttime = dt.now(tz(time_zone)).strftime(t_form)
 
     if not c_name:
-        c_name = Config.WEATHER_DEFCITY.capitalize() if Config.WEATHER_DEFCITY else ""
+        s_o = await LOC_NAME.find_one({"_id": "LOC_NAME"})
+        c_name = s_o["name"] if s_o else ""
 
     await message.edit(
         f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name} ({time_zone} timezone).`"
     )
+
+
+@userge.on_cmd(
+    "setloc",
+    about={
+        "header": "Set the location disaplay name with the time zone you set",
+    },
+)
+async def set_loc_(message: Message)
+    loc_name = message.input_str
+    if not loc_name:
+        return await message.err('Input Not found', del_in=3)
+    result = await LOC_NAME.update_one(
+        {"_id": "LOC_NAME"}, {"$set": {"name": loc_name}}, upsert=True
+    )
+    out = "{} Display Location to <b>{}</b>"
+    if result.upserted_id:
+        out = out.format("Added", loc_name)
+    else:
+        out = out.format("Updated", loc_name)
+    await message.edit(out, del_in=5)

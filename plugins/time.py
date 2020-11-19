@@ -53,11 +53,11 @@ async def get_tz(con):
     },
 )
 async def date_time_func(message: Message):
-    """For .dt command, return the date and time of
-    1. The country passed as an argument,
-    2. The default userbot country,
-    3. The server where the userbot runs.
-    """
+    """get date and time"""
+    # For .dt command, return the date and time of
+    # 1. The country passed as an argument,
+    # 2. The default userbot country,
+    # 3. The server where the userbot runs.
     con = message.matches[0].group(1).title()
     tz_num = message.matches[0].group(2)
     d_form = "%d/%m/%y - %A"
@@ -109,7 +109,7 @@ async def date_time_func(message: Message):
         c_name = s_o["name"] if s_o else ""
 
     await message.edit(
-        f"`It's`  **{dttime}** `on` **{dtnow}** `in {c_name} ({time_zone} timezone).`"
+        f"<code>It's</code>  **{dttime}** <code>on</code> **{dtnow}** <code>in</code> {c_name} ({time_zone} timezone)."
     )
 
 
@@ -120,6 +120,7 @@ async def date_time_func(message: Message):
     },
 )
 async def set_loc_(message: Message):
+    """set display location"""
     loc_name = message.input_str
     if not loc_name:
         return await message.err("Input Not found", del_in=3)

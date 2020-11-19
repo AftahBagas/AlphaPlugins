@@ -119,7 +119,7 @@ async def date_time_func(message: Message):
         "header": "Set the location disaplay name with the time zone you set",
     },
 )
-async def set_loc_(message: Message)
+async def set_loc_(message: Message):
     loc_name = message.input_str
     if not loc_name:
         return await message.err('Input Not found', del_in=3)

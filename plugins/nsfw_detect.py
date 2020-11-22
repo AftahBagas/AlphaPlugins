@@ -4,7 +4,9 @@
 """Detects Nsfw content with the help of A.I."""
 
 import os
+
 import aiohttp
+
 # if you prefer requests
 # import requests
 from userge import Config, Message, userge
@@ -30,7 +32,7 @@ async def detect_(message: Message):
         )
         return
     image = await media_to_image(message)
-    
+
     # Request method
     # r = requests.post(
     #     "https://api.deepai.org/api/nsfw-detector",
@@ -63,12 +65,12 @@ async def detect_(message: Message):
 # Aiohttp method
 async def post_photo(photo: str):
     async with aiohttp.ClientSession() as session:
-        async with  session.post(
+        async with session.post(
             "https://api.deepai.org/api/nsfw-detector",
-            data = {
-            "image": open(photo, "rb"),
+            data={
+                "image": open(photo, "rb"),
             },
-            headers = {"api-key": Config.DEEP_AI}
+            headers={"api-key": Config.DEEP_AI},
         ) as response:
             result = await response.json()
     return result

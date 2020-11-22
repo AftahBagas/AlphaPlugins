@@ -4,8 +4,9 @@
 """Detects Nsfw content with the help of A.I."""
 
 import os
-
-import requests
+import aiohttp
+# if you prefer requests
+# import requests
 from userge import Config, Message, userge
 from userge.utils import media_to_image
 
@@ -28,29 +29,46 @@ async def detect_(message: Message):
             "add VAR `DEEP_AI` get Api Key from https://deepai.org/", del_in=7
         )
         return
-    photo = await media_to_image(message)
-    r = requests.post(
-        "https://api.deepai.org/api/nsfw-detector",
-        files={
-            "image": open(photo, "rb"),
-        },
-        headers={"api-key": Config.DEEP_AI},
-    )
-    os.remove(photo)
-    if "status" in r.json():
-        await message.err(r.json()["status"], del_in=6)
+    image = await media_to_image(message)
+    
+    # Request method
+    # r = requests.post(
+    #     "https://api.deepai.org/api/nsfw-detector",
+    #     files={
+    #         "image": open(photo, "rb"),
+    #     },
+    #     headers={"api-key": Config.DEEP_AI},
+    # )
+
+    out = await post_photo(image)
+    if "status" in out:
+        await message.err(out["status"], del_in=6)
         return
-    r_json = r.json()["output"]
-    pic_id = r.json()["id"]
+    r_json = out["output"]
+    pic_id = out["id"]
     percentage = r_json["nsfw_score"] * 100
     detections = r_json["detections"]
-    result = "<b><u>Detected Nudity</u> :</b>\n[>>>](https://api.deepai.org/job-view-file/{}/inputs/image.jpg) <code>{:.3f} %</code>\n\n".format(
+    result = "<b><u>Detected Nudity</u> :</b>\n[❯❯❯](https://api.deepai.org/job-view-file/{}/inputs/image.jpg) <code>{:.3f} %</code>\n\n".format(
         pic_id, percentage
     )
-
     if detections:
         for parts in detections:
             name = parts["name"]
             confidence = int(float(parts["confidence"]) * 100)
             result += f"• {name}:\n   <code>{confidence} %</code>\n"
     await message.edit(result, disable_web_page_preview=True)
+    os.remove(image)
+
+
+# Aiohttp method
+async def post_photo(photo: str):
+    async with aiohttp.ClientSession() as session:
+        async with  session.post(
+            "https://api.deepai.org/api/nsfw-detector",
+            data = {
+            "image": open(photo, "rb"),
+            },
+            headers = {"api-key": Config.DEEP_AI}
+        ) as response:
+            result = await response.json()
+    return result

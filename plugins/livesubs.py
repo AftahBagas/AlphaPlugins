@@ -3,12 +3,16 @@
 import asyncio
 
 from pyrogram.errors import FloodWait
-from userge import userge, Message
+from userge import Message, userge
 
 
-@userge.on_cmd("livesubs", about={
-    'header': "Live Subscriber count for Public Groups and Channels",
-    'usage': "{tr}livesubs [chat id]"})
+@userge.on_cmd(
+    "livesubs",
+    about={
+        "header": "Live Subscriber count for Public Groups and Channels",
+        "usage": "{tr}livesubs [chat id]",
+    },
+)
 async def live_subs(msg: Message):
     input_ = msg.input_str
     chat = msg.chat if msg.chat.type != "private" else None
@@ -26,8 +30,7 @@ async def live_subs(msg: Message):
             try:
                 subs = await msg.client.get_chat_members_count(chat.id)
                 await msg.edit(
-                    f"**Live Members Count of {username}**\n\n"
-                    f"Members = `{subs}`"
+                    f"**Live Members Count of {username}**\n\n" f"Members = `{subs}`"
                 )
                 await asyncio.sleep(3)
             except FloodWait as fw:

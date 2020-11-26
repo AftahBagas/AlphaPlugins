@@ -25,8 +25,8 @@ async def anime_Scene(message: Message):
     monika_faces = list("abcdefghijklmnopqr")
 
     natsuki_faces = list("abcdefghijklmnopqrstuvwxyz")
-    # fmt: off
-    natsuki_faces.extend(
+    
+    natsuki_faces.extend( # fmt: off
         [
             "1t",
             "2bt",
@@ -55,8 +55,8 @@ async def anime_Scene(message: Message):
     sayori_faces = list("abcdefghijklmnopqrstuvwxy")
 
     yuri_faces = list("abcdefghijklmnopqrstuvwx")
-    # fmt: off
-    background = [
+    
+    background = [ # fmt: off
         "bedroom",
         "class",
         "closet",

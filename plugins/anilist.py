@@ -15,7 +15,8 @@ import humanize
 import tracemoepy
 from aiohttp import ClientSession
 from userge import Config, Message, get_collection, userge
-from userge.utils import progress, take_screen_shot, post_to_telegraph as post_to_tp
+from userge.utils import post_to_telegraph as post_to_tp
+from userge.utils import progress, take_screen_shot
 
 # Logging Errors
 CLOG = userge.getCLogger(__name__)

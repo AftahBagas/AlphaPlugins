@@ -14,9 +14,8 @@ import flag as cflag
 import humanize
 import tracemoepy
 from aiohttp import ClientSession
-from html_telegraph_poster import TelegraphPoster
 from userge import Config, Message, get_collection, userge
-from userge.utils import progress, take_screen_shot
+from userge.utils import progress, take_screen_shot, post_to_telegraph as post_to_tp
 
 # Logging Errors
 CLOG = userge.getCLogger(__name__)
@@ -189,20 +188,6 @@ async def return_json_senpai(query, vars_):
         post_con = await api_.post(url_, json={"query": query, "variables": vars_})
         json_data = await post_con.json()
         return json_data
-
-
-def post_to_tp(a_title, content):
-    """ Create a Telegram Post using HTML Content """
-    post_client = TelegraphPoster(use_api=True)
-    auth_name = "@PhycoNinja13b"
-    post_client.create_api_token(auth_name)
-    post_page = post_client.post(
-        title=a_title,
-        author=auth_name,
-        author_url="https://t.me/PhycoNinja13b",
-        text=content,
-    )
-    return post_page["url"]
 
 
 def make_it_rw(time_stamp, as_countdown=False):

@@ -52,7 +52,7 @@ async def google_img(message: Message):
         "safe": "off",
         "fileType": "jpg",
         "imgType": "photo",
-        "imgSize": "MEDIUM",
+        "imgSize": "LARGE",
     }
     await message.edit("`Processing...`")
     fetcher.search(search_params=search)

@@ -9,35 +9,34 @@
 """Google Photos
 """
 
-import asyncio
-import os
 import re
+import os
+import asyncio
 from mimetypes import guess_type
 
-import aiofiles
 import aiohttp
+import aiofiles
 from apiclient.discovery import build
 from httplib2 import Http
-from oauth2client import client, file
-from userge import Config, Message, userge
-from userge.plugins.misc.download import tg_download, url_download
+from oauth2client import file, client
+
+from userge import userge, Message, Config
 from userge.utils import progress
+from userge.plugins.misc.download import tg_download, url_download
 
 # setup the gPhotos v1 API
 OAUTH_SCOPE = [
     "https://www.googleapis.com/auth/photoslibrary",
-    "https://www.googleapis.com/auth/photoslibrary.sharing",
+    "https://www.googleapis.com/auth/photoslibrary.sharing"
 ]
 # Redirect URI for installed apps, can be left as is
 REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob"
 PHOTOS_BASE_URI = "https://photoslibrary.googleapis.com"
 
 G_PHOTOS_CLIENT_ID = os.environ.get(
-    "G_PHOTOS_CLIENT_ID", os.environ.get("G_DRIVE_CLIENT_ID", None)
-)
+    "G_PHOTOS_CLIENT_ID", os.environ.get("G_DRIVE_CLIENT_ID", None))
 G_PHOTOS_CLIENT_SECRET = os.environ.get(
-    "G_PHOTOS_CLIENT_SECRET", os.environ.get("G_DRIVE_CLIENT_SECRET", None)
-)
+    "G_PHOTOS_CLIENT_SECRET", os.environ.get("G_DRIVE_CLIENT_SECRET", None))
 TOKEN_FILE_NAME = os.path.join(Config.DOWN_PATH, "gPhoto_credentials_UserGe.json")
 G_PHOTOS_AUTH_TOKEN_ID = int(os.environ.get("G_PHOTOS_AUTH_TOKEN_ID", 0))
 
@@ -45,7 +44,7 @@ LOG = userge.getLogger(__name__)
 CHANNEL = userge.getCLogger(__name__)
 
 
-@userge.on_cmd("gpsetup", about={"header": "setup gphotos"})
+@userge.on_cmd("gpsetup", about={'header': "setup gphotos"})
 async def setup_google_photos(message: Message):
     if G_PHOTOS_CLIENT_ID is None or G_PHOTOS_CLIENT_SECRET is None:
         await message.err("first fill gphoto id and secret")
@@ -65,7 +64,7 @@ async def create_token_file():
         G_PHOTOS_CLIENT_ID,
         G_PHOTOS_CLIENT_SECRET,
         OAUTH_SCOPE,
-        redirect_uri=REDIRECT_URI,
+        redirect_uri=REDIRECT_URI
     )
     authorize_url = flow.step1_get_authorize_url()
     async with userge.conversation(Config.LOG_CHANNEL_ID, timeout=150) as conv:
@@ -86,7 +85,7 @@ async def create_token_file():
             f"<u>{imp_gsem.message_id}</u> ..!"
             "\n\n<i>This is only required, "
             "if you are running in an ephimeral file-system</i>.",
-            parse_mode="html",
+            parse_mode="html"
         )
         return storage
 
@@ -94,7 +93,9 @@ async def create_token_file():
 async def check_creds(message):
     if G_PHOTOS_AUTH_TOKEN_ID:
         confidential_message = await message.client.get_messages(
-            chat_id=Config.LOG_CHANNEL_ID, message_ids=G_PHOTOS_AUTH_TOKEN_ID, replies=0
+            chat_id=Config.LOG_CHANNEL_ID,
+            message_ids=G_PHOTOS_AUTH_TOKEN_ID,
+            replies=0
         )
         if confidential_message and confidential_message.document:
             await confidential_message.download(file_name=TOKEN_FILE_NAME)
@@ -108,18 +109,12 @@ async def check_creds(message):
     return None
 
 
-@userge.on_cmd(
-    "gpupload",
-    about={
-        "header": "upload files to gphoto",
-        "usage": "{tr}gphoto upload [link | path | reply to media]",
-        "examples": [
-            "{tr}gpupload downloads/img.jpg",
-            "{tr}gpupload https://imgur.com/download/Inyeb1S",
-        ],
-    },
-    check_down_path=True,
-)
+@userge.on_cmd("gpupload", about={
+    'header': "upload files to gphoto",
+    'usage': "{tr}gpupload [link | path | reply to media]",
+    'examples': [
+        "{tr}gpupload downloads/img.jpg",
+        "{tr}gpupload https://imgur.com/download/Inyeb1S"]}, check_down_path=True)
 async def upload_google_photos(message: Message):
     creds = await check_creds(message)
     if not creds:
@@ -151,9 +146,7 @@ async def upload_google_photos(message: Message):
             "Authorization": "Bearer " + creds.access_token,
         }
         # Step 1: Initiating an upload session
-        step_one_response = await session.post(
-            f"{PHOTOS_BASE_URI}/v1/uploads", headers=headers
-        )
+        step_one_response = await session.post(f"{PHOTOS_BASE_URI}/v1/uploads", headers=headers)
         if step_one_response.status != 200:
             await message.edit_text((await step_one_response.text()))
             return
@@ -162,9 +155,7 @@ async def upload_google_photos(message: Message):
         # Step 2: Saving the session URL
         real_upload_url = step_one_resp_headers.get("X-Goog-Upload-URL")
         # LOG.info(real_upload_url)
-        upload_granularity = int(
-            step_one_resp_headers.get("X-Goog-Upload-Chunk-Granularity")
-        )
+        upload_granularity = int(step_one_resp_headers.get("X-Goog-Upload-Chunk-Granularity"))
         # LOG.info(upload_granularity)
         # https://t.me/c/1279877202/74
         number_of_req_s = int(file_size / upload_granularity)
@@ -183,14 +174,9 @@ async def upload_google_photos(message: Message):
                 }
                 # LOG.info(i)
                 # LOG.info(headers)
-                response = await session.post(
-                    real_upload_url, headers=headers, data=current_chunk
-                )
-                loop.create_task(
-                    progress(
-                        offset + part_size, file_size, message, "uploading(gphoto)🧐?"
-                    )
-                )
+                response = await session.post(real_upload_url, headers=headers, data=current_chunk)
+                loop.create_task(progress(offset + part_size, file_size,
+                                          message, "uploading(gphoto)🧐?"))
                 # LOG.info(response.headers)
                 # https://github.com/SpEcHiDe/UniBorg/commit/8267811b1248c00cd1e34041e2ae8c82b207970f
                 # await f_d.seek(upload_granularity)
@@ -205,37 +191,26 @@ async def upload_google_photos(message: Message):
                 "Authorization": "Bearer " + creds.access_token,
             }
             # LOG.info(headers)
-            response = await session.post(
-                real_upload_url, headers=headers, data=current_chunk
-            )
+            response = await session.post(real_upload_url, headers=headers, data=current_chunk)
             # LOG.info(response.headers)
         final_response_text = await response.text()
         # LOG.info(final_response_text)
     await message.edit_text("uploaded to Google Photos, getting FILE URI 🤔🤔")
-    response_create_album = (
-        service.mediaItems()
-        .batchCreate(
-            body={
-                "newMediaItems": [
-                    {
-                        "description": "uploaded using @UniBorg v7",
-                        "simpleMediaItem": {
-                            "fileName": file_name,
-                            "uploadToken": final_response_text,
-                        },
-                    }
-                ]
-            }
-        )
-        .execute()
-    )
+    response_create_album = service.mediaItems().batchCreate(
+        body={
+            "newMediaItems": [{
+                "description": "uploaded using @UniBorg v7",
+                "simpleMediaItem": {
+                    "fileName": file_name,
+                    "uploadToken": final_response_text
+                }
+            }]
+        }
+    ).execute()
     # LOG.info(response_create_album)
     try:
-        photo_url = (
-            response_create_album.get("newMediaItemResults")[0]
-            .get("mediaItem")
-            .get("productUrl")
-        )
+        photo_url = response_create_album.get(
+            "newMediaItemResults")[0].get("mediaItem").get("productUrl")
         await message.edit_text(photo_url)
     except Exception as e:  # pylint: disable=broad-except
         await message.edit_text(str(e))

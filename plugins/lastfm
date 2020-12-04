@@ -88,4 +88,5 @@ if LASTFM_USER and LASTFM_API_KEY:
             async with session.get(API, params=params) as resp:
                 status_code = resp.status
                 json_ = await resp.json()
-                return status_code, json_
+            session.close()
+        return status_code, json_

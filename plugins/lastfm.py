@@ -63,7 +63,7 @@ if LASTFM_USER and LASTFM_API_KEY:
         }
         view_data = (await get_response(params))[1]
         lastuser = view_data["user"]
-        print(lastuser)
+      
 
         if lastuser["gender"] == "m":
             gender = "🙎‍♂️ "

@@ -1,7 +1,7 @@
 import aiohttp
 from userge import Config, Message, userge
 
-LASTFM_USER = Config.LASTFM_USER
+LASTFM_USER = Config.LASTFM_USERNAME
 LASTFM_API_KEY = Config.LASTFM_API_KEY
 API = "http://ws.audioscrobbler.com/2.0"
 

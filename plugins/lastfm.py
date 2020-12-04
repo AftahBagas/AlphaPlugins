@@ -1,60 +1,73 @@
 import aiohttp
 from userge import Config, Message, userge
 
-
 LASTFM_USER = Config.LASTFM_USER
 LASTFM_API_KEY = Config.LASTFM_API_KEY
-API = 'http://ws.audioscrobbler.com/2.0'
+API = "http://ws.audioscrobbler.com/2.0"
 
 
 if LASTFM_USER and LASTFM_API_KEY:
 
-
-    @userge.on_cmd("lastfm", about={"header": "Get Lastfm now playing pic"}, allow_channels=True)
+    @userge.on_cmd(
+        "lastfm", about={"header": "Get Lastfm now playing pic"}, allow_channels=True
+    )
     async def last_fm_pic_(message: Message):
         params = {
-            'method': 'user.getrecenttracks',
-            'limit': 1,
-            'extended': 1,
-            'user': LASTFM_USER,
-            'api_key': LASTFM_API_KEY,
-            'format': 'json'
+            "method": "user.getrecenttracks",
+            "limit": 1,
+            "extended": 1,
+            "user": LASTFM_USER,
+            "api_key": LASTFM_API_KEY,
+            "format": "json",
         }
         view_data = (await get_response(params))[1]
         recent_song = view_data["recenttracks"]["track"]
         if not recent_song:
-            return await message.err('error')
+            return await message.err("error")
         rep = f"<b>[{LASTFM_USER}](https://www.last.fm/user/{LASTFM_USER})</b> is currently listening to\n"
         song_ = recent_song[0]
-        song_name = song_['name']
-        artist_name = song_['artist']['name']
+        song_name = song_["name"]
+        artist_name = song_["artist"]["name"]
         rep += f"🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
-        if not song_['loved'] == "0":
+        if not song_["loved"] == "0":
             rep += " (♥️, loved)"
-        get_track = ((await get_response({'method': 'track.getInfo', 'track': song_name, 'artist': artist_name, 'api_key': LASTFM_API_KEY, 'format': 'json'}))[1])['track']
-        img = get_track['album']['image'].pop()
+        get_track = (
+            (
+                await get_response(
+                    {
+                        "method": "track.getInfo",
+                        "track": song_name,
+                        "artist": artist_name,
+                        "api_key": LASTFM_API_KEY,
+                        "format": "json",
+                    }
+                )
+            )[1]
+        )["track"]
+        img = get_track["album"]["image"].pop()
         get_tags = "\n"
-        for tags in get_track['toptags']['tag']:
+        for tags in get_track["toptags"]["tag"]:
             get_tags += f"[#{tags['name']}]({tags['url']})  "
         await message.edit(f"[\u200c]({img['#text']})" + rep + get_tags)
 
-
-    @userge.on_cmd("lfm_user", about={"header": "Get Lastfm user info"}, allow_channels=True)
+    @userge.on_cmd(
+        "lfm_user", about={"header": "Get Lastfm user info"}, allow_channels=True
+    )
     async def last_fm_user_info_(message: Message):
         user = message.input_str if message.input_str else LASTFM_USER
         params = {
-            'method': 'user.getInfo',
-            'user': user,
-            'api_key': LASTFM_API_KEY,
-            'format': 'json'
+            "method": "user.getInfo",
+            "user": user,
+            "api_key": LASTFM_API_KEY,
+            "format": "json",
         }
         view_data = (await get_response(params))[1]
-        lastuser = view_data['user']
+        lastuser = view_data["user"]
         print(lastuser)
 
-        if lastuser['gender'] == 'm':
+        if lastuser["gender"] == "m":
             gender = "🙎‍♂️ "
-        elif lastuser['gender'] == 'f':
+        elif lastuser["gender"] == "f":
             gender = "🙍‍♀️ "
         else:
             gender = "👤 "
@@ -70,12 +83,10 @@ if LASTFM_USER and LASTFM_API_KEY:
     ⭐️ <b>Subscriber:</b> {lastuser['subscriber']}
     """
         await message.edit(result)
-    
-    
+
     async def get_response(params: dict):
         async with aiohttp.ClientSession() as session:
             async with session.get(API, params=params) as resp:
                 status_code = resp.status
                 json_ = await resp.json()
                 return status_code, json_
-

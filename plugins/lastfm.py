@@ -1,63 +1,81 @@
-"""Last FM"""
-
-
+import aiohttp
 from userge import Config, Message, userge
-from userge.utils.helper import AioHttp
-
-##The following command has been taken from lastfm plugin of a group management bot that can be found on telegram as @TheRealPhoenixBot (https://t.me/TheRealPhoenixBot)##
-##The above stated bot's repo link - https://github.com/rsktg/TheRealPhoenixBot##
-##The owner of this command and the above stated bot can be found on telegram as @TheRealPhoenix and on github as Real Phoenix (https://github.com/rsktg)##
 
 
-@userge.on_cmd(
-    "lastfm",
-    about={
-        "header": "Shows currently scrobbling track or most recent scrobbles if nothing is playing."
-    },
-)
-async def last_fm_pic_(message: Message):
-    user = await userge.get_me()
-    base_url = "http://ws.audioscrobbler.com/2.0"
-    res = await AioHttp.get_json(
-        f"{base_url}?method=user.getrecenttracks&limit=3&extended=1&user={Config.LASTFM_USERNAME}&api_key={Config.LASTFM_API_KEY}&format=json"
-    )
-    if not res[0] == 200:
-        return await message.edit(
-            "Hmm... something went wrong.\nPlease ensure that you've set the correct username!"
-        )
-    res = res[1]
-    try:
-        first_track = res.get("recenttracks").get("track")[0]
-    except IndexError:
-        return await message.edit("You don't seem to have scrobbled any songs...")
-    if first_track.get("@attr"):
-        # Ensures the track is now playing
-        image = first_track.get("image")[3].get("#text")  # Grab URL of 300x300 image
-        artist = first_track.get("artist").get("name")
-        song = first_track.get("name")
-        loved = int(first_track.get("loved"))
-        rep = f"<b>{user.first_name}</b> is currently listening to:\n"
-        if not loved:
-            rep += f"🎧  <code>{artist} - {song}</code>"
-        else:
-            rep += f"🎧  <code>{artist} - {song}</code> (♥️, loved)"
-        if image:
-            rep += f"<a href='{image}'>\u200c</a>"
-    else:
-        tracks = res.get("recenttracks").get("track")
-        track_dict = {
-            tracks[i].get("artist").get("name"): tracks[i].get("name") for i in range(3)
+LASTFM_USER = Config.LASTFM_USER
+LASTFM_API_KEY = Config.LASTFM_API_KEY
+API = 'http://ws.audioscrobbler.com/2.0'
+
+
+if LASTFM_USER and LASTFM_API_KEY:
+
+
+    @userge.on_cmd("lastfm", about={"header": "Get Lastfm now playing pic"}, allow_channels=True)
+    async def last_fm_pic_(message: Message):
+        params = {
+            'method': 'user.getrecenttracks',
+            'limit': 1,
+            'extended': 1,
+            'user': LASTFM_USER,
+            'api_key': LASTFM_API_KEY,
+            'format': 'json'
         }
-        rep = f"<b>{user.first_name}</b> was listening to:\n"
-        for artist, song in track_dict.items():
-            rep += f"🎧  <code>{artist} - {song}</code>\n"
+        view_data = (await get_response(params))[1]
+        recent_song = view_data["recenttracks"]["track"]
+        if not recent_song:
+            return await message.err('error')
+        rep = f"<b>[{LASTFM_USER}](https://www.last.fm/user/{LASTFM_USER})</b> is currently listening to\n"
+        song_ = recent_song[0]
+        song_name = song_['name']
+        artist_name = song_['artist']['name']
+        rep += f"🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
+        if not song_['loved'] == "0":
+            rep += " (♥️, loved)"
+        get_track = ((await get_response({'method': 'track.getInfo', 'track': song_name, 'artist': artist_name, 'api_key': LASTFM_API_KEY, 'format': 'json'}))[1])['track']
+        img = get_track['album']['image'].pop()
+        get_tags = "\n"
+        for tags in get_track['toptags']['tag']:
+            get_tags += f"[#{tags['name']}]({tags['url']})  "
+        await message.edit(f"[\u200c]({img['#text']})" + rep + get_tags)
 
-        last_user = (
-            await AioHttp.get_json(
-                f"{base_url}?method=user.getinfo&user={Config.LASTFM_USERNAME}&api_key={Config.LASTFM_API_KEY}&format=json"
-            )
-        )[1].get("user")
-        scrobbles = last_user.get("playcount")
-        rep += f"\n(<code>{scrobbles}</code> scrobbles so far)"
 
-    return await message.edit(rep, parse_mode="html")
+    @userge.on_cmd("lfm_user", about={"header": "Get Lastfm user info"}, allow_channels=True)
+    async def last_fm_user_info_(message: Message):
+        user = message.input_str if message.input_str else LASTFM_USER
+        params = {
+            'method': 'user.getInfo',
+            'user': user,
+            'api_key': LASTFM_API_KEY,
+            'format': 'json'
+        }
+        view_data = (await get_response(params))[1]
+        lastuser = view_data['user']
+        print(lastuser)
+
+        if lastuser['gender'] == 'm':
+            gender = "🙎‍♂️ "
+        elif lastuser['gender'] == 'f':
+            gender = "🙍‍♀️ "
+        else:
+            gender = "👤 "
+        lastimg = lastuser["image"].pop()
+        result = f"""
+    [\u200c]({lastimg['#text']})
+    <b>LastFM User Info for [{LASTFM_USER}]({lastuser['url']})</b>:
+    {gender}<b>Name:</b> {lastuser["realname"]}
+    🎂 <b>Age:</b> {lastuser['age']}
+    ▶️ <b>Playlists:</b> {lastuser['playlists']}
+    🎵 <b>Total Scrobbles:</b> {lastuser["playcount"]}
+    🌍 <b>Country:</b> {lastuser['country']}
+    ⭐️ <b>Subscriber:</b> {lastuser['subscriber']}
+    """
+        await message.edit(result)
+    
+    
+    async def get_response(params: dict):
+        async with aiohttp.ClientSession() as session:
+            async with session.get(API, params=params) as resp:
+                status_code = resp.status
+                json_ = await resp.json()
+                return status_code, json_
+

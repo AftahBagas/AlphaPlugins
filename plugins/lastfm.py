@@ -13,7 +13,6 @@ import aiohttp
 from userge import Config, Message, userge
 from userge.utils import rand_array
 
-
 API = "http://ws.audioscrobbler.com/2.0"
 
 # In Case Song Does't have any Album Art.
@@ -28,9 +27,8 @@ PIC_URL = [
 if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
 
     @userge.on_cmd(
-        "lastfm", about={"header": "Get Lastfm now playing pic"
-        
-},
+        "lastfm",
+        about={"header": "Get Lastfm now playing pic"},
     )
     async def last_fm_pic_(message: Message):
         """now playing"""
@@ -81,10 +79,11 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         await message.edit(f"[\u200c]({img})" + rep + get_tags)
 
     @userge.on_cmd(
-        "lastuser", about={"header": "Get Lastfm user info",
-         "usage": "{tr}lastuser [lastfm username] (optional)"
-},
-
+        "lastuser",
+        about={
+            "header": "Get Lastfm user info",
+            "usage": "{tr}lastuser [lastfm username] (optional)",
+        },
     )
     async def last_fm_user_info_(message: Message):
         """user info"""
@@ -125,9 +124,11 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         await message.edit(result)
 
     @userge.on_cmd(
-        "lastlove", about={"header": "Get Lastfm Loved Tracks",
-"usage": "{tr}lastlove [lastfm username] (optional)"
-}
+        "lastlove",
+        about={
+            "header": "Get Lastfm Loved Tracks",
+            "usage": "{tr}lastlove [lastfm username] (optional)",
+        },
     )
     async def last_fm_loved_tracks_(message: Message):
         """liked songs"""
@@ -158,10 +159,10 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
 
     @userge.on_cmd(
         "lastplayed",
-        about={"header": "Get Upto 15 recently played LastFm Songs",
-"usage": "{tr}lastplayed [lastFM username] (optional)"
-},
-        
+        about={
+            "header": "Get Upto 15 recently played LastFm Songs",
+            "usage": "{tr}lastplayed [lastFM username] (optional)",
+        },
     )
     async def last_fm_played_(message: Message):
         """recently played songs"""

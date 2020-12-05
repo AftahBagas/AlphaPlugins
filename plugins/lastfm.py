@@ -146,7 +146,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
             artist_name = song_["artist"]["name"]
             rep += f"\n{count}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
             count += 1
-        await message.edit(rep, disable_web)
+        await message.edit(rep)
 
     @userge.on_cmd(
         "lastsongs",

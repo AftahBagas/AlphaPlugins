@@ -20,7 +20,7 @@ PIC_URL = [
     "https://i.imgur.com/l772pcA.png",
     "https://i.imgur.com/KehK98D.png",
     "https://i.imgur.com/LuwSKeO.png",
-    "https://i.imgur.com/EZ1S9cJ.png"
+    "https://i.imgur.com/EZ1S9cJ.png",
 ]
 
 
@@ -41,7 +41,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         }
         view_data = (await get_response(params))[1]
         if "error" in view_data:
-            return await message.err(view_data['error'], del_in=5)
+            return await message.err(view_data["error"], del_in=5)
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
@@ -66,13 +66,16 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
                 )
             )[1]
         )["track"]
-        img = (get_track["album"]["image"].pop())['#text'] if get_track.get("album") else rand_array(PIC_URL)
+        img = (
+            (get_track["album"]["image"].pop())["#text"]
+            if get_track.get("album")
+            else rand_array(PIC_URL)
+        )
         get_tags = "\n"
         # tags of the given track
         for tags in get_track["toptags"]["tag"]:
             get_tags += f"[#{tags['name']}]({tags['url']})  "
         await message.edit(f"[\u200c]({img})" + rep + get_tags)
-
 
     @userge.on_cmd(
         "lastuser", about={"header": "Get Lastfm user info"}, allow_channels=True
@@ -88,7 +91,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         }
         view_data = (await get_response(params))[1]
         if "error" in view_data:
-            return await message.err(view_data['error'], del_in=5)
+            return await message.err(view_data["error"], del_in=5)
         lastuser = view_data["user"]
         if lastuser["gender"] == "m":
             gender = "🙎‍♂️ "
@@ -97,9 +100,9 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         else:
             gender = "👤 "
         lastimg = lastuser["image"].pop() if len(lastuser["image"]) != 0 else None
-        age = lastuser['age']
-        playlist = lastuser['playlists']
-        subscriber = lastuser['subscriber']
+        age = lastuser["age"]
+        playlist = lastuser["playlists"]
+        subscriber = lastuser["subscriber"]
         result = ""
         if lastimg:
             result += f"[\u200c]({lastimg['#text']})"
@@ -115,8 +118,9 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
             result += f" ⭐️ <b>Subscriber:</b> {subscriber}"
         await message.edit(result)
 
-
-    @userge.on_cmd("lastlove", about={"header": "Get Lastfm Loved Tracks"}, allow_channels=True)
+    @userge.on_cmd(
+        "lastlove", about={"header": "Get Lastfm Loved Tracks"}, allow_channels=True
+    )
     async def last_fm_loved_tracks_(message: Message):
         """liked songs"""
         user_ = message.input_str or Config.LASTFM_USERNAME
@@ -131,7 +135,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         view_data = (await get_response(params))[1]
         tracks = view_data["lovedtracks"]["track"]
         if "error" in view_data:
-            return await message.err(view_data['error'], del_in=5)
+            return await message.err(view_data["error"], del_in=5)
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
         num = min(len(tracks), 10)
@@ -144,9 +148,10 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
             count += 1
         await message.edit(rep, disable_web)
 
-
     @userge.on_cmd(
-        "lastsongs", about={"header": "Get Upto 15 recently played LastFm Songs"}, allow_channels=True
+        "lastsongs",
+        about={"header": "Get Upto 15 recently played LastFm Songs"},
+        allow_channels=True,
     )
     async def last_fm_pic_(message: Message):
         """play histoy"""
@@ -161,7 +166,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         }
         view_data = (await get_response(params))[1]
         if "error" in view_data:
-            return await message.err(view_data['error'], del_in=5)
+            return await message.err(view_data["error"], del_in=5)
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
@@ -175,7 +180,6 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
                 rep += " (♥️)"
             count += 1
         await message.edit(rep)
-
 
     async def get_response(params: dict):
         async with aiohttp.ClientSession() as session:

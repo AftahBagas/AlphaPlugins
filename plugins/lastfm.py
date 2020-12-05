@@ -13,6 +13,7 @@ import aiohttp
 from userge import Config, Message, userge
 from userge.utils import rand_array
 
+
 API = "http://ws.audioscrobbler.com/2.0"
 
 # In Case Song Does't have any Album Art.
@@ -27,7 +28,9 @@ PIC_URL = [
 if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
 
     @userge.on_cmd(
-        "lastfm", about={"header": "Get Lastfm now playing pic"}, allow_channels=True
+        "lastfm", about={"header": "Get Lastfm now playing pic"
+        
+},
     )
     async def last_fm_pic_(message: Message):
         """now playing"""
@@ -45,7 +48,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
-        rep = f"<b>[{Config.LASTFM_USERNAME}](https://www.last.fm/user/{Config.LASTFM_USERNAME})</b> is currently listening to 🎵\n"
+        rep = f"<b>[{Config.LASTFM_USERNAME}](https://www.last.fm/user/{Config.LASTFM_USERNAME})</b> is currently listening to ...\n"
         song_ = recent_song[0]
         song_name = song_["name"]
         artist_name = song_["artist"]["name"]
@@ -78,11 +81,14 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         await message.edit(f"[\u200c]({img})" + rep + get_tags)
 
     @userge.on_cmd(
-        "lastuser", about={"header": "Get Lastfm user info"}, allow_channels=True
+        "lastuser", about={"header": "Get Lastfm user info",
+         "usage": "{tr}lastuser [lastfm username] (optional)"
+},
+
     )
     async def last_fm_user_info_(message: Message):
         """user info"""
-        lfmuser = message.input_str if message.input_str else Config.LASTFM_USERNAME
+        lfmuser = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getInfo",
             "user": lfmuser,
@@ -119,14 +125,16 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         await message.edit(result)
 
     @userge.on_cmd(
-        "lastlove", about={"header": "Get Lastfm Loved Tracks"}, allow_channels=True
+        "lastlove", about={"header": "Get Lastfm Loved Tracks",
+"usage": "{tr}lastlove [lastfm username] (optional)"
+}
     )
     async def last_fm_loved_tracks_(message: Message):
         """liked songs"""
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getlovedtracks",
-            "limit": 10,
+            "limit": 15,
             "page": 1,
             "user": user_,
             "api_key": Config.LASTFM_API_KEY,
@@ -138,23 +146,25 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
             return await message.err(view_data["error"], del_in=5)
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
-        num = min(len(tracks), 10)
-        rep = f"<b>Showing {num} (♥️, loved) Tracks for [{user_}](https://www.last.fm/user/{user_})</b>:"
+        num = min(len(tracks), 15)
+        rep = f"<b>Showing {num} (♥️, loved) Tracks for [{user_}](https://www.last.fm/user/{user_})</b>"
         count = 1
         for song_ in tracks:
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]
             rep += f"\n{count}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
             count += 1
-        await message.edit(rep)
+        await message.edit(rep, disable_web_page_preview=True)
 
     @userge.on_cmd(
-        "lastsongs",
-        about={"header": "Get Upto 15 recently played LastFm Songs"},
-        allow_channels=True,
+        "lastplayed",
+        about={"header": "Get Upto 15 recently played LastFm Songs",
+"usage": "{tr}lastplayed [lastFM username] (optional)"
+},
+        
     )
-    async def last_fm_pic_(message: Message):
-        """play histoy"""
+    async def last_fm_played_(message: Message):
+        """recently played songs"""
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getrecenttracks",
@@ -179,7 +189,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
             if song_["loved"] != "0":
                 rep += " (♥️)"
             count += 1
-        await message.edit(rep)
+        await message.edit(rep, disable_web_page_preview=True)
 
     async def get_response(params: dict):
         async with aiohttp.ClientSession() as session:

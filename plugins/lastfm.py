@@ -24,7 +24,9 @@ PIC_URL = [
 ]
 
 
-if hasattr(Config, "LASTFM_API_KEY") and (Config.LASTFM_API_KEY and Config.LASTFM_USERNAME):
+if hasattr(Config, "LASTFM_API_KEY") and (
+    Config.LASTFM_API_KEY and Config.LASTFM_USERNAME
+):
 
     @userge.on_cmd(
         "lastfm",
@@ -147,7 +149,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (Config.LASTFM_API_KEY and Config.LASTF
             return await message.err(view_data["error"], del_in=5)
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
-      
+
         rep = f"<b>Favourite (♥️) Tracks for [{user_}](https://www.last.fm/user/{user_})</b>"
         count = 1
         for song_ in tracks:

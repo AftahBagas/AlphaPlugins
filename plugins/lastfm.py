@@ -24,7 +24,7 @@ PIC_URL = [
 ]
 
 
-if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
+if hasattr(Config, "LASTFM_API_KEY") and (Config.LASTFM_API_KEY and Config.LASTFM_USERNAME):
 
     @userge.on_cmd(
         "lastfm",
@@ -135,7 +135,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getlovedtracks",
-            "limit": 15,
+            "limit": 20,
             "page": 1,
             "user": user_,
             "api_key": Config.LASTFM_API_KEY,
@@ -147,8 +147,8 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
             return await message.err(view_data["error"], del_in=5)
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
-        num = min(len(tracks), 15)
-        rep = f"<b>Showing {num} (♥️, loved) Tracks for [{user_}](https://www.last.fm/user/{user_})</b>"
+      
+        rep = f"<b>Favourite (♥️) Tracks for [{user_}](https://www.last.fm/user/{user_})</b>"
         count = 1
         for song_ in tracks:
             song_name = song_["name"]
@@ -160,7 +160,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
     @userge.on_cmd(
         "lastplayed",
         about={
-            "header": "Get Upto 15 recently played LastFm Songs",
+            "header": "Get Upto 20 recently played LastFm Songs",
             "usage": "{tr}lastplayed [lastFM username] (optional)",
         },
     )
@@ -169,7 +169,7 @@ if Config.LASTFM_API_KEY and Config.LASTFM_USERNAME:
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getrecenttracks",
-            "limit": 15,
+            "limit": 20,
             "extended": 1,
             "user": user_,
             "api_key": Config.LASTFM_API_KEY,

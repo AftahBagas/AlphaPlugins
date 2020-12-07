@@ -34,7 +34,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     )
     async def last_fm_pic_(message: Message):
         """now playing"""
-        await message.edit('<code>Getting info from last.fm ...</code>')
+        await message.edit("<code>Getting info from last.fm ...</code>")
         params = {
             "method": "user.getrecenttracks",
             "limit": 1,
@@ -91,7 +91,9 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     async def last_fm_user_info_(message: Message):
         """user info"""
         lfmuser = message.input_str or Config.LASTFM_USERNAME
-        await message.edit(f"<code>Getting info about last.fm User: {lfmuser}</code> ...")
+        await message.edit(
+            f"<code>Getting info about last.fm User: {lfmuser}</code> ..."
+        )
         params = {
             "method": "user.getInfo",
             "user": lfmuser,
@@ -153,7 +155,9 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
 
-        rep = f"♥️ <b>Favourite Tracks of [{user_}](https://www.last.fm/user/{user_})</b>"
+        rep = (
+            f"♥️ <b>Favourite Tracks of [{user_}](https://www.last.fm/user/{user_})</b>"
+        )
         for count, song_ in enumerate(tracks, start=1):
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]
@@ -169,7 +173,9 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     )
     async def last_fm_played_(message: Message):
         """recently played songs"""
-        await message.edit("<code> 🎵 Fetching recently played songs from last.fm ...</code>")
+        await message.edit(
+            "<code> 🎵 Fetching recently played songs from last.fm ...</code>"
+        )
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getrecenttracks",

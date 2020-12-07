@@ -34,6 +34,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     )
     async def last_fm_pic_(message: Message):
         """now playing"""
+        await message.edit('<code>Getting info from last.fm ...</code>')
         params = {
             "method": "user.getrecenttracks",
             "limit": 1,
@@ -48,7 +49,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
-        rep = f"<b>[{Config.LASTFM_USERNAME}](https://www.last.fm/user/{Config.LASTFM_USERNAME})</b> is currently listening to ...\n"
+        rep = f"<b>[{Config.LASTFM_USERNAME}](https://www.last.fm/user/{Config.LASTFM_USERNAME})</b> is currently listening to:\n"
         song_ = recent_song[0]
         song_name = song_["name"]
         artist_name = song_["artist"]["name"]
@@ -90,6 +91,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     async def last_fm_user_info_(message: Message):
         """user info"""
         lfmuser = message.input_str or Config.LASTFM_USERNAME
+        await message.edit(f"<code>Getting info about last.fm User: {lfmuser}</code> ...")
         params = {
             "method": "user.getInfo",
             "user": lfmuser,
@@ -135,9 +137,10 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     async def last_fm_loved_tracks_(message: Message):
         """liked songs"""
         user_ = message.input_str or Config.LASTFM_USERNAME
+        await message.edit(f"♥️<code> Fetching favourite tracks of {user_} ...</code>")
         params = {
             "method": "user.getlovedtracks",
-            "limit": 20,
+            "limit": 30,
             "page": 1,
             "user": user_,
             "api_key": Config.LASTFM_API_KEY,
@@ -150,26 +153,27 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
 
-        rep = f"<b>Favourite (♥️) Tracks for [{user_}](https://www.last.fm/user/{user_})</b>"
+        rep = f"♥️ <b>Favourite Tracks of [{user_}](https://www.last.fm/user/{user_})</b>"
         for count, song_ in enumerate(tracks, start=1):
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]
-            rep += f"\n{count}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
+            rep += f"\n{count:02d}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
         await message.edit(rep, disable_web_page_preview=True)
 
     @userge.on_cmd(
         "lastplayed",
         about={
-            "header": "Get Upto 20 recently played LastFm Songs",
+            "header": "Get recently played LastFm Songs",
             "usage": "{tr}lastplayed [lastFM username] (optional)",
         },
     )
     async def last_fm_played_(message: Message):
         """recently played songs"""
+        await message.edit("<code> 🎵 Fetching recently played songs from last.fm ...</code>")
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getrecenttracks",
-            "limit": 20,
+            "limit": 30,
             "extended": 1,
             "user": user_,
             "api_key": Config.LASTFM_API_KEY,
@@ -181,13 +185,13 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
-        rep = f"<b>[{user_}'s](https://www.last.fm/user/{user_})</b> recently played 🎵 songs:\n"
+        rep = f"<b>[{user_}'s](https://www.last.fm/user/{user_})</b> recently played songs:"
         for count, song_ in enumerate(recent_song, start=1):
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]
-            rep += f"\n{count}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
+            rep += f"\n{count:02d}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
             if song_["loved"] != "0":
-                rep += " (♥️)"
+                rep += " ♥️"
         await message.edit(rep, disable_web_page_preview=True)
 
     async def get_response(params: dict):

@@ -73,8 +73,7 @@ async def walld(strin: str):
     del list_a_s
     if not tit_links:
         return False
-    else:
-        return choice(tit_links)
+    return choice(tit_links)
 
 
 @userge.on_cmd(

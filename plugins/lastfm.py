@@ -49,11 +49,11 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
-        rep = f"<b>[{Config.LASTFM_USERNAME}](https://www.last.fm/user/{Config.LASTFM_USERNAME})</b> is currently listening to:\n"
+        rep = f"<b><a href=https://www.last.fm/user/{Config.LASTFM_USERNAME}>{Config.LASTFM_USERNAME}</a></b> is currently listening to:\n"
         song_ = recent_song[0]
         song_name = song_["name"]
         artist_name = song_["artist"]["name"]
-        rep += f"🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
+        rep += f"🎧  <b><a href={song_['url']}>{song_name}</a></b> - <a href={song_['artist']['url']}>{artist_name}</a>"
         if song_["loved"] != "0":
             rep += " (♥️, loved)"
         # Trying to Fetch Album of the track
@@ -78,8 +78,8 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         get_tags = "\n"
         # tags of the given track
         for tags in get_track["toptags"]["tag"]:
-            get_tags += f"[#{tags['name']}]({tags['url']})  "
-        await message.edit(f"[\u200c]({img})" + rep + get_tags)
+            get_tags += f"<a href={tags['url']}>#{tags['name']}</a>  "
+        await message.edit(f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html")
 
     @userge.on_cmd(
         "lastuser",
@@ -116,8 +116,8 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         subscriber = lastuser["subscriber"]
         result = ""
         if lastimg:
-            result += f"[\u200c]({lastimg['#text']})"
-        result += f"<b>LastFM User Info for [{lfmuser}]({lastuser['url']})</b>:\n"
+            result += f"<a href={lastimg['#text']}>\u200c</a>"
+        result += f"<b>LastFM User Info for <a href={lastuser['url']}>{lfmuser}</a></b>:\n"
         result += f" {gender}<b>Name:</b> {lastuser['realname']}\n"
         if age != "0":
             result += f" 🎂 <b>Age:</b> {age}\n"
@@ -127,7 +127,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             result += f" ▶️ <b>Playlists:</b> {playlist}\n"
         if subscriber != "0":
             result += f" ⭐️ <b>Subscriber:</b> {subscriber}"
-        await message.edit(result)
+        await message.edit(result, parse_mode="html")
 
     @userge.on_cmd(
         "lastlove",
@@ -156,13 +156,13 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             return await message.edit("You Don't have any Loved tracks yet.")
 
         rep = (
-            f"♥️ <b>Favourite Tracks of [{user_}](https://www.last.fm/user/{user_})</b>"
+            f"♥️ <b>Favourite Tracks of <a href=https://www.last.fm/user/{user_}>{user_}'s</a></b>"
         )
         for count, song_ in enumerate(tracks, start=1):
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]
-            rep += f"\n{count:02d}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
-        await message.edit(rep, disable_web_page_preview=True)
+            rep += f"\n{count:02d}. 🎧  <b><a href={song_['url']}>{song_name}</a></b> - <a href={song_['artist']['url']}>{artist_name}</a>"
+        await message.edit(rep, disable_web_page_preview=True, parse_mode="html")
 
     @userge.on_cmd(
         "lastplayed",
@@ -191,14 +191,14 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         recent_song = view_data["recenttracks"]["track"]
         if len(recent_song) == 0:
             return await message.err("No Recent Tracks found", del_in=5)
-        rep = f"<b>[{user_}'s](https://www.last.fm/user/{user_})</b> recently played songs:"
+        rep = f"<b><a href=https://www.last.fm/user/{user_}>{user_}'s</a></b> recently played songs:"
         for count, song_ in enumerate(recent_song, start=1):
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]
-            rep += f"\n{count:02d}. 🎧  <b>[{song_name}]({song_['url']})</b> - [{artist_name}]({song_['artist']['url']})"
+            rep += f"\n{count:02d}. 🎧  <b><a href={song_['url']}>{song_name}</a></b> - <a href={song_['artist']['url']}>{artist_name}</a>"
             if song_["loved"] != "0":
                 rep += " ♥️"
-        await message.edit(rep, disable_web_page_preview=True)
+        await message.edit(rep, disable_web_page_preview=True, parse_mode="html")
 
     async def get_response(params: dict):
         async with aiohttp.ClientSession() as session:

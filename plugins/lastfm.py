@@ -79,7 +79,9 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         # tags of the given track
         for tags in get_track["toptags"]["tag"]:
             get_tags += f"<a href={tags['url']}>#{tags['name']}</a>  "
-        await message.edit(f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html")
+        await message.edit(
+            f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html"
+        )
 
     @userge.on_cmd(
         "lastuser",
@@ -117,7 +119,9 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         result = ""
         if lastimg:
             result += f"<a href={lastimg['#text']}>\u200c</a>"
-        result += f"<b>LastFM User Info for <a href={lastuser['url']}>{lfmuser}</a></b>:\n"
+        result += (
+            f"<b>LastFM User Info for <a href={lastuser['url']}>{lfmuser}</a></b>:\n"
+        )
         result += f" {gender}<b>Name:</b> {lastuser['realname']}\n"
         if age != "0":
             result += f" 🎂 <b>Age:</b> {age}\n"
@@ -155,9 +159,7 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         if len(tracks) == 0:
             return await message.edit("You Don't have any Loved tracks yet.")
 
-        rep = (
-            f"♥️ <b>Favourite Tracks of <a href=https://www.last.fm/user/{user_}>{user_}'s</a></b>"
-        )
+        rep = f"♥️ <b>Favourite Tracks of <a href=https://www.last.fm/user/{user_}>{user_}'s</a></b>"
         for count, song_ in enumerate(tracks, start=1):
             song_name = song_["name"]
             artist_name = song_["artist"]["name"]

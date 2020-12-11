@@ -207,5 +207,5 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             async with session.get(API, params=params) as resp:
                 status_code = resp.status
                 json_ = await resp.json()
-            session.close()
+            await session.close()
         return status_code, json_

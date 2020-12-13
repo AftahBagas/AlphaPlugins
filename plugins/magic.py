@@ -135,19 +135,19 @@ async def spinn(message: Message):
         return await message.err(
             "can't send gif in this chat, Permission Denied !", del_in=5
         )
-    # Haha USERGE-X custom function
-    pic_loc = await media_to_image(message)
+    # to choose no. of frames i.e step_dict[6] or 60 => 360 / 60 = 6 frames
+    step_dict = {"1": 1, "2": 3, "3": 6, "4": 12, "5": 24, "6": 60}
     if "-s" in message.flags:
         step = step_dict.get(message.flags["-s"])
         if not step:
             return await message.err("Not valid value for flag '-s'", del_in=5)
     else:
         step = 1
+    # Haha USERGE-X custom function
+    pic_loc = await media_to_image(message)
     if not pic_loc:
         return await message.err("Reply to a valid media first", del_in=5)
     await message.edit("🌀 `Tighten your seatbelts, sh*t is about to get wild ...`")
-    # to choose no. of frames i.e step_dict[6] or 60 => 360 / 60 = 6 frames
-    step_dict = {"1": 1, "2": 3, "3": 6, "4": 12, "5": 24, "6": 60}
     # direction of rotation
     spin_dir = -1 if "-c" in message.flags else 1
     path = "userge/xcache/rotate-disc/"

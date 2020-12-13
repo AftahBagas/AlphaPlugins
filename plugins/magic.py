@@ -8,7 +8,7 @@
 
 
 import os
-import shutil
+from shutil import rmtree
 
 from PIL import Image, ImageOps
 from userge import Config, Message, userge
@@ -131,24 +131,27 @@ async def spinn(message: Message):
     reply = message.reply_to_message
     if not reply:
         return await message.err("Reply To Media First !", del_in=5)
+    if not message.chat.permissions.can_send_animations:
+        return await message.err("can't send gif in this chat, Permission Denied !", del_in=5)
     # Haha USERGE-X custom function
     pic_loc = await media_to_image(message)
-    if not pic_loc:
-        return await message.err("Reply to a valid media first", del_in=5)
-    await message.edit("🌀 `Tighten your seatbelts, sh*t is about to get wild ...`")
-    # to choose no. of frames i.e step_dict[6] or 60 => 360 / 60 = 6 frames
-    step_dict = {"1": 1, "2": 3, "3": 6, "4": 12, "5": 24, "6": 60}
     if "-s" in message.flags:
         step = step_dict.get(message.flags["-s"])
         if not step:
             return await message.err("Not valid value for flag '-s'", del_in=5)
     else:
         step = 1
+    if not pic_loc:
+        return await message.err("Reply to a valid media first", del_in=5)
+    await message.edit("🌀 `Tighten your seatbelts, sh*t is about to get wild ...`")
+    # to choose no. of frames i.e step_dict[6] or 60 => 360 / 60 = 6 frames
+    step_dict = {"1": 1, "2": 3, "3": 6, "4": 12, "5": 24, "6": 60}
     # direction of rotation
     spin_dir = -1 if "-c" in message.flags else 1
     path = "userge/xcache/rotate-disc/"
-    if not os.path.exists(path):
-        os.mkdir(path)
+    if os.path.exists(path):
+        rmtree(path, ignore_errors=True)
+    os.mkdir(path)
     # Converting RGBA to RGB
     im = Image.open(pic_loc)
     if im.mode != "RGB":
@@ -161,8 +164,9 @@ async def spinn(message: Message):
     output_vid = os.path.join(path, "out.mp4")
     # ;__; Maths lol, y = mx + c
     frate = int(((90 / 59) * step) + (1680 / 59))
+    # https://stackoverflow.com/questions/20847674/ffmpeg-libx264-height-not-divisible-by-2
     await runcmd(
-        f"ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -pix_fmt yuv420p {output_vid}"
+        f"ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" -pix_fmt yuv420p {output_vid}"
     )
     if os.path.exists(output_vid):
         reply_id = reply.message_id if reply else None
@@ -183,7 +187,7 @@ async def spinn(message: Message):
         await message.delete()
     # Clean up
     os.remove(pic_loc)
-    shutil.rmtree(path)
+    rmtree(path, ignore_errors=True)
 
 
 async def rotate_media(image_path, args):

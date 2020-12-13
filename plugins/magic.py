@@ -1,15 +1,21 @@
-""" Invert, filp/mirror, rotate """
+""" Invert, flip/mirror, rotate or spin"""
 
-
-# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
-# All rights reserved.
-
+#  Copyright (C) 2020 BY USERGE-X
+#  All rights reserved.
+#
+#  Authors: 1. https://github.com/code-rgb [TG: @DeletedUser420]
+#           2. https://github.com/midnightmadwalk [TG: @MidnightMadwalk] for 🌀 Spin 
+         
 
 import os
+import shutil
 
+
+from userge.plugins.utils.circle import crop_vid
+from userge.utils import media_to_image, runcmd
 from PIL import Image, ImageOps
 from userge import Config, Message, userge
-from userge.utils import media_to_image
+
 
 
 @userge.on_cmd(
@@ -103,6 +109,83 @@ async def rotate_(message: Message):
     )
     await message.delete()
     os.remove(webp_file)
+
+
+@userge.on_cmd(
+    "spin",
+    about={
+        "header": "Brr... 🌀",
+        "flags": {
+            "-s": "Speed -> 1-6",
+            "-c": "Spin Clockwise",
+            "-r": "for round video",
+        },
+        "description": "Reply to any media to spin",
+        "usage": "{tr}spin [flags] [reply to media]",
+        "examples": [
+            "{tr}spin",
+            "{tr}spin -s4 -c -r",
+        ],
+    },
+)
+async def spinn(message: Message):
+    """Spin any media"""
+    reply = message.reply_to_message
+    if not reply:
+        return await message.err("Reply To Media First !", del_in=5)
+    # Haha USERGE-X custom function
+    pic_loc = await media_to_image(message)
+    if not pic_loc:
+        return await message.err("Reply to a valid media first", del_in=5)
+    await message.edit("🌀 `Tighten your seatbelts, sh*t is about to get wild ...`")
+    # to choose no. of frames i.e step_dict[6] or 60 => 360 / 60 = 6 frames
+    step_dict = {"1": 1, "2": 3, "3": 6, "4": 12, "5": 24, "6": 60}
+    if "-s" in message.flags:
+        step = step_dict.get(message.flags["-s"], None)
+        if not step:
+            return await message.err("Not valid value for flag '-s'", del_in=5)
+    else:
+        step = 1
+    # direction of rotation
+    spin_dir = -1 if "-c" in message.flags else 1
+    path = "userge/xcache/rotate-disc/"
+    if not os.path.exists(path):
+        os.mkdir(path)
+    # Converting RGBA to RGB
+    im = Image.open(pic_loc)
+    if im.mode != "RGB":
+        im = im.convert("RGB")
+    # Rotating pic by given angle and saving
+    for k, nums in enumerate(range(1, 360, step), start=0):
+        y = im.rotate(nums * spin_dir)
+        y.save(os.path.join(path, "spinx%s.jpg" % k))
+
+    output_vid = os.path.join(path, "out.mp4")
+    # ;__; Maths lol, y = mx + c
+    frate = int(((90 / 59) * step) + (1680 / 59))
+    await runcmd(
+        f"ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -pix_fmt yuv420p {output_vid}"
+    )
+    if os.path.exists(output_vid):
+        reply_id = reply.message_id if reply else None
+        if "-r" in message.flags:
+            round_vid = os.path.join(path, "out_round.mp4")
+            # aspect ratio = 1:1
+            await crop_vid(output_vid, round_vid)
+            await message.client.send_video_note(
+                message.chat.id, round_vid, reply_to_message_id=reply_id
+            )
+        else:
+            await message.client.send_animation(
+                message.chat.id,
+                output_vid,
+                unsave=(not message.client.is_bot),
+                reply_to_message_id=reply_id,
+            )
+        await message.delete()
+    # Clean up
+    os.remove(pic_loc)
+    shutil.rmtree(path)
 
 
 async def rotate_media(image_path, args):

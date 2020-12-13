@@ -132,7 +132,9 @@ async def spinn(message: Message):
     if not reply:
         return await message.err("Reply To Media First !", del_in=5)
     if not message.chat.permissions.can_send_animations:
-        return await message.err("can't send gif in this chat, Permission Denied !", del_in=5)
+        return await message.err(
+            "can't send gif in this chat, Permission Denied !", del_in=5
+        )
     # Haha USERGE-X custom function
     pic_loc = await media_to_image(message)
     if "-s" in message.flags:
@@ -166,7 +168,7 @@ async def spinn(message: Message):
     frate = int(((90 / 59) * step) + (1680 / 59))
     # https://stackoverflow.com/questions/20847674/ffmpeg-libx264-height-not-divisible-by-2
     await runcmd(
-        f"ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" -pix_fmt yuv420p {output_vid}"
+        f'ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -pix_fmt yuv420p {output_vid}'
     )
     if os.path.exists(output_vid):
         reply_id = reply.message_id if reply else None

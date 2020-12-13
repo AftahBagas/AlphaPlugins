@@ -139,7 +139,7 @@ async def spinn(message: Message):
     # to choose no. of frames i.e step_dict[6] or 60 => 360 / 60 = 6 frames
     step_dict = {"1": 1, "2": 3, "3": 6, "4": 12, "5": 24, "6": 60}
     if "-s" in message.flags:
-        step = step_dict.get(message.flags["-s"], None)
+        step = step_dict.get(message.flags["-s"])
         if not step:
             return await message.err("Not valid value for flag '-s'", del_in=5)
     else:

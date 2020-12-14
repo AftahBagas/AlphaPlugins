@@ -131,7 +131,10 @@ async def spinn(message: Message):
     reply = message.reply_to_message
     if not reply:
         return await message.err("Reply To Media First !", del_in=5)
-    if message.chat.type in ["group", "supergroup"] and not message.chat.permissions.can_send_animations:
+    if (
+        message.chat.type in ["group", "supergroup"]
+        and not message.chat.permissions.can_send_animations
+    ):
         return await message.err(
             "can't send gif in this chat, Permission Denied !", del_in=5
         )

@@ -171,7 +171,7 @@ async def spinn(message: Message):
     frate = int(((90 / 59) * step) + (1680 / 59))
     # https://stackoverflow.com/questions/20847674/ffmpeg-libx264-height-not-divisible-by-2
     await runcmd(
-        f'ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -pix_fmt yuv420p {output_vid}'
+        f'ffmpeg -framerate {frate} -i {path}spinx%d.jpg -c:v libx264 -preset ultrafast -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -pix_fmt yuv420p {output_vid}'
     )
     if os.path.exists(output_vid):
         reply_id = reply.message_id if reply else None

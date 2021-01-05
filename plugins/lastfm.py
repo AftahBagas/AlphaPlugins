@@ -10,7 +10,7 @@
 
 
 from userge import Config, Message, userge
-from userge.utils import rand_array, get_response
+from userge.utils import get_response, rand_array
 
 API = "http://ws.audioscrobbler.com/2.0"
 
@@ -57,7 +57,7 @@ async def last_fm_pic_(message: Message):
     if song_["loved"] != "0":
         rep += " (♥️, loved)"
     # Trying to Fetch Album of the track
-    params_={
+    params_ = {
         "method": "track.getInfo",
         "track": song_name,
         "artist": artist_name,
@@ -78,9 +78,8 @@ async def last_fm_pic_(message: Message):
     # tags of the given track
     for tags in get_track["toptags"]["tag"]:
         get_tags += f"<a href={tags['url']}>#{tags['name']}</a>  "
-    await message.edit(
-        f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html"
-    )
+    await message.edit(f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html")
+
 
 @userge.on_cmd(
     "lastuser",
@@ -94,9 +93,7 @@ async def last_fm_user_info_(message: Message):
     if not await check_lastfmvar(message):
         return
     lfmuser = message.input_str or Config.LASTFM_USERNAME
-    await message.edit(
-        f"<code>Getting info about last.fm User: {lfmuser}</code> ..."
-    )
+    await message.edit(f"<code>Getting info about last.fm User: {lfmuser}</code> ...")
     params = {
         "method": "user.getInfo",
         "user": lfmuser,
@@ -123,9 +120,7 @@ async def last_fm_user_info_(message: Message):
     result = ""
     if lastimg:
         result += f"<a href={lastimg['#text']}>\u200c</a>"
-    result += (
-        f"<b>LastFM User Info for <a href={lastuser['url']}>{lfmuser}</a></b>:\n"
-    )
+    result += f"<b>LastFM User Info for <a href={lastuser['url']}>{lfmuser}</a></b>:\n"
     result += f" {gender}<b>Name:</b> {lastuser['realname']}\n"
     if age != "0":
         result += f" 🎂 <b>Age:</b> {age}\n"
@@ -136,6 +131,7 @@ async def last_fm_user_info_(message: Message):
     if subscriber != "0":
         result += f" ⭐️ <b>Subscriber:</b> {subscriber}"
     await message.edit(result, parse_mode="html")
+
 
 @userge.on_cmd(
     "lastlove",
@@ -174,6 +170,7 @@ async def last_fm_loved_tracks_(message: Message):
         artist_name = song_["artist"]["name"]
         rep += f"\n{count:02d}. 🎧  <b><a href={song_['url']}>{song_name}</a></b> - <a href={song_['artist']['url']}>{artist_name}</a>"
     await message.edit(rep, disable_web_page_preview=True, parse_mode="html")
+
 
 @userge.on_cmd(
     "lastplayed",
@@ -222,5 +219,7 @@ async def check_lastfmvar(message: Message):
         Config.LASTFM_API_KEY and Config.LASTFM_USERNAME
     ):
         return True
-    await message.edit("**LastFm Config Vars not found !\n See [Guide](https://code-rgb.gitbook.io/userge-x/setting-up-environment-variables/extra-vars/lastfm_api_key-and-lastfm_user) for more info.**")
+    await message.edit(
+        "**LastFm Config Vars not found !\n See [Guide](https://code-rgb.gitbook.io/userge-x/setting-up-environment-variables/extra-vars/lastfm_api_key-and-lastfm_user) for more info.**"
+    )
     return False

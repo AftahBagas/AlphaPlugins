@@ -9,9 +9,8 @@
 # API: https://www.last.fm/api
 
 
-import aiohttp
 from userge import Config, Message, userge
-from userge.utils import rand_array
+from userge.utils import rand_array, get_response
 
 API = "http://ws.audioscrobbler.com/2.0"
 
@@ -24,10 +23,6 @@ PIC_URL = [
 ]
 
 
-if hasattr(Config, "LASTFM_API_KEY") and (
-    Config.LASTFM_API_KEY and Config.LASTFM_USERNAME
-):
-
     @userge.on_cmd(
         "lastfm",
         about={"header": "Get Lastfm now playing pic"},
@@ -35,6 +30,8 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     async def last_fm_pic_(message: Message):
         """now playing"""
         await message.edit("<code>Getting info from last.fm ...</code>")
+        if not await check_lastfmvar(message):
+            return
         params = {
             "method": "user.getrecenttracks",
             "limit": 1,
@@ -43,7 +40,10 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             "api_key": Config.LASTFM_API_KEY,
             "format": "json",
         }
-        view_data = (await get_response(params))[1]
+        try:
+            view_data = await get_response.json(link=API, params=params)
+        except ValueError:
+            return await message.err("LastFm API is Down", del_in=5)
         if "error" in view_data:
             return await message.err(view_data["error"], del_in=5)
         recent_song = view_data["recenttracks"]["track"]
@@ -57,19 +57,18 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         if song_["loved"] != "0":
             rep += " (♥️, loved)"
         # Trying to Fetch Album of the track
-        get_track = (
-            (
-                await get_response(
-                    {
-                        "method": "track.getInfo",
-                        "track": song_name,
-                        "artist": artist_name,
-                        "api_key": Config.LASTFM_API_KEY,
-                        "format": "json",
-                    }
-                )
-            )[1]
-        )["track"]
+        params_={
+            "method": "track.getInfo",
+            "track": song_name,
+            "artist": artist_name,
+            "api_key": Config.LASTFM_API_KEY,
+            "format": "json",
+        }
+        try:
+            view_data_ = await get_response.json(link=API, params=params_)
+        except ValueError:
+            return await message.err("LastFm API is Down", del_in=5)
+        get_track = view_data_["track"]
         img = (
             (get_track["album"]["image"].pop())["#text"]
             if get_track.get("album")
@@ -92,6 +91,8 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     )
     async def last_fm_user_info_(message: Message):
         """user info"""
+        if not await check_lastfmvar(message):
+            return
         lfmuser = message.input_str or Config.LASTFM_USERNAME
         await message.edit(
             f"<code>Getting info about last.fm User: {lfmuser}</code> ..."
@@ -102,7 +103,10 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             "api_key": Config.LASTFM_API_KEY,
             "format": "json",
         }
-        view_data = (await get_response(params))[1]
+        try:
+            view_data = await get_response.json(link=API, params=params)
+        except ValueError:
+            return await message.err("LastFm API is Down", del_in=5)
         if "error" in view_data:
             return await message.err(view_data["error"], del_in=5)
         lastuser = view_data["user"]
@@ -142,6 +146,8 @@ if hasattr(Config, "LASTFM_API_KEY") and (
     )
     async def last_fm_loved_tracks_(message: Message):
         """liked songs"""
+        if not await check_lastfmvar(message):
+            return
         user_ = message.input_str or Config.LASTFM_USERNAME
         await message.edit(f"♥️<code> Fetching favourite tracks of {user_} ...</code>")
         params = {
@@ -152,7 +158,10 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             "api_key": Config.LASTFM_API_KEY,
             "format": "json",
         }
-        view_data = (await get_response(params))[1]
+        try:
+            view_data = await get_response.json(link=API, params=params)
+        except ValueError:
+            return await message.err("LastFm API is Down", del_in=5)
         tracks = view_data["lovedtracks"]["track"]
         if "error" in view_data:
             return await message.err(view_data["error"], del_in=5)
@@ -178,6 +187,8 @@ if hasattr(Config, "LASTFM_API_KEY") and (
         await message.edit(
             "<code> 🎵 Fetching recently played songs from last.fm ...</code>"
         )
+        if not await check_lastfmvar(message):
+            return
         user_ = message.input_str or Config.LASTFM_USERNAME
         params = {
             "method": "user.getrecenttracks",
@@ -187,7 +198,10 @@ if hasattr(Config, "LASTFM_API_KEY") and (
             "api_key": Config.LASTFM_API_KEY,
             "format": "json",
         }
-        view_data = (await get_response(params))[1]
+        try:
+            view_data = await get_response.json(link=API, params=params)
+        except ValueError:
+            return await message.err("LastFm API is Down", del_in=5)
         if "error" in view_data:
             return await message.err(view_data["error"], del_in=5)
         recent_song = view_data["recenttracks"]["track"]
@@ -202,10 +216,11 @@ if hasattr(Config, "LASTFM_API_KEY") and (
                 rep += " ♥️"
         await message.edit(rep, disable_web_page_preview=True, parse_mode="html")
 
-    async def get_response(params: dict):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(API, params=params) as resp:
-                status_code = resp.status
-                json_ = await resp.json()
-            await session.close()
-        return status_code, json_
+
+async def check_lastfmvar(message: Message):
+    if hasattr(Config, "LASTFM_API_KEY") and (
+        Config.LASTFM_API_KEY and Config.LASTFM_USERNAME
+    ):
+        return True
+    await message.edit("**LastFm Config Vars not found !\n See [Guide](https://code-rgb.gitbook.io/userge-x/setting-up-environment-variables/extra-vars/lastfm_api_key-and-lastfm_user) for more info.**")
+    return False

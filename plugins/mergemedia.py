@@ -2,18 +2,18 @@
 #  Copyright (C) 2020 BY USERGE-X
 #  All rights reserved.
 #
-#  Author: https://github.com/midnightmadwalk [TG: @midnightmadwalk] 
+#  Author: https://github.com/midnightmadwalk [TG: @midnightmadwalk]
 
+import codecs
 import os
 import re
-import codecs
 import shutil
-
 from pathlib import Path
+
+from hachoir.stream.input import InputStreamError, NullStreamError
 from userge import Message, userge
 from userge.plugins.misc.upload import upload
 from userge.utils import progress, runcmd
-from hachoir.stream.input import NullStreamError, InputStreamError 
 
 
 @userge.on_cmd(
@@ -24,28 +24,25 @@ from hachoir.stream.input import NullStreamError, InputStreamError
     },
 )
 async def mergesave_(message: Message):
-    '''Save Media'''
+    """Save Media"""
     # saving files in a separate folder.
     r = message.reply_to_message
     if not r:
         await message.err("Reply To Media, dear.")
     if not (
-      r.audio
-      # or r.document
-      or r.video
-      or r.video_note
-      or r.voice
+        r.audio
+        # or r.document
+        or r.video
+        or r.video_note
+        or r.voice
     ):
         await message.err("Not Supported Extension")
     else:
         replied_media = await message.client.download_media(
-          message=message.reply_to_message,
-          file_name='userge/xcache/merge/',
-          progress=progress,
-          progress_args=(
-            message,
-            "`Saving for further merge !`"
-          ),
+            message=message.reply_to_message,
+            file_name="userge/xcache/merge/",
+            progress=progress,
+            progress_args=(message, "`Saving for further merge !`"),
         )
         await message.edit(f"Saved in {replied_media}")
 
@@ -58,7 +55,7 @@ async def mergesave_(message: Message):
     },
 )
 async def merge_(message: Message):
-    '''Merge Media.'''
+    """Merge Media."""
     name_ = message.input_str
     # preparing text file.
     await message.edit("`🙂🙃 Preparing text file ...`")
@@ -74,13 +71,13 @@ async def merge_(message: Message):
         await message.edit(f"detected extension is .{rege_x}")
     # custom name.
     if name_:
-        output_path = "userge/xcache/merge/" + name_ + "."+ rege_x
+        output_path = "userge/xcache/merge/" + name_ + "." + rege_x
     else:
         output_path = "userge/xcache/merge/output." + rege_x
     # ffmpeg.
     await message.edit("`🏃️🏃🏃 ffmpeg ...`")
     logs_ = await runcmd(
-      f'''ffmpeg -f concat -safe 0 -i merge.txt -map 0 -c copy -scodec copy {output_path}'''
+        f"""ffmpeg -f concat -safe 0 -i merge.txt -map 0 -c copy -scodec copy {output_path}"""
     )
     # upload.
     try:
@@ -89,7 +86,7 @@ async def merge_(message: Message):
         await message.err("Something went south generating ffmpeg log file.")
         await message.reply(logs_)
     else:
-      await message.edit("`successfully merged ...`")
+        await message.edit("`successfully merged ...`")
     # cleanup.
     await message.edit("`🤯😪 cleaning mess ...`", del_in=10)
     shutil.rmtree("userge/xcache/merge")
@@ -104,7 +101,7 @@ async def merge_(message: Message):
     },
 )
 async def mergeclear_(message: Message):
-    '''Clear Saved.'''
+    """Clear Saved."""
     try:
         shutil.rmtree("userge/xcache/merge", ignore_errors=True)
     except FileNotFoundError:

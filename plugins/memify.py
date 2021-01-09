@@ -30,14 +30,15 @@ async def memify(message: Message):
     # Here the Magic happens
     dls_loc = await media_to_image(message)
     # UWU
-    webp_file = await draw_meme_text(dls_loc, message.input_str)
-    await message.client.send_sticker(
-        chat_id=message.chat.id,
-        sticker=webp_file,
-        reply_to_message_id=replied.message_id,
-    )
-    await message.delete()
-    os.remove(webp_file)
+    if dls_loc:
+        webp_file = await draw_meme_text(dls_loc, message.input_str)
+        await message.client.send_sticker(
+            chat_id=message.chat.id,
+            sticker=webp_file,
+            reply_to_message_id=replied.message_id,
+        )
+        await message.delete()
+        os.remove(webp_file)
 
 
 async def draw_meme_text(image_path, text):

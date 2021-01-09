@@ -1,6 +1,5 @@
 """ All Profile Settings for User """
 
-# by @Krishna_Singhal
 # del_pfp by Phyco-Ninja
 
 import os
@@ -33,9 +32,9 @@ USER_DATA = {}
         "usage": "{tr}setname [flag] [name]\n" "{tr}setname [first name] | [last name]",
         "examples": [
             "{tr}setname -dlname",
-            "{tr}setname -fname krishna",
-            "{tr}setname -lname singhal",
-            "{tr}setname krishna | singhal",
+            "{tr}setname -fname Joe",
+            "{tr}setname -lname Mama",
+            "{tr}setname Joe | Mama",
             "{tr}setname -uname username",
             "{tr}setname -duname",
         ],
@@ -207,10 +206,14 @@ async def view_profile(message: Message):
         return
     if "me" in message.filtered_input_str:
         user = await message.client.get_me()
-        bio = await message.client.get_chat("me")
+        bio = (await message.client.get_chat("me")).bio
     else:
-        user = await message.client.get_users(input_)
-        bio = await message.client.get_chat(input_)
+        try:
+            user = await message.client.get_users(input_)
+            bio = (await message.client.get_chat(input_)).bio
+        except Exception:
+            await message.err("invalid user_id!")
+            return
     if "-fname" in message.flags:
         await message.edit("```checking, wait plox !...```", del_in=3)
         first_name = user.first_name
@@ -232,12 +235,11 @@ async def view_profile(message: Message):
             full_name = user.first_name + " " + user.last_name
             await message.edit("<code>{}</code>".format(full_name), parse_mode="html")
     elif "-bio" in message.flags:
-        if not bio.description:
+        if not bio:
             await message.err("User not have bio...")
         else:
-            await message.edit("```checking, wait plox !...```", del_in=3)
-            about = bio.description
-            await message.edit("<code>{}</code>".format(about), parse_mode="html")
+            await message.edit("`checking, wait plox !...`", del_in=3)
+            await message.edit("<code>{}</code>".format(bio), parse_mode="html")
     elif "-uname" in message.flags:
         if not user.username:
             await message.err("User not have username...")
@@ -342,8 +344,10 @@ async def clone_(message: Message):
             await message.err("First Revert!...")
             return
         mychat = await userge.get_chat(me.id)
-        USER_DATA["bio"] = mychat.description or ""
-        await userge.update_profile(bio=chat.description or "")
+        USER_DATA["bio"] = mychat.bio or ""
+        await userge.update_profile(
+            bio=(chat.bio or "")[:69]
+        )  # 70 is the max bio limit
         await message.edit("```Bio is Successfully Cloned ...```", del_in=3)
     elif "-pp" in message.flags:
         if os.path.exists(PHOTO):
@@ -364,13 +368,13 @@ async def clone_(message: Message):
             {
                 "first_name": me.first_name or "",
                 "last_name": me.last_name or "",
-                "bio": mychat.description or "",
+                "bio": mychat.bio or "",
             }
         )
         await userge.update_profile(
             first_name=user.first_name or "",
             last_name=user.last_name or "",
-            bio=chat.description or "",
+            bio=(chat.bio or "")[:69],
         )
         if not user.photo:
             await message.edit(
@@ -380,31 +384,6 @@ async def clone_(message: Message):
         await userge.download_media(user.photo.big_file_id, file_name=PHOTO)
         await userge.set_profile_photo(photo=PHOTO)
         await message.edit("```Profile is Successfully Cloned ...```", del_in=3)
-
-
-# photo grabber
-@userge.on_cmd(
-    "poto",
-    about={
-        "header": "upload the photo of replied person or chat",
-        "usage": "upload the photo of replied person or chat",
-        "examples": ".poto",
-    },
-    allow_channels=False,
-)
-async def photograb(message: Message):
-    if message.reply_to_message and message.reply_to_message.from_users.photo:
-        getid = message.reply_to_message.from_user.photo.big_file_id
-        getphoto = await message.client.download_media(getid)
-        await message.client.send_photo(message.chat.id, photo=getphoto)
-        os.remove(getphoto)
-    elif message.chat.photo and not message.reply_to_message:
-        phid = message.chat.photo.big_file_id
-        ppo = await message.client.download_media(phid)
-        await message.client.send_photo(message.chat.id, photo=ppo)
-        os.remove(ppo)
-    else:
-        await message.err("Didnt Found Anything !")
 
 
 @userge.on_cmd(
@@ -426,3 +405,28 @@ async def revert_(message: Message):
         await userge.delete_profile_photos(photo.file_id)
         os.remove(PHOTO)
     await message.edit("```Profile is Successfully Reverted...```", del_in=3)
+
+
+# photo grabber
+@userge.on_cmd(
+    "poto",
+    about={
+        "header": "upload the photo of replied person or chat",
+        "usage": "upload the photo of replied person or chat",
+        "examples": ".poto",
+    },
+    allow_channels=False,
+)
+async def photograb(message: Message):
+    if message.reply_to_message and message.reply_to_message.from_user.photo:
+        getid = message.reply_to_message.from_user.photo.big_file_id
+        getphoto = await message.client.download_media(getid)
+        await message.client.send_photo(message.chat.id, photo=getphoto)
+        os.remove(getphoto)
+    elif message.chat.photo and not message.reply_to_message:
+        phid = message.chat.photo.big_file_id
+        ppo = await message.client.download_media(phid)
+        await message.client.send_photo(message.chat.id, photo=ppo)
+        os.remove(ppo)
+    else:
+        await message.err("Didnt Found Anything !")

@@ -429,4 +429,4 @@ async def photograb(message: Message):
         await message.client.send_photo(message.chat.id, photo=ppo)
         os.remove(ppo)
     else:
-        await message.err("Didnt Found Anything !")
+        await message.err("Didnt Find Anything !")

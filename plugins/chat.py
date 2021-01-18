@@ -131,7 +131,7 @@ async def invite_link(message: Message):
         "usage": "{tr}tagall [Text | reply to text Msg]",
     },
     allow_via_bot=False,
-    allow_private=False
+    allow_private=False,
 )
 async def tagall_(message: Message):
     """ Tag recent members """

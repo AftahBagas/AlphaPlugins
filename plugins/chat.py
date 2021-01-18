@@ -166,7 +166,6 @@ async def tagall_(message: Message):
     },
     allow_private=False,
     allow_via_bot=False,
-    only_admins=True,
 )
 async def stagall_(message: Message):
     """ tag recent members without spam """

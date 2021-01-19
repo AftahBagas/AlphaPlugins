@@ -448,6 +448,7 @@ async def poto_x(message: Message):
     chat_id = message.chat.id
     reply = message.reply_to_message
     reply_id = reply.message_id if reply else None
+    await message.edit("`Fetching photos ...`")
     if reply:
         input_ = reply.from_user.id
     elif message.filtered_input_str:
@@ -501,3 +502,4 @@ async def poto_x(message: Message):
             await CHANNEL.log(f"**ERROR:** `{str(err)}`")
     else:
         await send_single(message, peer_id=peer_id, pos=1, reply_id=reply_id)
+    await message.delete()

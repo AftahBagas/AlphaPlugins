@@ -5,15 +5,16 @@
 
 import os
 from datetime import datetime
-from pyrogram.types import InputMediaPhoto
+
 from pyrogram.errors import (
     AboutTooLong,
+    BadRequest,
+    FloodWait,
     UsernameNotOccupied,
     UsernameOccupied,
     VideoFileInvalid,
-    BadRequest,
-    FloodWait
 )
+from pyrogram.types import InputMediaPhoto
 from userge import Config, Message, userge
 from userge.utils import progress
 
@@ -417,10 +418,13 @@ async def chat_type_(input_chat):
         return str(e), 0, 0
     return chat_.type, chat_.id, chat_.photo.big_file_id
 
+
 async def send_single(chat_id, peer_id, pos, reply_id):
     pic_ = await message.client.get_profile_photos(peer_id, limit=min(pos_, 100))
     if len(pic_) != 0:
-        await message.client.send_photo(chat_id, photo=pic_.pop().file_id, reply_to_message_id=reply_id)
+        await message.client.send_photo(
+            chat_id, photo=pic_.pop().file_id, reply_to_message_id=reply_id
+        )
 
 
 # photo grabber
@@ -466,14 +470,18 @@ async def poto_x(message: Message):
         if not str(pos_).isdigit():
             await message.err('"-p" Flag only takes integers', del_in=5)
             return
-        await send_single(chat_id=chat_id, peer_id=peer_id, pos=int(pos_), reply_id=reply_id)
+        await send_single(
+            chat_id=chat_id, peer_id=peer_id, pos=int(pos_), reply_id=reply_id
+        )
     elif "-l" in flags_:
         get_l = flags_.get("-l", 0)
         if not str(get_l).isdigit():
             await message.err('"-l" Flag only takes integers', del_in=5)
             return
         media, media_group = [], []
-        async for photo_ in message.client.iter_profile_photos(peer_id, limit=min(int(get_l), 100)):
+        async for photo_ in message.client.iter_profile_photos(
+            peer_id, limit=min(int(get_l), 100)
+        ):
             media.append(InputMediaPhoto(pic_.file_id))
             if len(media) == 10:
                 media_group.append(media)

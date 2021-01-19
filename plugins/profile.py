@@ -3,9 +3,10 @@
 # del_pfp by Phyco-Ninja
 # rewrote poto by code-rgb
 
+import asyncio
 import os
 from datetime import datetime
-import asyncio
+
 from pyrogram.errors import (
     AboutTooLong,
     BadRequest,

@@ -448,7 +448,7 @@ async def poto_x(message: Message):
     chat_id = message.chat.id
     reply = message.reply_to_message
     reply_id = reply.message_id if reply else None
-    process_ = await message.edit("`Fetching photos ...`")
+    await message.edit("`Fetching photos ...`")
     if reply:
         input_ = reply.from_user.id
     elif message.filtered_input_str:
@@ -466,6 +466,7 @@ async def poto_x(message: Message):
         photo_ = await userge.bot.download_media(f_id)
         await userge.bot.send_photo(chat_id, photo_, reply_to_message_id=reply_id)
         os.remove(photo_)
+        await message.delete()
         return
     flags_ = message.flags
     if "-p" in flags_:
@@ -491,6 +492,7 @@ async def poto_x(message: Message):
             media_group.append(media)
         if len(media_group) == 0:
             # Happens if bot doesn't know the user
+            await message.delete()
             return
         try:
             for poto_ in media_group:
@@ -502,4 +504,4 @@ async def poto_x(message: Message):
             await CHANNEL.log(f"**ERROR:** `{str(err)}`")
     else:
         await send_single(message, peer_id=peer_id, pos=1, reply_id=reply_id)
-    await process_.delete()
+    await message.delete()

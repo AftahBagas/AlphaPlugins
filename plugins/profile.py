@@ -5,7 +5,7 @@
 
 import os
 from datetime import datetime
-
+import asyncio
 from pyrogram.errors import (
     AboutTooLong,
     BadRequest,
@@ -18,6 +18,7 @@ from pyrogram.types import InputMediaPhoto
 from userge import Config, Message, userge
 from userge.utils import progress
 
+CHANNEL = userge.getCLogger(__name__)
 PHOTO = Config.DOWN_PATH + "profile_pic.jpg"
 USER_DATA = {}
 
@@ -420,7 +421,7 @@ async def chat_type_(message: Message, input_chat):
 
 
 async def send_single(message: Message, peer_id, pos, reply_id):
-    pic_ = await message.client.get_profile_photos(peer_id, limit=min(pos_, 100))
+    pic_ = await message.client.get_profile_photos(peer_id, limit=min(pos, 100))
     if len(pic_) != 0:
         await message.client.send_photo(
             message.chat.id, photo=pic_.pop().file_id, reply_to_message_id=reply_id
@@ -480,7 +481,7 @@ async def poto_x(message: Message):
         async for photo_ in message.client.iter_profile_photos(
             peer_id, limit=min(int(get_l), 100)
         ):
-            media.append(InputMediaPhoto(pic_.file_id))
+            media.append(InputMediaPhoto(photo_.file_id))
             if len(media) == 10:
                 media_group.append(media)
                 media = []

@@ -439,8 +439,8 @@ async def send_single(message: Message, peer_id, pos, reply_id):
         "examples": [
             "{tr}poto",
             "{tr}poto [reply to chat message]",
-            "{tr}poto @midnightmadwalk -p5  (i.e sends photo at position 5)",
-            "{tr}poto @midnightmadwalk -l5  (i.e sends an album of first 5 photos)",
+            "{tr}poto @midnightmadwalk -p5\n    (i.e sends photo at position 5)",
+            "{tr}poto @midnightmadwalk -l5\n    (i.e sends an album of first 5 photos)",
         ],
     },
 )
@@ -448,7 +448,7 @@ async def poto_x(message: Message):
     chat_id = message.chat.id
     reply = message.reply_to_message
     reply_id = reply.message_id if reply else None
-    await message.edit("`Fetching photos ...`")
+    process_ = await message.edit("`Fetching photos ...`")
     if reply:
         input_ = reply.from_user.id
     elif message.filtered_input_str:
@@ -502,4 +502,4 @@ async def poto_x(message: Message):
             await CHANNEL.log(f"**ERROR:** `{str(err)}`")
     else:
         await send_single(message, peer_id=peer_id, pos=1, reply_id=reply_id)
-    await message.delete()
+    await process_.delete()

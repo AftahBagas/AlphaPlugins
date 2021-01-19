@@ -411,7 +411,7 @@ async def revert_(message: Message):
     await message.edit("```Profile is Successfully Reverted...```", del_in=3)
 
 
-async def chat_type_(input_chat):
+async def chat_type_(message: Message, input_chat):
     try:
         chat_ = await message.client.get_chat(input_chat)
     except (BadRequest, IndexError) as e:
@@ -419,11 +419,11 @@ async def chat_type_(input_chat):
     return chat_.type, chat_.id, chat_.photo.big_file_id
 
 
-async def send_single(chat_id, peer_id, pos, reply_id):
+async def send_single(message: Message, peer_id, pos, reply_id):
     pic_ = await message.client.get_profile_photos(peer_id, limit=min(pos_, 100))
     if len(pic_) != 0:
         await message.client.send_photo(
-            chat_id, photo=pic_.pop().file_id, reply_to_message_id=reply_id
+            message.chat.id, photo=pic_.pop().file_id, reply_to_message_id=reply_id
         )
 
 
@@ -455,7 +455,7 @@ async def poto_x(message: Message):
             return
     else:
         input_ = chat_id
-    type_, peer_id, f_id = await chat_type_(input_)
+    type_, peer_id, f_id = await chat_type_(message, input_)
     if peer_id == 0:
         await message.err(type_, del_in=7)
         return
@@ -471,7 +471,7 @@ async def poto_x(message: Message):
             await message.err('"-p" Flag only takes integers', del_in=5)
             return
         await send_single(
-            chat_id=chat_id, peer_id=peer_id, pos=int(pos_), reply_id=reply_id
+            message, peer_id=peer_id, pos=int(pos_), reply_id=reply_id
         )
     elif "-l" in flags_:
         get_l = flags_.get("-l", 0)
@@ -500,4 +500,4 @@ async def poto_x(message: Message):
         except Exception as err:
             await CHANNEL.log(f"**ERROR:** `{str(err)}`")
     else:
-        await send_single(chat_id=chat_id, peer_id=peer_id, pos=1, reply_id=reply_id)
+        await send_single(message, peer_id=peer_id, pos=1, reply_id=reply_id)

@@ -470,9 +470,7 @@ async def poto_x(message: Message):
         if not str(pos_).isdigit():
             await message.err('"-p" Flag only takes integers', del_in=5)
             return
-        await send_single(
-            message, peer_id=peer_id, pos=int(pos_), reply_id=reply_id
-        )
+        await send_single(message, peer_id=peer_id, pos=int(pos_), reply_id=reply_id)
     elif "-l" in flags_:
         get_l = flags_.get("-l", 0)
         if not str(get_l).isdigit():

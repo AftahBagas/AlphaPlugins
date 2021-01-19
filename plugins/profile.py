@@ -474,7 +474,7 @@ async def poto_x(message: Message):
             return
         media, media_group = [], []
         async for photo_ in message.client.iter_profile_photos(peer_id, limit=min(int(get_l), 100)):
-            media.append(InputMediaPhoto(pic_.file_id)
+            media.append(InputMediaPhoto(pic_.file_id))
             if len(media) == 10:
                 media_group.append(media)
                 media = []

@@ -13,7 +13,7 @@ from shutil import rmtree
 from PIL import Image, ImageOps
 from userge import Config, Message, userge
 from userge.plugins.utils.circle import crop_vid
-from userge.utils import media_to_image, runcmd
+from userge.utils import media_to_image, runcmd, safe_filename
 
 
 @userge.on_cmd(
@@ -147,7 +147,7 @@ async def spinn(message: Message):
     else:
         step = 1
     # Haha USERGE-X custom function
-    pic_loc = await media_to_image(message)
+    pic_loc = safe_filename(await media_to_image(message))
     if not pic_loc:
         return await message.err("Reply to a valid media first", del_in=5)
     await message.edit("🌀 `Tighten your seatbelts, sh*t is about to get wild ...`")

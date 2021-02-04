@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 from userge import Config, Message, userge
-from userge.utils import progress
+from userge.utils import progress, safe_filename
 
 FF_MPEG_DOWN_LOAD_MEDIA_PATH = "/app/downloads/userge.media.ffmpeg"
 
@@ -26,6 +26,7 @@ async def ffmpegsave(message: Message):
                     progress=progress,
                     progress_args=(message, "trying to download"),
                 )
+                downloaded_file_name = safe_filename(downloaded_file_name)
             except Exception as e:  # pylint:disable=C0103,W0703
                 await message.edit(str(e))
             else:

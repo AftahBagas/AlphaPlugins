@@ -13,10 +13,10 @@ from datetime import datetime
 import flag as cflag
 import humanize
 import tracemoepy
+from aiohttp import ClientSession
 from userge import Message, get_collection, userge
 from userge.utils import media_to_image
 from userge.utils import post_to_telegraph as post_to_tp
-from aiohttp import ClientSession
 
 # Logging Errors
 CLOG = userge.getCLogger(__name__)

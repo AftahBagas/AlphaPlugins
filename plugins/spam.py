@@ -6,14 +6,18 @@ from userge import Config, Message, userge
 S_LOG = userge.getCLogger(__name__)
 
 
-@userge.on_cmd("spam", about={
-    'header': "Spam some Messages",
-    'description': "Message Spam module just for fun."
-                   "Btw Don't over use this plugin or get"
-                   "ready for account ban or flood waits. "
-                   "For spamming text use '|' to separate count and text.",
-    'usage': "{tr}spam [spam count] | [spam message/reply to a media] | [Optional: delay]",
-    'examples': "**For Text:** `{tr}spam 2 | Durov will ban me for using this plugin`"})
+@userge.on_cmd(
+    "spam",
+    about={
+        "header": "Spam some Messages",
+        "description": "Message Spam module just for fun."
+        "Btw Don't over use this plugin or get"
+        "ready for account ban or flood waits. "
+        "For spamming text use '|' to separate count and text.",
+        "usage": "{tr}spam [spam count] | [spam message/reply to a media] | [Optional: delay]",
+        "examples": "**For Text:** `{tr}spam 2 | Durov will ban me for using this plugin`",
+    },
+)
 async def spam(message: Message):
     replied = message.reply_to_message
     delay = str(0.1)
@@ -28,16 +32,20 @@ async def spam(message: Message):
                 count, delay = count.split(" ", maxsplit=1)
             try:
                 count = int(count)
-                delay = float(delay) if '.' in delay else int(delay)
+                delay = float(delay) if "." in delay else int(delay)
             except ValueError as e:
                 await message.edit(e)
                 await message.reply_sticker(sticker="CAADAQADzAADiO9hRu2b2xyV4IbAFgQ")
                 return
             await message.edit(f"Spamming {count} Time")
             for _ in range(count):
-                await message.client.send_sticker(sticker=to_spam, chat_id=message.chat.id)
+                await message.client.send_sticker(
+                    sticker=to_spam, chat_id=message.chat.id
+                )
                 await asyncio.sleep(delay)
-            await S_LOG.log(f"Spammed Sticker in Chat» {message.chat.title}, {count} times")
+            await S_LOG.log(
+                f"Spammed Sticker in Chat» {message.chat.title}, {count} times"
+            )
             await message.delete()
         elif replied.animation or replied.video or replied.photo:
             dls = await message.client.download_media(
@@ -49,7 +57,7 @@ async def spam(message: Message):
                 count, delay = count.split(" ", maxsplit=1)
             try:
                 count = int(count)
-                delay = float(delay) if '.' in delay else int(delay)
+                delay = float(delay) if "." in delay else int(delay)
             except ValueError as e:
                 await message.edit(e)
                 await message.reply_sticker(sticker="CAADAQADzAADiO9hRu2b2xyV4IbAFgQ")
@@ -58,32 +66,36 @@ async def spam(message: Message):
             for _ in range(count):
                 await message.client.send_cached_media(message.chat.id, to_spam)
                 await asyncio.sleep(delay)
-            await S_LOG.log(f"Spammed Media in Chat» {message.chat.title}, {count} times")
+            await S_LOG.log(
+                f"Spammed Media in Chat» {message.chat.title}, {count} times"
+            )
             await message.delete()
-    elif (replied and replied.text and not is_str):
+    elif replied and replied.text and not is_str:
         count = message.input_str
         if " " in count:
             count, delay = count.split(" ", maxsplit=1)
         try:
             count = int(count)
-            delay = float(delay) if '.' in delay else int(delay)
+            delay = float(delay) if "." in delay else int(delay)
         except ValueError as e:
             await message.edit(e)
             await message.reply_sticker(sticker="CAADAQADzAADiO9hRu2b2xyV4IbAFgQ")
             return
         await message.edit(f"Spamming {count} times")
         for _ in range(count):
-            await message.client.send_message(text=replied.text, chat_id=message.chat.id)
+            await message.client.send_message(
+                text=replied.text, chat_id=message.chat.id
+            )
             await asyncio.sleep(delay)
         await S_LOG.log(f"Spammed Text in Chat» {message.chat.title}, {count} times")
         await message.delete()
     elif is_str:
         spam_count, spam_text = message.input_str.split("|", maxsplit=1)
-        if '|' in spam_text:
+        if "|" in spam_text:
             spam_text, delay = spam_text.split("|", maxsplit=1)
         try:
             sc = int(spam_count)
-            delay = float(delay) if '.' in delay else int(delay)
+            delay = float(delay) if "." in delay else int(delay)
         except ValueError as e:
             await message.edit(e)
             await message.reply_sticker(sticker="CAADAQADzAADiO9hRu2b2xyV4IbAFgQ")

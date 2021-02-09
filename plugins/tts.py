@@ -45,6 +45,7 @@ async def text_to_speech(message: Message):
             a_len = meta.get("duration").seconds
         await message.edit("Uploading...")
         await message.client.send_voice(
+            chat_id=message.chat.id,
             voice=req_file_name,
             caption=a_cap,
             duration=a_len,

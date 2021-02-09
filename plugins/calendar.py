@@ -4,10 +4,14 @@ from datetime import datetime
 from userge import Message, userge
 
 
-@userge.on_cmd("cal", about={
-    'header': "Print calendar of any month of any year.",
-    'usage': "{tr}cal\n{tr}cal [ year | month]",
-    'examples': "{tr}cal 2020 | 6"})
+@userge.on_cmd(
+    "cal",
+    about={
+        "header": "Print calendar of any month of any year.",
+        "usage": "{tr}cal\n{tr}cal [ year | month]",
+        "examples": "{tr}cal 2020 | 6",
+    },
+)
 async def cal_(message: Message):
 
     if not message.input_str:

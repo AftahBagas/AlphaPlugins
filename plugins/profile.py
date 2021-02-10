@@ -418,6 +418,8 @@ async def chat_type_(message: Message, input_chat):
         chat_ = await message.client.get_chat(input_chat)
     except (BadRequest, IndexError) as e:
         return str(e), 0, 0
+    if not chat_.photo:
+        return f'No Photos Found for "{input_chat}"', 0, 0
     return chat_.type, chat_.id, chat_.photo.big_file_id
 
 
@@ -425,7 +427,7 @@ async def send_single(message: Message, peer_id, pos, reply_id):
     pic_ = await message.client.get_profile_photos(peer_id, limit=min(pos, 100))
     if len(pic_) != 0:
         await message.client.send_photo(
-            message.chat.id, photo=pic_.pop().file_id, reply_to_message_id=reply_id
+            message.chat.id, photo=pic_[-1].file_id, reply_to_message_id=reply_id
         )
 
 

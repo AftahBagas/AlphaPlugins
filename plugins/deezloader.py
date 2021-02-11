@@ -118,7 +118,7 @@ async def deezload(message: Message):
                 not_interface=True,
             )
             await message.edit("Song found, Now Uploading 📤", del_in=5)
-            await audio_upload(message, Path(track), True)
+            await audio_upload(message=message, path=Path(track), del_path=True)
         except Exception as e_r:
             await message.edit("Song not Found 🚫")
             await Clogger.log(f"#ERROR\n\n{e_r}")
@@ -139,7 +139,7 @@ async def proper_trackdl(link, qual, msg, client, dir_):
             not_interface=True,
         )
         await msg.edit("Download Successful.", del_in=5)
-        await audio_upload(msg, Path(track), True)
+        await audio_upload(message=msg, path=Path(track), del_path=True)
     elif "deezer" in link:
         await msg.edit("Download Started. Wait Plox.")
         track = await pool.run_in_thread(client.download_trackdee)(
@@ -151,7 +151,7 @@ async def proper_trackdl(link, qual, msg, client, dir_):
             not_interface=True,
         )
         await msg.edit("Download Successful.", del_in=5)
-        await audio_upload(msg, Path(track), True)
+        await audio_upload(message=msg, path=Path(track), del_path=True)
 
 
 async def batch_dl(link, qual, msg, client, dir_, allow_zip):
@@ -182,7 +182,7 @@ async def batch_dl(link, qual, msg, client, dir_, allow_zip):
                 )
                 await msg.edit("Uploading Tracks 📤", del_in=5)
                 for track in album_list:
-                    await audio_upload(msg, Path(track), True)
+                    await audio_upload(message=msg, path=Path(track), del_path=True)
         if "playlist/" in link:
             await msg.edit("Trying to download Playlist 🎶")
             if allow_zip:
@@ -209,7 +209,7 @@ async def batch_dl(link, qual, msg, client, dir_, allow_zip):
                 )
                 await msg.edit("Uploading Tracks 📤", del_in=5)
                 for track in album_list:
-                    await audio_upload(msg, Path(track), True)
+                    await audio_upload(message=msg, path=Path(track), del_path=True)
 
     if "deezer" in link:
         if "album/" in link:
@@ -238,7 +238,7 @@ async def batch_dl(link, qual, msg, client, dir_, allow_zip):
                 )
                 await msg.edit("Uploading Tracks 📤", del_in=5)
                 for track in album_list:
-                    await audio_upload(msg, Path(track), True)
+                    await audio_upload(message=msg, path=Path(track), del_path=True)
         elif "playlist/" in link:
             await msg.edit("Trying to download Playlist 🎶")
             if allow_zip:
@@ -265,4 +265,4 @@ async def batch_dl(link, qual, msg, client, dir_, allow_zip):
                 )
                 await msg.edit("Uploading Tracks 📤", del_in=5)
                 for track in album_list:
-                    await audio_upload(msg, Path(track), True)
+                    await audio_upload(message=msg, path=Path(track), del_path=True)

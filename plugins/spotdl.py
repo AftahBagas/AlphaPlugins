@@ -39,5 +39,5 @@ async def spotify_dl(message: Message):
             if track.startswith("Temp"):
                 continue
             track_loc = TEMP_DIR + track
-            await audio_upload(message, Path(track_loc), True)
+            await audio_upload(message=message, path=Path(track_loc), del_path=True)
     shutil.rmtree(TEMP_DIR, ignore_errors=True)

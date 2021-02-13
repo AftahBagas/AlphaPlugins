@@ -66,10 +66,10 @@ async def among_us(message: Message):
         color = randint(1, 12)
     stickerx = await amongus_gen(text, color)
     reply_id = reply.message_id if reply else None
-    await message.delete()
-    await userge.send_sticker(
+    await message.client.send_sticker(
         message.chat.id, sticker=stickerx, reply_to_message_id=reply_id
     )
+    await message.delete()
     os.remove(stickerx)
 
 

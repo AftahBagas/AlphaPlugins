@@ -17,3 +17,4 @@ geopy
 prettytable
 newspaper3k
 pydub
+git+https://github.com/code-rgb/pyfiglet.git

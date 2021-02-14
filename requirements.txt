@@ -15,3 +15,5 @@ tracemoepy==3.8
 validators
 geopy
 prettytable
+newspaper3k
+pydub

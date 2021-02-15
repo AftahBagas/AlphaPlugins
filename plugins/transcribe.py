@@ -104,7 +104,7 @@ class WitAiAPI:
                 yield text, error
 
         except CouldntDecodeError:
-            yield None, "`Error decoding the audio file. " "Ensure that the provided audio is a valid audio file!`"
+            yield None, "`Error decoding the audio file. ", "Ensure that the provided audio is a valid audio file!`"
 
 
 @userge.on_cmd(

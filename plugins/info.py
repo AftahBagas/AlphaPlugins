@@ -1,23 +1,26 @@
 """ To check User's Info, Is Banned or Not """
 
 
-
 from datetime import datetime
 
-
 import spamwatch
+from userge import Config, Message, get_collection, userge
 from userge.utils import get_response
-from userge import userge, Config, Message, get_collection
 
 GBAN_USER_BASE = get_collection("GBAN_USER")
 GMUTE_USER_BASE = get_collection("GMUTE_USER")
 
 
-@userge.on_cmd("info", about={
-    'header': "To check User's info",
-    'usage': "{tr}info [for own info]\n"
-             "{tr}info [Username | User Id]\n"
-             "{tr}info [reply to User]"}, allow_via_bot=False)
+@userge.on_cmd(
+    "info",
+    about={
+        "header": "To check User's info",
+        "usage": "{tr}info [for own info]\n"
+        "{tr}info [Username | User Id]\n"
+        "{tr}info [reply to User]",
+    },
+    allow_via_bot=False,
+)
 async def info(msg: Message):
     """ To check User's info """
     await msg.edit("`Checking...`")
@@ -25,7 +28,11 @@ async def info(msg: Message):
     replied = msg.reply_to_message
     if not user_id:
         if replied:
-            user_id = replied.forward_from.id if replied.forward_from else replied.from_user.id
+            user_id = (
+                replied.forward_from.id
+                if replied.forward_from
+                else replied.from_user.id
+            )
         else:
             user_id = msg.from_user.id
     try:
@@ -34,11 +41,11 @@ async def info(msg: Message):
         await msg.edit("I don't know that User...")
         return
     await msg.edit("`Getting Info...`")
-    l_name = user.last_name or ''
+    l_name = user.last_name or ""
     if user.username:
-        username = '@' + user.username
+        username = "@" + user.username
     else:
-        username = '`None`'
+        username = "`None`"
     common_chats = await msg.client.get_common_chats(user.id)
     user_info = f"""
 **About [{user.first_name} {l_name}](tg://user?id={user.id})**:
@@ -60,26 +67,35 @@ async def info(msg: Message):
                 user_info += f"    **● Message** : `{status.message or None}`\n"
         else:
             user_info += "\n**SpamWatch Banned** : `to get this Info, set var`\n"
-        antispam_api = ["https://api.intellivoid.net/spamprotection/v1/lookup?query=", "https://api.cas.chat/check?user_id="]
+        antispam_api = [
+            "https://api.intellivoid.net/spamprotection/v1/lookup?query=",
+            "https://api.cas.chat/check?user_id=",
+        ]
         async with get_response.get_session() as session:
             try:
-                iv = await get_response.json(f"{antispam_api[0]}{user_id}", session=session)
+                iv = await get_response.json(
+                    f"{antispam_api[0]}{user_id}", session=session
+                )
             except ValueError:
                 iv = False
             try:
-                cas_banned = await get_response.json(f'{antispam_api[1]}{user.id}', session=session)
+                cas_banned = await get_response.json(
+                    f"{antispam_api[1]}{user.id}", session=session
+                )
             except ValueError:
                 cas_banned = False
-        user_gbanned = await GBAN_USER_BASE.find_one({'user_id': user.id})
-        user_gmuted = await GMUTE_USER_BASE.find_one({'user_id': user.id})
-        if iv and (iv['success'] and iv['results']['attributes']['is_blacklisted'] is True):
-            reason = iv['results']['attributes']['blacklist_reason']
+        user_gbanned = await GBAN_USER_BASE.find_one({"user_id": user.id})
+        user_gmuted = await GMUTE_USER_BASE.find_one({"user_id": user.id})
+        if iv and (
+            iv["success"] and iv["results"]["attributes"]["is_blacklisted"] is True
+        ):
+            reason = iv["results"]["attributes"]["blacklist_reason"]
             user_info += "**Intellivoid SpamProtection** : `True`\n"
             user_info += f"    **● Reason** : `{reason}`\n"
         else:
             user_info += "**Intellivoid SpamProtection** : `False`\n"
-        if cas_banned and (cas_banned['ok']):
-            reason = cas_banned['result']['messages'][0] or None
+        if cas_banned and (cas_banned["ok"]):
+            reason = cas_banned["result"]["messages"][0] or None
             user_info += "**AntiSpam Banned** : `True`\n"
             user_info += f"    **● Reason** : `{reason}`\n"
         else:
@@ -101,16 +117,18 @@ def last_online(user):
     time = ""
     if user.is_bot:
         time += "🤖 Bot :("
-    elif user.status == 'recently':
+    elif user.status == "recently":
         time += "Recently"
-    elif user.status == 'within_week':
+    elif user.status == "within_week":
         time += "Within the last week"
-    elif user.status == 'within_month':
+    elif user.status == "within_month":
         time += "Within the last month"
-    elif user.status == 'long_time_ago':
+    elif user.status == "long_time_ago":
         time += "A long time ago :("
-    elif user.status == 'online':
+    elif user.status == "online":
         time += "Currently Online"
-    elif user.status == 'offline':
-        time += datetime.fromtimestamp(user.last_online_date).strftime("%a, %d %b %Y, %H:%M:%S")
+    elif user.status == "offline":
+        time += datetime.fromtimestamp(user.last_online_date).strftime(
+            "%a, %d %b %Y, %H:%M:%S"
+        )
     return time

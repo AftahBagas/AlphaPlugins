@@ -39,6 +39,7 @@ class WitAiAPI:
         speech.py#L13
         """
         error = ""
+        text = ""
         headers = {
             "authorization": f"Bearer {self.api_keys[lang]}",
             "accept": "application/vnd.wit.20200513+json",

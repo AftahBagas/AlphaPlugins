@@ -10,7 +10,7 @@ humanize
 justwatch
 lottie
 qrcode
-spotdl
+git+https://github.com/Phyco-Ninja/spotify-downloader
 tracemoepy==3.8
 validators
 geopy

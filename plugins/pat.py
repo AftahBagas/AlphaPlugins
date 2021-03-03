@@ -12,7 +12,7 @@ PAT_IMAGE = "pat.jpg"
 @userge.on_cmd(
     "pat", about={"header": "Give head Pat xD", "usage": "{tr}pat [reply | username]"}
 )
-async def lastfm(message: Message):
+async def pat_(message: Message):
     username = message.input_str
     if not username and not message.reply_to_message:
         await message.edit("**Bruh** ~`Reply to a message or provide username`")

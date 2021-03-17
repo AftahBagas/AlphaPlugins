@@ -338,3 +338,38 @@ async def view_chat(message: Message):
             await message.client.send_photo(message.chat.id, PATH)
             if os.path.exists(PATH):
                 os.remove(PATH)
+
+                
+@userge.on_cmd(
+    "bots",
+    about={
+        "header": "View Chat bots",
+        "flags":{
+        "-id": "name with id"},
+        "usage": ["{tr}bots -id", "{tr}bots"],
+    },
+    allow_private=False
+)
+async def bots_in_chat(message: Message):                
+    admin, member = [], []
+    async for bots in userge.iter_chat_members(
+        message.chat.id, filter="bots"
+    ):
+        status = bots.status
+        u_id = bots.user.id
+        username = bots.user.username
+        bot_info = f"  • @{username}"
+        if "-id" in message.flags:
+            bot_info += f"  [<code>{u_id}</code>]"
+        if status == "administrator":
+            admin.append(bot_info)
+        else:
+            member.append(bot_info)
+    await message.reply(
+        f"🤖  <b>BOTS</b> in {message.chat.title}\n\n" 
+        + "<b>Admin:</b>\n" 
+        + "\n".join(admin) 
+        + "\n\n" 
+        + "<b>Member:</b>\n" 
+        + "\n".join(member)
+    )

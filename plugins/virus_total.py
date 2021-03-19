@@ -58,7 +58,10 @@ async def _scan_file(msg: Message):
     except json.decoder.JSONDecodeError:
         r = json.loads(response.text)
     await msg.edit(f"`{r.get('verbose_msg')}`")
-    que_msg = ["Your resource is queued for analysis", "Scan request successfully queued, come back later for the report"]
+    que_msg = [
+        "Your resource is queued for analysis",
+        "Scan request successfully queued, come back later for the report",
+    ]
     viruslist, reasons = [], []
     sha1 = r.get("resource")
     r_sha = get_report(sha1)

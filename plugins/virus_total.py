@@ -53,19 +53,25 @@ async def _scan_file(msg: Message):
     if response is False:
         await msg.err("this file can't be scan")
         return
-    await msg.edit(f"`{response.json()['verbose_msg']}`")
-    sha1 = response.json()["resource"]
-    await asyncio.sleep(3)
-    que_msg = "Your resource is queued for analysis"
-    viruslist = []
-    reasons = []
-    response = get_report(sha1).json()
+    try:
+        r = response.json()
+    except json.decoder.JSONDecodeError:
+        r = json.loads(response.text)
+    await msg.edit(f"`{r.get('verbose_msg')}`")
+    que_msg = ["Your resource is queued for analysis", "Scan request successfully queued, come back later for the report"]
+    viruslist, reasons = [], []
+    sha1 = r.get("resource")
+    r_sha = get_report(sha1)
+    try:
+        response = r_sha.json()
+    except json.decoder.JSONDecodeError:
+        response = json.loads(r_sha.text)
     if "Invalid resource" in response.get("verbose_msg"):
         await msg.err(response.get("verbose_msg"))
         return
-    if response.get("verbose_msg") == que_msg:
+    if response.get("verbose_msg") in que_msg:
         await msg.edit(f"`{que_msg}`")
-        while response.get("verbose_msg") == que_msg:
+        while response.get("verbose_msg") in que_msg:
             await asyncio.sleep(3)
             try:
                 response = get_report(sha1).json()

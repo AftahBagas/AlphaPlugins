@@ -53,6 +53,6 @@ async def glyrics(message: Message):
     lyr_format += "\n**Source: **" + "`" + title[1] + "`"
 
     if lyr_format:
-        await message.edit(lyr_format)
+        await message.edit_or_send_as_file(lyr_format)
     else:
-        await message.edit(f"No Lyrics Found for **{song}**")
+        await message.edit_or_send_as_file(f"No Lyrics Found for **{song}**")

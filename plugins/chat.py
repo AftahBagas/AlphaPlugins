@@ -32,7 +32,7 @@ def mention_html(user_id, name):
     },
 )
 async def join_chat(message: Message):
-    """ Join chat """
+    """Join chat"""
     replied = message.reply_to_message
     text = replied.text if replied else message.input_str
     if not text:
@@ -65,7 +65,7 @@ async def join_chat(message: Message):
     allow_private=False,
 )
 async def leave_chat(message: Message):
-    """ Leave chat """
+    """Leave chat"""
     input_str = message.input_str
     text = input_str or message.chat.id
     try:
@@ -96,7 +96,7 @@ async def leave_chat(message: Message):
     allow_private=False,
 )
 async def invite_link(message: Message):
-    """ Generate invite link """
+    """Generate invite link"""
     chat_id = message.chat.id
     user_id = message.input_str
     if not user_id and message.reply_to_message:
@@ -134,7 +134,7 @@ async def invite_link(message: Message):
     allow_private=False,
 )
 async def tagall_(message: Message):
-    """ Tag recent members """
+    """Tag recent members"""
     replied = message.reply_to_message
     text = message.input_str
     if not (text or replied):
@@ -168,7 +168,7 @@ async def tagall_(message: Message):
     allow_via_bot=False,
 )
 async def stagall_(message: Message):
-    """ tag recent members without spam """
+    """tag recent members without spam"""
     chat_id = message.chat.id
     chat = await userge.get_chat(chat_id)
     await message.edit(f"```tagging everyone in {chat.title}```")
@@ -196,7 +196,7 @@ async def stagall_(message: Message):
     allow_private=False,
 )
 async def tadmins_(message: Message):
-    """ Tag admins in a group """
+    """Tag admins in a group"""
     replied = message.reply_to_message
     text = message.input_str
     if not (text or replied):
@@ -242,7 +242,7 @@ async def tadmins_(message: Message):
     only_admins=True,
 )
 async def set_chat(message: Message):
-    """ Set or delete chat info """
+    """Set or delete chat info"""
     if not message.flags:
         await message.err("```Flags required!...```", del_in=3)
         return
@@ -307,7 +307,7 @@ async def set_chat(message: Message):
     allow_private=False,
 )
 async def view_chat(message: Message):
-    """ View chat info """
+    """View chat info"""
     chat_id = message.chat.id
     chat = await userge.get_chat(chat_id)
     if "-title" in message.flags:

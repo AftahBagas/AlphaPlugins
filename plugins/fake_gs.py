@@ -20,7 +20,7 @@ from wget import download
     },
 )
 async def FakeGoogleSearch(message: Message):
-    """ Get a user-customised google search meme! """
+    """Get a user-customised google search meme!"""
     text = message.input_str
     if not text:
         return await message.err("No input found!", del_in=5)

@@ -20,7 +20,7 @@ from validators.url import url
     },
 )
 async def anime_Scene(message: Message):
-    """ Creates random anime Cut Scene! """
+    """Creates random anime Cut Scene!"""
 
     monika_faces = list("abcdefghijklmnopqr")
 

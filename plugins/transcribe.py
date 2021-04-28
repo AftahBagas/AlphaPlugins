@@ -119,7 +119,7 @@ class WitAiAPI:
     check_downpath=True,
 )
 async def stt_(message: Message):
-    """ Speech to text using Wit.ai """
+    """Speech to text using Wit.ai"""
     send_text = bool("v" in message.flags)
     replied = message.reply_to_message
     message_id = replied.message_id if replied else message.message_id

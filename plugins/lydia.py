@@ -63,7 +63,7 @@ async def _init():
     },
 )
 async def lydia_session(message: Message):
-    """ lydia command handler """
+    """lydia command handler"""
     if CH_LYDIA_API is None:
         await message.edit(
             "Please Configure `CH_LYDIA_API` & `CUSTOM_REPLY_CHANNEL`"
@@ -178,7 +178,7 @@ async def lydia_session(message: Message):
     ~filters.me & ~filters.edited & (filters.mentioned | filters.private), group=2
 )
 async def lydia_ai_chat(message: Message):
-    """ incomming message handler """
+    """incomming message handler"""
     if CH_LYDIA_API is None:
         return
     data = None
@@ -213,7 +213,7 @@ async def lydia_ai_chat(message: Message):
 
 @userge.add_task
 async def lydia_queue() -> None:
-    """ queue handler """
+    """queue handler"""
     msg: Message
     out: str
     while True:

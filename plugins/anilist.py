@@ -183,7 +183,7 @@ async def _init():
 
 
 async def return_json_senpai(query, vars_):
-    """ Makes a Post to https://graphql.anilist.co. """
+    """Makes a Post to https://graphql.anilist.co."""
     url_ = "https://graphql.anilist.co"
     async with ClientSession() as session:
         async with session.post(
@@ -194,7 +194,7 @@ async def return_json_senpai(query, vars_):
 
 
 def make_it_rw(time_stamp, as_countdown=False):
-    """ Converting Time Stamp to Readable Format """
+    """Converting Time Stamp to Readable Format"""
     if as_countdown:
         now = datetime.now()
         air_time = datetime.fromtimestamp(time_stamp)
@@ -217,7 +217,7 @@ def make_it_rw(time_stamp, as_countdown=False):
     },
 )
 async def anim_arch(message: Message):
-    """ Search Anime Info """
+    """Search Anime Info"""
     query = message.filtered_input_str
     if not query:
         await message.err("NameError: 'query' not defined")
@@ -336,7 +336,7 @@ async def anim_arch(message: Message):
     },
 )
 async def airing_anim(message: Message):
-    """ Get Airing Detail of Anime """
+    """Get Airing Detail of Anime"""
     query = message.input_str
     if not query:
         await message.err("NameError: 'query' not defined")
@@ -406,7 +406,7 @@ async def airing_anim(message: Message):
     },
 )
 async def get_schuled(message: Message):
-    """ Get List of Scheduled Anime """
+    """Get List of Scheduled Anime"""
     var = {"notYetAired": True}
     await message.edit("`Fetching Scheduled Animes`")
     result = await return_json_senpai(AIRING_QUERY, var)
@@ -451,7 +451,7 @@ async def get_schuled(message: Message):
     },
 )
 async def character_search(message: Message):
-    """ Get Info about a Character """
+    """Get Info about a Character"""
     query = message.input_str
     if not query:
         await message.err("NameError: 'query' not defined")
@@ -526,7 +526,7 @@ async def character_search(message: Message):
     },
 )
 async def trace_bek(message: Message):
-    """ Reverse Search Anime Clips/Photos """
+    """Reverse Search Anime Clips/Photos"""
     dls_loc = await media_to_image(message)
     if dls_loc:
         async with ClientSession() as session:
@@ -561,7 +561,7 @@ async def trace_bek(message: Message):
     },
 )
 async def ani_save_template(message: Message):
-    """ Set Custom Template for .anime """
+    """Set Custom Template for .anime"""
     text = message.input_or_reply_str
     if not text:
         await message.err("Invalid Syntax")
@@ -582,7 +582,7 @@ async def ani_save_template(message: Message):
     },
 )
 async def view_del_ani(message: Message):
-    """ View or Delete .anime Template """
+    """View or Delete .anime Template"""
     if not message.flags:
         await message.err("Flag Required")
         return

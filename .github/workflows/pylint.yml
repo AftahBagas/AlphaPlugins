@@ -32,6 +32,6 @@ jobs:
           commit_message: 'pylint: auto fixes'
           commit_options: '--no-verify'
           repository: .
-          commit_user_name: code-rgb
-          commit_user_email: 62891774+code-rgb@users.noreply.github.com
-          commit_author: code-rgb <62891774+code-rgb@users.noreply.github.com>
+          commit_user_name: aftahbagas
+          commit_user_email: 62891774+aftahbagas@users.noreply.github.com
+          commit_author: aftahbagas <62891774+aftahbagas@users.noreply.github.com>

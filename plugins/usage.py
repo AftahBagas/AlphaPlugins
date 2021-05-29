@@ -6,11 +6,11 @@ import requests
 from userge import Config, userge, Message
 
 
-@userge.on_cmd("usage", about={'header': "Get Dyno hours usage"})  # pylint:disable=E0602
+@userge.on_cmd("usage", about={'header': "Dapatkan penggunaan jam Dyno"})  # pylint:disable=E0602
 async def usage(message: Message):
-    """Get your account Dyno Usage"""
+    """Dapatkan akun Anda Dyno Usage"""
     if not Config.HEROKU_APP:
-        await message.err("Heroku App Not Found !")
+        await message.err("Aplikasi Heroku Tidak Ditemukan !")
         return
     await message.edit("`Processing...`")
     useragent = ('Mozilla/5.0 (Linux; Android 10; SM-G975F) '
@@ -25,7 +25,7 @@ async def usage(message: Message):
     path = "/accounts/" + u_id + "/actions/get-quota"
     r = requests.get("https://api.heroku.com" + path, headers=headers)
     if r.status_code != 200:
-        return await message.edit("`Error: something bad happened`\n\n"
+        return await message.edit("`Error: sesuatu yang buruk telah terjadi`\n\n"
                                   f">.`{r.reason}`\n")
     result = r.json()
     quota = result['account_quota']
@@ -53,7 +53,7 @@ async def usage(message: Message):
 
     await asyncio.sleep(1.5)
 
-    await message.edit("**Dyno Usage:**\n\n"
+    await message.edit("**Dyno Usage AlphaZ Plugins:**\n\n"
                        f" -> `Dyno usage for`  **{Config.HEROKU_APP_NAME}**:\n"
                        f"     •  `{AppHours}`**h**  `{AppMinutes}`**m**  "
                        f"**|**  [`{AppPercentage}`**%**]"

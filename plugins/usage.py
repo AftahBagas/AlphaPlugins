@@ -53,11 +53,11 @@ async def usage(message: Message):
 
     await asyncio.sleep(1.5)
 
-    await message.edit("**Dyno Usage AlphaZ Plugins:**\n\n"
-                       f" -> `Dyno usage for`  **{Config.HEROKU_APP_NAME}**:\n"
+    await message.edit("**Informasi Dyno:**\n\n"
+                       f" -> `Penggunaan Dyno`  **{Config.HEROKU_APP_NAME}**:\n"
                        f"     •  `{AppHours}`**h**  `{AppMinutes}`**m**  "
                        f"**|**  [`{AppPercentage}`**%**]"
                        "\n"
-                       " -> `Dyno hours quota remaining this month`:\n"
+                       " -> `Sisa kuota jam Dyno bulan ini`:\n"
                        f"     •  `{hours}`**h**  `{minutes}`**m**  "
                        f"**|**  [`{percentage}`**%**]")

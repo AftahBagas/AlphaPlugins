@@ -24,38 +24,9 @@ _CHAT, _MSG_ID = None, None
 _LOGO_ID = None
 
 
-@userge.on_cmd("alive", about={
-    'header': "This command is just for fun"}, allow_channels=False)
-async def alive(message: Message):
-    if not (_CHAT and _MSG_ID):
-        try:
-            _set_data()
-        except Exception as set_err:
-            _LOG.exception("There was some problem while setting Media Data. "
-                           f"trying again... ERROR:: {set_err} ::")
-            _set_data(True)
-
-    alive_text, markup = _get_alive_text_and_markup(message)
-    if _MSG_ID == "text_format":
-        return await message.edit(alive_text, disable_web_page_preview=True, reply_markup=markup)
-    await message.delete()
-    try:
-        await _send_alive(message, alive_text, markup)
-    except (FileIdInvalid, FileReferenceEmpty, BadRequest):
-        await _refresh_id(message)
-        await _send_alive(message, alive_text, markup)
-
-
-def _get_mode() -> str:
-    if userge.dual_mode:
-        return "Dual"
-    if Config.BOT_TOKEN:
-        return "Bot"
-    return "User"
-
-
-def _get_alive_text_and_markup(message: Message) -> Tuple[str, Optional[InlineKeyboardMarkup]]:
-    markup = None
+@userge.on_cmd("alive", about={'header': "get repo link and details"})
+async def see_repo(message: Message):
+    """see repo"""
     output = f"""**Alpha Z Plugins Is Running 🔥!..**\n
 ╭━─━─━─━─≪✠≫─━─━─━─━╮\n
 **❍ ⏱️ uptime** : `{userge.uptime}`

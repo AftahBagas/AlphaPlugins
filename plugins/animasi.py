@@ -10,7 +10,7 @@ async def tiger_(message: Message):
     """tiger"""
     animation_interval = 0.1
     animation_ttl = range(117)
-    await message.edit("`DIKEJAR HARIMAU`")
+    await message.edit("`HARIMAU 😱`")
     animation_chars = [
         "`HA HAAA.....`",
         "`HARIIIMAAAUUUUU!!`",
@@ -19,31 +19,50 @@ async def tiger_(message: Message):
         "`🏃                      🐅`",
         "`🏃                     🐅`",
         "`🏃   `LARII`          🐅`",
-        "🌖",
-        "🌗",
-        "🌘",
-        "🌑",
-        "🌒",
-        "🌓",
-        "🌔",
-        "🌕",
-        "🌖",
-        "🌗",
-        "🌘",
-        "🌑",
-        "🌒",
-        "🌓",
-        "🌔",
-        "🌕",
-        "🌖",
-        "🌗",
-        "🌘",
-        "🌑",
-        "🌒",
-        "🌓",
-        "🌔",
-        "🌕",
-        "🌖",
+        "`🏃                   🐅`"
+        "`🏃                  🐅`"
+        "`🏃                 🐅`"
+        "`🏃                🐅`"
+        "`🏃               🐅`"
+        "`🏃              🐅`"
+        "`🏃             🐅`"
+        "`🏃            🐅`"
+        "`🏃           🐅`"
+        "`🏃WOARGH!   🐅`"
+        "`🏃           🐅`"
+        "`🏃            🐅`"
+        "`🏃             🐅`"
+        "`🏃              🐅`"
+        "`🏃               🐅`"
+        "`🏃                🐅`"
+        "`🏃                 🐅`"
+        "`🏃                  🐅`"
+        "`🏃                   🐅`"
+        "`🏃                    🐅`"
+        "`🏃                     🐅`"
+        "`🏃  Huh-Huh           🐅`"
+        "`🏃                   🐅`"
+        "`🏃                  🐅`"
+        "`🏃                 🐅`"
+        "`🏃                🐅`"
+        "`🏃               🐅`"
+        "`🏃              🐅`"
+        "`🏃             🐅`"
+        "`🏃            🐅`"
+        "`🏃           🐅`"
+        "`🏃          🐅`"
+        "`🏃         🐅`"
+        "`DIA SEMAKIN MENDEKAT!!!`"
+        sleep(1)
+        "`🏃       🐅`"
+        "`🏃      🐅`"
+        "`🏃     🐅`"
+        "`🏃    🐅`"
+        "`Dahlah Pasrah Aja`"
+        sleep(1)
+        "`🧎🐅`"
+        sleep(2)
+        "`-TAMAT-`"
     ]
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)

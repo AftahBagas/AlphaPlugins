@@ -53,15 +53,12 @@ async def tiger_(message: Message):
         "`🏃          🐅`"
         "`🏃         🐅`"
         "`DIA SEMAKIN MENDEKAT!!!`"
-        sleep(1)
         "`🏃       🐅`"
         "`🏃      🐅`"
         "`🏃     🐅`"
         "`🏃    🐅`"
         "`Dahlah Pasrah Aja`"
-        sleep(1)
         "`🧎🐅`"
-        sleep(2)
         "`-TAMAT-`"
     ]
     for i in animation_ttl:

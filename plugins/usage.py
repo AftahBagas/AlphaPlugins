@@ -53,13 +53,13 @@ async def usage(message: Message):
 
     await asyncio.sleep(1.5)
 
-    await message.edit("**Informasi Dyno:**\n\n"
+    await message.edit("⚙️ **Informasi Dyno** ⚙️\n\n"
                        f"┏━━━━━━━━━━━━━━━━━━━━━┓\n"
-                       f" ➥ `Penggunaan Dyno`  **{Config.HEROKU_APP_NAME}**:\n"
-                       f"     •  `{AppHours}`**h**  `{AppMinutes}`**m**  "
+                       f" ⛽ `Penggunaan Dyno`  **{Config.HEROKU_APP_NAME}**:\n"
+                       f"     ➤  `{AppHours}`**h**  `{AppMinutes}`**m**  "
                        f"**|**  [`{AppPercentage}`**%**]"
                        "\n"
-                       " ➥ `Sisa kuota jam Dyno bulan ini`:\n"
-                       f"     •  `{hours}`**h**  `{minutes}`**m**  "
+                       " 🛢️ `Sisa kuota jam Dyno bulan ini`:\n"
+                       f"     ➤  `{hours}`**h**  `{minutes}`**m**  "
                        f"**|**  [`{percentage}`**%**]\n"
                        f"┗━━━━━━━━━━━━━━━━━━━━━┛")

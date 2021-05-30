@@ -61,5 +61,5 @@ async def usage(message: Message):
                        "\n"
                        " ➥ `Sisa kuota jam Dyno bulan ini`:\n"
                        f"     •  `{hours}`**h**  `{minutes}`**m**  "
-                       f"**|**  [`{percentage}`**%**]")
-                       f"┗━━━━━━━━━━━━━━━━━━━━━┛
+                       f"**|**  [`{percentage}`**%**]\n"
+                       f"┗━━━━━━━━━━━━━━━━━━━━━┛")

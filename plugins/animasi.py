@@ -5,64 +5,17 @@ from collections import deque
 from userge import Message, userge
 
 
-@userge.on_cmd("tiger$", about={"header": "animasi dikejar harimau"})
+@userge.on_cmd("nah$", about={"header": "animasi cek aja sendiri"})
 async def tiger_(message: Message):
-    """tiger"""
+    """nah"""
     animation_interval = 0.1
     animation_ttl = range(117)
-    await message.edit("`HARIMAU 😱`")
     animation_chars = [
-        "`HA HAAA.....`",
-        "`HARIIIMAAAUUUUU!!`",
-        "`🏃                        🐅`",
-        "`🏃                       🐅`",
-        "`🏃                      🐅`",
-        "`🏃                     🐅`",
-        "`🏃   `LARII`          🐅`",
-        "`🏃                   🐅`"
-        "`🏃                  🐅`"
-        "`🏃                 🐅`"
-        "`🏃                🐅`"
-        "`🏃               🐅`"
-        "`🏃              🐅`"
-        "`🏃             🐅`"
-        "`🏃            🐅`"
-        "`🏃           🐅`"
-        "`🏃WOARGH!   🐅`"
-        "`🏃           🐅`"
-        "`🏃            🐅`"
-        "`🏃             🐅`"
-        "`🏃              🐅`"
-        "`🏃               🐅`"
-        "`🏃                🐅`"
-        "`🏃                 🐅`"
-        "`🏃                  🐅`"
-        "`🏃                   🐅`"
-        "`🏃                    🐅`"
-        "`🏃                     🐅`"
-        "`🏃  Huh-Huh           🐅`"
-        "`🏃                   🐅`"
-        "`🏃                  🐅`"
-        "`🏃                 🐅`"
-        "`🏃                🐅`"
-        "`🏃               🐅`"
-        "`🏃              🐅`"
-        "`🏃             🐅`"
-        "`🏃            🐅`"
-        "`🏃           🐅`"
-        "`🏃          🐅`"
-        "`🏃         🐅`"
-        "`DIA SEMAKIN MENDEKAT!!!`"
-        "`🏃       🐅`"
-        "`🏃      🐅`"
-        "`🏃     🐅`"
-        "`🏃    🐅`"
-        "`Dahlah Pasrah Aja`"
-        "`🧎🐅`"
-        "`-TAMAT-`"
-    ]
-    max_ani = len(animation_chars)
-    for i in range(max_ani):
-        await asyncio.sleep(1)
-        await message.edit(animation_chars[i % max_ani])
+        await typew.edit("`\n(\\_/)`"
+                     "`\n(◕‿◕)`"
+                     "`\n />🌹 *Ini Buat Kamu`")
+    sleep(2)
+    await typew.edit("`\n(\\_/)`"
+                     "`\n(◡‿◡)`"
+                     "`\n🥀<\\  *Gajadi Layu`")
     

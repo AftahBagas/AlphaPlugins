@@ -61,6 +61,8 @@ async def tiger_(message: Message):
         "`🧎🐅`"
         "`-TAMAT-`"
     ]
-    for i in animation_ttl:
-        await asyncio.sleep(animation_interval)
-        await message.edit(animation_chars[i % 32])
+    max_ani = len(animation_chars)
+    for i in range(max_ani):
+        await asyncio.sleep(1)
+        await message.edit(animation_chars[i % max_ani])
+    await message.edit(😱)

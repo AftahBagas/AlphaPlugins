@@ -24,9 +24,9 @@ _CHAT, _MSG_ID = None, None
 _LOGO_ID = None
 
 
-@userge.on_cmd("alive", about={'header': "get repo link and details"})
+@userge.on_cmd("logo", about={'header': "get logo link and details"})
 async def see_repo(message: Message):
-    """see alive"""
+    """see logo"""
     output = f"""**Alpha Z Plugins Is Running 🔥!..**\n
 ╭━─━─━─━─≪✠≫─━─━─━─━╮\n
 **❍ ⏱️ uptime** : `{userge.uptime}`

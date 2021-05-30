@@ -56,10 +56,10 @@ async def usage(message: Message):
     await message.edit("⚙️ **Informasi Dyno** ⚙️\n\n"
                        f"┏━━━━━━━━━━━━━━━━━━━━━┓\n"
                        f" ⛽ `Penggunaan Dyno`  **{Config.HEROKU_APP_NAME}**:\n"
-                       f"     ➤  `{AppHours}`**h**  `{AppMinutes}`**m**  "
+                       f"     ➥ `{AppHours}`**h**  `{AppMinutes}`**m**  "
                        f"**|**  [`{AppPercentage}`**%**]"
                        "\n"
                        " 🛢️ `Sisa kuota jam Dyno bulan ini`:\n"
-                       f"     ➤  `{hours}`**h**  `{minutes}`**m**  "
+                       f"     ➥ `{hours}`**h**  `{minutes}`**m**  "
                        f"**|**  [`{percentage}`**%**]\n"
                        f"┗━━━━━━━━━━━━━━━━━━━━━┛")

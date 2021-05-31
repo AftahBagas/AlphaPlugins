@@ -1,24 +1,24 @@
-"""Fetch App Details from Playstore.
-.app <app_name> to fetch app details.
-By - @kirito6969
+"""Ambil Detail Aplikasi dari Playstore.
+.app <app_name> untuk mengambil detail aplikasi.
+By - @kanjengingsun
 """
 
 import bs4
 import requests
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "app",
     about={
         "header": "Search application details of any app\n"
         "in play store.\n"
-        "Plugin by - @kirito6969,@krishna_singhal"
+        "Plugin by - @kanjengingsun"
     },
 )
 async def app(message: Message):
     try:
-        await message.edit("`searching...`")
+        await message.edit("`mencari...`")
         app_name = message.input_str
         remove_space = app_name.split(" ")
         final_name = "+".join(remove_space)
@@ -74,6 +74,6 @@ async def app(message: Message):
             app_details, disable_web_page_preview=False, parse_mode="html"
         )
     except IndexError:
-        await message.edit("No result found in search. Please enter **Valid app name**")
+        await message.edit("Tidak ada hasil yang ditemukan dalam pencarian. Silakan masuk **Nama aplikasi yang valid**")
     except Exception as err:
         await message.err(err)

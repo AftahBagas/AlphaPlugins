@@ -5,11 +5,11 @@ import random
 
 from PIL import Image, ImageEnhance, ImageOps
 from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
-from userge import Config, Message, userge
-from userge.utils import progress, runcmd, take_screen_shot
+from alphaz import Config, Message, alphaz
+from alphaz.utils import progress, runcmd, take_screen_shot
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "deepfry",
     about={
         "header": "Deep Fryer",
@@ -128,10 +128,10 @@ async def deepfry(img):
     return fried_file
 
 
-# fry by @krishna_singhal
+# fry by @kanjengingsun
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "fry",
     about={
         "header": "frying media",
@@ -212,9 +212,9 @@ async def fry_(message: Message):
             )
             return
         await conv.get_response(mark_read=True)
-        media = await userge.send_photo(chat, frying_file)
+        media = await alphaz.send_photo(chat, frying_file)
         await conv.get_response(mark_read=True)
-        await userge.send_message(
+        await alphaz.send_message(
             chat,
             "/deepfry {}".format(args),
             reply_to_message_id=media.message_id,

@@ -1,22 +1,18 @@
 """ Invert, flip/mirror, rotate or spin"""
 
-#  Copyright (C) 2020 BY USERGE-X
-#  All rights reserved.
-#
-#  Authors: 1. https://github.com/code-rgb [TG: @DeletedUser420]
-#           2. https://github.com/midnightmadwalk [TG: @MidnightMadwalk] for 🌀 Spin
+#  Copyright (C) 2020 BY AlphaZ Plugins
 
 
 import os
 from shutil import rmtree
 
 from PIL import Image, ImageOps
-from userge import Config, Message, userge
-from userge.plugins.utils.circle import crop_vid
-from userge.utils import media_to_image, runcmd, safe_filename
+from alphaz import Config, Message, alphaz
+from alphaz.plugins.utils.circle import crop_vid
+from alphaz.utils import media_to_image, runcmd, safe_filename
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "(invert|mirror|flip)$",
     about={
         "header": "Invert, Mirror or Flip any media",
@@ -67,7 +63,7 @@ async def transform_media(image_path, transform_choice):
     return webp_file
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "rotate",
     about={
         "header": "Rotate any media",
@@ -109,7 +105,7 @@ async def rotate_(message: Message):
     os.remove(webp_file)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "spin",
     about={
         "header": "Brr... 🌀",
@@ -146,14 +142,14 @@ async def spinn(message: Message):
             return await message.err("Not valid value for flag '-s'", del_in=5)
     else:
         step = 1
-    # Haha USERGE-X custom function
+    # Haha AlphaZ Plugins custom function
     pic_loc = safe_filename(await media_to_image(message))
     if not pic_loc:
         return await message.err("Reply to a valid media first", del_in=5)
     await message.edit("🌀 `Tighten your seatbelts, sh*t is about to get wild ...`")
     # direction of rotation
     spin_dir = -1 if "-c" in message.flags else 1
-    path = "userge/xcache/rotate-disc/"
+    path = "alphaz/xcache/rotate-disc/"
     if os.path.exists(path):
         rmtree(path, ignore_errors=True)
     os.mkdir(path)

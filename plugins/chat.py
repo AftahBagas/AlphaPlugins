@@ -1,4 +1,4 @@
-""" Chat info, Join and leave chat, tagall and tag admins """
+""" Info obrolan, Bergabung dan tinggalkan obrolan, tagall dan tag admin """
 
 
 import asyncio
@@ -12,9 +12,9 @@ from pyrogram.errors import (
     UsernameNotOccupied,
     UsernameOccupied,
 )
-from userge import Config, Message, userge
+from alphaz import Config, Message, alphaz
 
-LOG = userge.getLogger(__name__)
+LOG = alphaz.getLogger(__name__)
 
 PATH = Config.DOWN_PATH + "chat_pic.jpg"
 
@@ -23,62 +23,62 @@ def mention_html(user_id, name):
     return '<a href="tg://user?id={}">{}</a>'.format(user_id, html.escape(name))
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "join",
     about={
-        "header": "Join chat",
-        "usage": "{tr}join [chat username | reply to Chat username Text]",
-        "examples": "{tr}join @userge_x",
+        "header": "Bergabunglah dengan obrolan",
+        "usage": "{tr}join [chat username | balas nama pengguna Obrolan Text]",
+        "examples": "{tr}join @kanjengingsun",
     },
 )
 async def join_chat(message: Message):
-    """Join chat"""
+    """Bergabunglah dengan obrolan"""
     replied = message.reply_to_message
     text = replied.text if replied else message.input_str
     if not text:
         await message.edit(
-            "```Bruh, Without chat name, I can't Join...^_^```", del_in=3
+            "```Bruh, Tanpa nama obrolan, saya tidak bisa Bergabung...^_^```", del_in=3
         )
         return
     try:
-        chat = await userge.get_chat(text)
-        await userge.join_chat(text)
-        await userge.send_message(text, f"```Joined {chat.title} Successfully...```")
+        chat = await alphaz.get_chat(text)
+        await alphaz.join_chat(text)
+        await alphaz.send_message(text, f"```Bergabung {chat.title} Berhasil...```")
     except UsernameNotOccupied:
-        await message.edit("```Username, you entered, is not exist... ```", del_in=3)
+        await message.edit("```Nama pengguna, Anda masuk, tidak ada... ```", del_in=3)
         return
     except PeerIdInvalid:
-        await message.edit("```Chat id, you entered, is not exist... ```", del_in=3)
+        await message.edit("```Id obrolan, yang Anda masukkan, tidak ada... ```", del_in=3)
         return
     else:
         await message.delete()
         await asyncio.sleep(2)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "leave",
     about={
-        "header": "Leave Chat",
-        "usage": "{tr}leave\n{tr}leave [chat username | reply to Chat username text]",
-        "examples": ["{tr}leave", "{tr}leave UserGeOt"],
+        "header": "Tinggalkan Obrolan",
+        "usage": "{tr}leave\n{tr}leave [chat username | membalas teks nama pengguna Obrolan]",
+        "examples": ["{tr}leave", "{tr}leave User AlphaZ Out"],
     },
     allow_private=False,
 )
 async def leave_chat(message: Message):
-    """Leave chat"""
+    """Tinggalkan obrolan"""
     input_str = message.input_str
     text = input_str or message.chat.id
     try:
-        await userge.send_message(text, "```Good bye, Cruel World... :-) ```")
-        await userge.leave_chat(text)
+        await alphaz.send_message(text, "```Selamat tinggal, Dunia Kejam ... :-) ```")
+        await alphaz.leave_chat(text)
     except UsernameNotOccupied:
         await message.edit(
-            "```Username that you entered, doesn't exist... ```", del_in=3
+            "```Nama pengguna yang Anda masukkan, tidak ada... ```", del_in=3
         )
         return
     except PeerIdInvalid:
         await message.edit(
-            "```Chat id which you entered seems not to be exist...```", del_in=3
+            "```Id obrolan yang Anda masukkan sepertinya tidak ada...```", del_in=3
         )
         return
     else:
@@ -86,10 +86,10 @@ async def leave_chat(message: Message):
         await asyncio.sleep(2)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "invite",
     about={
-        "header": "Generate chat Invite link",
+        "header": "Buat tautan Undangan obrolan",
         "usage": "{tr}invite\n{tr}invite [Chat Id | Chat Username]",
     },
     allow_channels=False,
@@ -106,7 +106,7 @@ async def invite_link(message: Message):
             chat = await userge.get_chat(chat_id)
             chat_name = chat.title
             if chat.type in ["group", "supergroup"]:
-                link = await userge.export_chat_invite_link(chat_id)
+                link = await alphaz.export_chat_invite_link(chat_id)
                 await message.edit(
                     "**Invite link Genrated Successfully for\n"
                     f"{chat_name}**\n[Click here to join]({link})",
@@ -118,13 +118,13 @@ async def invite_link(message: Message):
             await message.err(e_f)
     else:
         try:
-            await userge.add_chat_members(chat_id, user_id)
+            await alphaz.add_chat_members(chat_id, user_id)
             await message.edit("`Invited Successfully...`")
         except Exception as e_f:
             await message.err(e_f)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "tagall",
     about={
         "header": "Tagall recent 100 members with caption",
@@ -158,7 +158,7 @@ async def tagall_(message: Message):
     await message.edit("```Tagged recent Members Successfully...```", del_in=3)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "stagall",
     about={
         "header": "Silent tag recent 100 members with caption",
@@ -170,7 +170,7 @@ async def tagall_(message: Message):
 async def stagall_(message: Message):
     """tag recent members without spam"""
     chat_id = message.chat.id
-    chat = await userge.get_chat(chat_id)
+    chat = await alphaz.get_chat(chat_id)
     await message.edit(f"```tagging everyone in {chat.title}```")
     replied = message.reply_to_message
     text = message.input_str
@@ -179,15 +179,15 @@ async def stagall_(message: Message):
         return
     text = f"`{text}`" if text else ""
     message_id = replied.message_id if replied else None
-    member = userge.iter_chat_members(chat_id)
+    member = alphaz.iter_chat_members(chat_id)
     async for members in member:
         if not members.user.is_bot:
             text += mention_html(members.user.id, "\u200b")
     await message.delete()
-    await userge.send_message(chat_id, text, reply_to_message_id=message_id)
+    await alphaz.send_message(chat_id, text, reply_to_message_id=message_id)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "tadmins",
     about={
         "header": "Tag admins in group",
@@ -225,7 +225,7 @@ async def tadmins_(message: Message):
     await message.edit("```Admins tagged Successfully...```", del_in=3)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "schat",
     about={
         "header": "Update and delete chat info",
@@ -246,7 +246,7 @@ async def set_chat(message: Message):
     if not message.flags:
         await message.err("```Flags required!...```", del_in=3)
         return
-    chat = await userge.get_chat(message.chat.id)
+    chat = await alphaz.get_chat(message.chat.id)
     if "-ddes" in message.flags:
         if not chat.description:
             await message.edit("```Chat already not have description...```", del_in=5)
@@ -260,7 +260,7 @@ async def set_chat(message: Message):
         await message.edit("```Need Text to Update chat info...```", del_in=5)
         return
     if "-title" in message.flags:
-        await userge.set_chat_title(message.chat.id, args.strip())
+        await alphaz.set_chat_title(message.chat.id, args.strip())
         await message.edit("```Chat Title is Successfully Updated...```", del_in=3)
     elif "-uname" in message.flags:
         try:
@@ -293,7 +293,7 @@ async def set_chat(message: Message):
         await message.edit("```Invalid args, Exiting...  ```", del_in=5)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "vchat",
     about={
         "header": "View Chat",
@@ -309,7 +309,7 @@ async def set_chat(message: Message):
 async def view_chat(message: Message):
     """View chat info"""
     chat_id = message.chat.id
-    chat = await userge.get_chat(chat_id)
+    chat = await alphaz.get_chat(chat_id)
     if "-title" in message.flags:
         await message.edit("```checking, wait plox !...```", del_in=3)
         title = chat.title
@@ -340,7 +340,7 @@ async def view_chat(message: Message):
                 os.remove(PATH)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "bots",
     about={
         "header": "View Chat bots",

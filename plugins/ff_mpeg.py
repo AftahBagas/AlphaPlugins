@@ -3,13 +3,13 @@ import os
 import time
 from datetime import datetime
 
-from userge import Config, Message, userge
-from userge.utils import progress, safe_filename
+from alphaz import Config, Message, alphaz
+from alphaz.utils import progress, safe_filename
 
 FF_MPEG_DOWN_LOAD_MEDIA_PATH = "/app/downloads/userge.media.ffmpeg"
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "ffmpegsave", about={"header": "Save a media that is to be used in ffmpeg"}
 )
 async def ffmpegsave(message: Message):
@@ -44,7 +44,7 @@ async def ffmpegsave(message: Message):
         )
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "ffmpegtrim",
     about={
         "header": "Trim a given media",

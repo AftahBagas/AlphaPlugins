@@ -229,8 +229,8 @@ async def fry_(message: Message):
             directory = Config.DOWN_PATH
             files_name = "fry.webp"
             deep_fry = os.path.join(directory, files_name)
-            await userge.download_media(message=response, file_name=deep_fry)
-            await userge.send_sticker(
+            await alphaz.download_media(message=response, file_name=deep_fry)
+            await alphaz.send_sticker(
                 message.chat.id,
                 sticker=deep_fry,
                 reply_to_message_id=message_id,

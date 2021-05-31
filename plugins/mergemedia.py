@@ -1,8 +1,5 @@
 """MergeMedia"""
-#  Copyright (C) 2020 BY USERGE-X
-#  All rights reserved.
-#
-#  Author: https://github.com/midnightmadwalk [TG: @midnightmadwalk]
+#  alfareza
 
 import codecs
 import os
@@ -11,12 +8,12 @@ import shutil
 from pathlib import Path
 
 from hachoir.stream.input import InputStreamError, NullStreamError
-from userge import Message, userge
-from userge.plugins.misc.upload import upload
-from userge.utils import progress, runcmd, safe_filename
+from alphaz import Message, userge
+from alphaz.plugins.misc.upload import upload
+from alphaz.utils import progress, runcmd, safe_filename
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "mergesave",
     about={
         "header": "save file for {tr}merge",
@@ -34,14 +31,14 @@ async def mergesave_(message: Message):
     else:
         replied_media = await message.client.download_media(
             message=message.reply_to_message,
-            file_name="userge/xcache/merge/",
+            file_name="alphaz/xcache/merge/",
             progress=progress,
             progress_args=(message, "`Saving for further merge !`"),
         )
         await message.edit(f"Saved in {safe_filename(replied_media)}")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "merge",
     about={
         "header": "Merge Media.",
@@ -54,8 +51,8 @@ async def merge_(message: Message):
     # preparing text file.
     await message.edit("`🙂🙃 Preparing text file ...`")
     txt_file = codecs.open("merge.txt", "w+", "utf-8")
-    for media in os.listdir("userge/xcache/merge"):
-        data_ = "file" + " " + "'" + "userge/xcache/merge/" + media + "'" + "\n"
+    for media in os.listdir("alphaz/xcache/merge"):
+        data_ = "file" + " " + "'" + "alphaz/xcache/merge/" + media + "'" + "\n"
         txt_file.write(data_)
     txt_file.close()
     # detecting extension.
@@ -65,9 +62,9 @@ async def merge_(message: Message):
         await message.edit(f"detected extension is .{rege_x}")
     # custom name.
     if name_:
-        output_path = "userge/xcache/merge/" + name_ + "." + rege_x
+        output_path = "alphaz/xcache/merge/" + name_ + "." + rege_x
     else:
-        output_path = "userge/xcache/merge/output." + rege_x
+        output_path = "alphaz/xcache/merge/output." + rege_x
     # ffmpeg.
     await message.edit("`🏃️🏃🏃 ffmpeg ...`")
     logs_ = await runcmd(
@@ -83,11 +80,11 @@ async def merge_(message: Message):
         await message.edit("`successfully merged ...`")
     # cleanup.
     await message.edit("`🤯😪 cleaning mess ...`", del_in=10)
-    shutil.rmtree("userge/xcache/merge")
+    shutil.rmtree("alphaz/xcache/merge")
     os.remove("merge.txt")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "mergeclear",
     about={
         "header": "Incase you saved wrong media",
@@ -97,7 +94,7 @@ async def merge_(message: Message):
 async def mergeclear_(message: Message):
     """Clear Saved."""
     try:
-        shutil.rmtree("userge/xcache/merge", ignore_errors=True)
+        shutil.rmtree("alphaz/xcache/merge", ignore_errors=True)
     except FileNotFoundError:
         await message.err("already cleared")
     else:

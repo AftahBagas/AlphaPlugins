@@ -1,5 +1,4 @@
-# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
-# All rights reserved.
+# alfareza.
 
 """Detects Nsfw content with the help of A.I."""
 
@@ -9,11 +8,11 @@ import aiohttp
 
 # if you prefer requests
 # import requests
-from userge import Config, Message, userge
-from userge.utils import media_to_image
+from alphaz import Config, Message, alphaz
+from alphaz.utils import media_to_image
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "detect",
     about={
         "header": "Scan media for nsfw content",

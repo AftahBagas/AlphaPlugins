@@ -1,16 +1,10 @@
 """Last FM"""
 
-# Copyright (C) 2020 BY USERGE-X
-# All rights reserved.
-#
-# Authors: 1. https://github.com/lostb053 [TG: @Lostb053]
-#          2. https://github.com/code-rgb [TG: @DeletedUser420]
-#
-# API: https://www.last.fm/api
+# Copyright (C) 2020 BY AlphaZ Plugins
 
 
-from userge import Config, Message, userge
-from userge.utils import get_response, rand_array
+from alphaz import Config, Message, alphaz
+from alphaz.utils import get_response, rand_array
 
 API = "http://ws.audioscrobbler.com/2.0"
 
@@ -23,7 +17,7 @@ PIC_URL = [
 ]
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "lastfm",
     about={"header": "Get Lastfm now playing pic"},
 )
@@ -81,7 +75,7 @@ async def last_fm_pic_(message: Message):
     await message.edit(f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "lastuser",
     about={
         "header": "Get Lastfm user info",
@@ -133,7 +127,7 @@ async def last_fm_user_info_(message: Message):
     await message.edit(result, parse_mode="html")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "lastlove",
     about={
         "header": "Get Lastfm Loved Tracks",
@@ -172,7 +166,7 @@ async def last_fm_loved_tracks_(message: Message):
     await message.edit(rep, disable_web_page_preview=True, parse_mode="html")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "lastplayed",
     about={
         "header": "Get recently played LastFm Songs",

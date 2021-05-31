@@ -2,11 +2,11 @@ import os
 import textwrap
 
 from PIL import Image, ImageDraw, ImageFont
-from userge import Config, Message, userge
-from userge.utils import media_to_image
+from alphaz import Config, Message, alphaz
+from alphaz.utils import media_to_image
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "mmf",
     about={
         "header": "Memify aka Geyify (๑¯ω¯๑)",

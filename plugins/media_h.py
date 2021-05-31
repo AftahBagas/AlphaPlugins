@@ -1,12 +1,11 @@
-# Copyright (C) 2020 BY - GitHub.com/code-rgb [TG - @deleteduser420]
-# All rights reserved.
+# alfareza.
 
 
 import time
 
 from prettytable import PrettyTable
-from userge import Message, userge
-from userge.utils import humanbytes, mention_html, time_formatter
+from alphaz import Message, alphaz
+from alphaz.utils import humanbytes, mention_html, time_formatter
 
 TYPES = [
     "photo",
@@ -20,7 +19,7 @@ TYPES = [
 ]
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "media_h",
     about={
         "header": "Find media history of a User",

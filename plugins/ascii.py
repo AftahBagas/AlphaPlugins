@@ -1,7 +1,5 @@
-"""Reply to an Media to convert to ascii Image"""
-# Module by @deleteduser420 (https://github.com/code-rgb)
-# Copyright 2017, Shanshan Wang, MIT license
-# Based on https://gist.github.com/wshanshan/c825efca4501a491447056849dd207d6
+"""Balas ke Media untuk dikonversi ke Gambar ascii"""
+# alfareza
 
 import os
 import random
@@ -9,11 +7,11 @@ import random
 import numpy as np
 from colour import Color
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-from userge import Config, Message, userge
-from userge.utils import media_to_image
+from alphaz import Config, Message, alphaz
+from alphaz.utils import media_to_image
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "ascii",
     about={
         "header": "Ascii Image",

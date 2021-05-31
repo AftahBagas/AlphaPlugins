@@ -1,12 +1,12 @@
-""" Auto Update Bio """
+""" Perbarui Otomatis Bio """
 
-# By @Krishna_Singhal
+# By @kanjengingsun
 
 import asyncio
 import time
 
 from pyrogram.errors import FloodWait
-from userge import Message, get_collection, userge
+from alphaz import Message, get_collection, alphaz
 
 from resources.quotes import ENGLISH_QUOTES, HINDI_QUOTES
 
@@ -16,8 +16,8 @@ BIO_QUOTES = ENGLISH_QUOTES
 
 USER_DATA = get_collection("CONFIGS")
 
-CHANNEL = userge.getCLogger(__name__)
-LOG = userge.getLogger(__name__)
+CHANNEL = alphaz.getCLogger(__name__)
+LOG = alphaz.getLogger(__name__)
 
 
 async def _init() -> None:
@@ -30,15 +30,15 @@ async def _init() -> None:
         AUTOBIO_TIMEOUT = b_t["data"]
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "autobio",
     about={
-        "header": "Auto Updates your Profile Bio with 2 languages.",
+        "header": "Pembaruan Otomatis Bio Profil Anda dengan 2 bahasa.",
         "usage": "{tr}autobio (for eng)\n{tr}autobio Hi (for hindi)",
     },
 )
 async def auto_bio(msg: Message):
-    """Auto Update Your Bio"""
+    """Perbarui Otomatis Bio Anda"""
     global BIO_UPDATION, BIO_QUOTES  # pylint: disable=global-statement
     if BIO_UPDATION:
         if isinstance(BIO_UPDATION, asyncio.Task):
@@ -62,16 +62,16 @@ async def auto_bio(msg: Message):
     BIO_UPDATION = asyncio.get_event_loop().create_task(_autobio_worker())
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "sabto",
     about={
-        "header": "Set auto bio timeout",
+        "header": "Setel batas waktu bio otomatis",
         "usage": "{tr}sabto [timeout in seconds]",
         "examples": "{tr}sabto 500",
     },
 )
 async def set_bio_timeout(message: Message):
-    """set auto bio timeout"""
+    """setel batas waktu bio otomatis"""
     global AUTOBIO_TIMEOUT  # pylint: disable=global-statement
     t_o = int(message.input_str)
     if t_o < 60:
@@ -85,7 +85,7 @@ async def set_bio_timeout(message: Message):
     await message.edit(f"`Set auto bio timeout as {t_o} seconds!`", del_in=5)
 
 
-@userge.on_cmd("vabto", about={"header": "View auto bio timeout"})
+@alphaz.on_cmd("vabto", about={"header": "View auto bio timeout"})
 async def view_bio_timeout(message: Message):
     """view bio timeout"""
     await message.edit(
@@ -93,12 +93,12 @@ async def view_bio_timeout(message: Message):
     )
 
 
-@userge.add_task
+@alphaz.add_task
 async def _autobio_worker():
     while BIO_UPDATION:
         for quote in BIO_QUOTES:
             try:
-                await userge.update_profile(bio=quote)
+                await alphaz.update_profile(bio=quote)
             except FloodWait as s_c:
                 LOG.warn(s_c)
                 time.sleep(s_c.x)

@@ -2,10 +2,10 @@
 import asyncio
 from collections import deque
 
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd("alfareza$", about={"header": "perkenalkan dulu gais"})
+@alphaz.on_cmd("alfareza$", about={"header": "perkenalkan dulu gais"})
 async def alfareza_(message: Message):
     """perkenalan"""
     animation_interval = 0.0
@@ -19,7 +19,7 @@ async def alfareza_(message: Message):
     await message.edit("`Salam Kenal Ya:)`")
 
 
-@userge.on_cmd("punten$", about={"header": "punten slur"})
+@alphaz.on_cmd("punten$", about={"header": "punten slur"})
 async def punten_(message: Message):
     """Punten Slur"""
     animation_interval = 0.0

@@ -1,13 +1,10 @@
-# Userge Plugin for carbon.now.sh with custom theme and background colour support
-# Based on https://github.com/cyberboysumanjay/Carbon-API
-# Author: Sumanjay (https://github.com/cyberboysumanjay) (@cyberboysumanjay)
-# All rights reserved.
+# alfareza
 
 import requests
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "carb",
     about={
         "header": "Create a carbon",

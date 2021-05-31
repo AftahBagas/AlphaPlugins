@@ -1,12 +1,12 @@
-# Idea by @iTz_Black007
+# Idea by @kanjengungsun
 
 """ PEPEify via @honka_says_bot """
 
-from userge import Message, userge
-from userge.utils import deEmojify
+from alphaz import Message, alphaz
+from alphaz.utils import deEmojify
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "honk",
     about={
         "header": "Creates PEPE sticker",
@@ -38,7 +38,7 @@ async def honka_says_bot(message: Message):
         font_size = 0
 
     try:
-        stickers = await userge.get_inline_bot_results(
+        stickers = await alphaz.get_inline_bot_results(
             "honka_says_bot", f"{deEmojify(text)}."
         )
         message_id = replied.message_id if replied else None

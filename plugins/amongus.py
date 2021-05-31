@@ -1,9 +1,6 @@
 """Create Cool Among US Stickers"""
 
-# Copyright (C) 2020 BY USERGE-X
-# All rights reserved.
-# Author : https://github.com/KeyZenD ( FTG Modules )
-# Ported By Github/code-rgb [TG- @deleteduser420]
+# afareza
 
 
 import os
@@ -13,7 +10,7 @@ from textwrap import wrap
 
 from PIL import Image, ImageDraw, ImageFont
 from requests import get
-from userge import Config, Message, userge
+from alphaz import Config, Message, alphaz
 
 CLRS = {
     "red": 1,
@@ -31,7 +28,7 @@ CLRS = {
 }
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "amongus",
     about={
         "header": "Create a Sticker based on the popular game Among Us",

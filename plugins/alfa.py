@@ -21,7 +21,7 @@ async def alfareza_(message: Message):
 
 @userge.on_cmd("punten$", about={"header": "punten slur"})
 async def punten_(message: Message):
-    """jawab salam"""
+    """Punten Slur"""
     animation_interval = 0.1
     animation_ttl = range(117)
     await message.edit("`\n┻┳|―-∩`"

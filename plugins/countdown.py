@@ -1,5 +1,4 @@
-# Idea by @Decage
-# Plugin By Github.com/code-rgb [ TG - @DeletedUser420 ]
+# alfareza
 
 """ Start a Real-Time CountDown """
 
@@ -32,7 +31,7 @@ async def count_it_down(message: Message):
     reply_id = reply.message_id if reply else None
     await message.delete()
     try:
-        inline_msg = await userge.get_inline_bot_results("CountdownMeBot", text)
+        inline_msg = await alphaz.get_inline_bot_results("CountdownMeBot", text)
         reply.message_id if reply else None
         await alphaz.send_inline_bot_result(
             chat_id=message.chat.id,

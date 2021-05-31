@@ -4,7 +4,7 @@
 from datetime import datetime
 
 import spamwatch
-from alphaz import Config, Message, get_collection, userge
+from alphaz import Config, Message, get_collection, alphaz
 from alphaz.utils import get_response
 
 GBAN_USER_BASE = get_collection("GBAN_USER")

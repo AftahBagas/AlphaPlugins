@@ -1,18 +1,17 @@
 """P*rnhub Comment"""
-# @Mrconfused [catuserbot] for the idea of nekobot API
-# BY code-rgb [https://github.com/code-rgb]
+# alfareza
 
 
 import os
 
 import requests
 from html_telegraph_poster.upload_images import upload_image
-from userge import Config, Message, userge
-from userge.utils import deEmojify
+from alphaz import Config, Message, alphaz
+from alphaz.utils import deEmojify
 from validators.url import url
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "ph",
     about={
         "header": "P*rnhub Comment",

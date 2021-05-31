@@ -7,7 +7,7 @@ from userge import Message, userge
 
 @userge.on_cmd("nah$", about={"header": "Kasih Bunga Eh Layu"})
 async def tiger_(message: Message):
-    """tiger"""
+    """animasi"""
     animation_interval = 0.1
     animation_ttl = range(117)
     await message.edit("`\n(\\_/)`"

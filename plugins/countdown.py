@@ -8,7 +8,7 @@ import re
 from userge import Message, userge
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "cdown",
     about={
         "header": "Creates Count Down",
@@ -34,7 +34,7 @@ async def count_it_down(message: Message):
     try:
         inline_msg = await userge.get_inline_bot_results("CountdownMeBot", text)
         reply.message_id if reply else None
-        await userge.send_inline_bot_result(
+        await alphaz.send_inline_bot_result(
             chat_id=message.chat.id,
             query_id=inline_msg.query_id,
             result_id=inline_msg.results[0].id,

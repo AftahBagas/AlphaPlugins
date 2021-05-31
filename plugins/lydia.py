@@ -1,9 +1,6 @@
 """ AI chatbot """
 
-# AI Chat Bot Module.
-# Lydia AI Powered by CoffeeHouse from Intellivoid (Telegram: t.me/Intellivoid)
-# Author: Phyco-Ninja (https://github.com/Phyco-Ninja) (@PhycoNinja13b)
-# Thanks to @Intellivoid For Creating CoffeeHouse API
+# Alfareza
 
 import asyncio
 import os
@@ -14,10 +11,10 @@ from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError
 from coffeehouse.lydia import LydiaAI, Session
 from pyrogram.errors import PeerIdInvalid
-from userge import Message, filters, get_collection, pool, userge
-from userge.utils import get_file_id
+from alphaz import Message, filters, get_collection, pool, alphaz
+from alphaz.utils import get_file_id
 
-LOGGER = userge.getCLogger(__name__)
+LOGGER = alphaz.getCLogger(__name__)
 LYDIA_CHATS = get_collection("LYDIA_CHATS")
 CH_LYDIA_API = os.environ.get("CH_LYDIA_API", None)
 CUSTOM_REPLY_CHANNEL = int(os.environ.get("CUSTOM_REPLY_CHANNEL", 0))
@@ -46,7 +43,7 @@ async def _init():
             CUSTOM_REPLIES_IDS.append(message.message_id)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "lydia",
     about={
         "header": "Lydia AI Chat Bot",
@@ -174,7 +171,7 @@ async def lydia_session(message: Message):
         )
 
 
-@userge.on_filters(
+@alphaz.on_filters(
     ~filters.me & ~filters.edited & (filters.mentioned | filters.private), group=2
 )
 async def lydia_ai_chat(message: Message):
@@ -200,7 +197,7 @@ async def lydia_ai_chat(message: Message):
             ses_id = ses.id
         try:
             out = ""
-            await userge.send_read_acknowledge(
+            await alphaz.send_read_acknowledge(
                 chat_id=chat_id, message=message, clear_mentions=True
             )
             if not message.media and message.text:
@@ -211,7 +208,7 @@ async def lydia_ai_chat(message: Message):
     message.continue_propagation()
 
 
-@userge.add_task
+@alphaz.add_task
 async def lydia_queue() -> None:
     """queue handler"""
     msg: Message

@@ -4,10 +4,10 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from googlesearch import search
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "glyrics",
     about={
         "header": "Genius Lyrics",

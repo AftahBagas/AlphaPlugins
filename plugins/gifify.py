@@ -1,14 +1,14 @@
 """ Plugin for tgs to GiF """
 
-# By @Krishna_Singhal
+# By @kanjengungsun
 
 import os
 
 import lottie
-from userge import Config, Message, pool, userge
+from alphaz import Config, Message, pool, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "gif",
     about={
         "header": "Convert Telegram Animated Sticker to GiF",

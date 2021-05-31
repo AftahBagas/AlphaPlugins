@@ -5,10 +5,10 @@ from pathlib import Path
 
 import deezloader
 from deezloader.exceptions import NoDataApi
-from userge import Message, pool, userge
-from userge.plugins.misc.upload import audio_upload, doc_upload
+from alphaz import Message, pool, alphaz
+from alphaz.plugins.misc.upload import audio_upload, doc_upload
 
-Clogger = userge.getCLogger(__name__)
+Clogger = alphaz.getCLogger(__name__)
 ARL_TOKEN = os.environ.get("ARL_TOKEN")
 TEMP_PATH = "deezdown_temp/"
 REX = re.compile(
@@ -21,10 +21,10 @@ ARL_HELP = """**Oops, Time to Help Yourself**
 After getting Arl token Config `ARL_TOKEN` var in heroku"""
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "deezload",
     about={
-        "header": "DeezLoader for Userge",
+        "header": "DeezLoader for AlphaZ Plugins",
         "description": "Download Songs/Albums/Playlists via "
         "Spotify or Deezer Links. "
         "\n<b>NOTE:</b> Music Quality is optional",

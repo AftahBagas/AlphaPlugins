@@ -1,6 +1,4 @@
-# Userge Plugin for Labstack Uploads (https://up.labstack.com)
-# Author: Sumanjay (https://github.com/cyberboysumanjay) (@cyberboysumanjay)
-# All rights reserved.
+# alfareza
 
 import asyncio
 import math
@@ -12,11 +10,11 @@ from urllib.parse import unquote_plus
 
 import requests
 from pySmartDL import SmartDL
-from userge import Config, Message, userge
-from userge.utils import humanbytes, progress
+from alphaz import Config, Message, alphaz
+from alphaz.utils import humanbytes, progress
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "labstack",
     about={
         "header": "Uploads and shares files for free on Labstack,"

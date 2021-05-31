@@ -2,10 +2,10 @@
 
 from geopy.geocoders import Nominatim
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "gps",
     about={
         "header": "locate the coordinates by address, cities, countries "
@@ -25,7 +25,7 @@ async def gps_locate_(message: Message):
         if len(loc_x) == 2:
             titlex = loc_x[0]
             loc_ = loc_x[1]
-    geolocator = Nominatim(user_agent="USERGE-X")
+    geolocator = Nominatim(user_agent="AlphaZ Plugins")
     geoloc = geolocator.geocode(loc_)
     if not geoloc:
         return await message.err("**404 Location Not Found**", del_in=5)

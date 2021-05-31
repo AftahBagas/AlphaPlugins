@@ -1,18 +1,18 @@
-"""Anime Girl Game Cut-Scene"""
+"""Potongan Adegan Anime Girl Game"""
 
-# BY code-rgb [https://github.com/code-rgb]
+# alfareza
 
 
 import requests
-from userge import Message, userge
-from userge.utils import deEmojify, rand_array
+from alphaz import Message, alphaz
+from alphaz.utils import deEmojify, rand_array
 from validators.url import url
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "sc",
     about={
-        "header": "Creates Random Anime Cut Scene",
+        "header": "Membuat Adegan Potongan Anime Acak",
         "flags": {"y": "yuri", "n": "natsuki", "m": "monika", "s": "sayori"},
         "usage": "{tr}sc [text | reply to message]\n"
         "{tr}sc [flags] [text | reply to message]",
@@ -20,7 +20,7 @@ from validators.url import url
     },
 )
 async def anime_Scene(message: Message):
-    """Creates random anime Cut Scene!"""
+    """Membuat Adegan Potong anime acak!"""
 
     monika_faces = list("abcdefghijklmnopqr")
 
@@ -92,7 +92,7 @@ async def anime_Scene(message: Message):
     elif replied:
         text = args or replied.text
     else:
-        await message.err("`Input not found!...`", del_in=5)
+        await message.err("`Masukan tidak ditemukan!...`", del_in=5)
         return
     await message.delete()
     if "-y" in message.flags:
@@ -115,7 +115,7 @@ async def anime_Scene(message: Message):
 
     path = await ddlc(character, rando_face, rando_body, rand_background, text)
     if path == "ERROR":
-        return await message.edit("😔 Something Wrong see Help!", del_in=2)
+        return await message.edit("😔 Sesuatu yang Salah lihat Bantuan!", del_in=2)
     chat_id = message.chat.id
     message_id = replied.message_id if replied else None
     await message.delete()

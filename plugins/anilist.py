@@ -1,11 +1,6 @@
 """ Search for Anime related Info """
 
-# Module Capable of fetching Anime, Airing, Character Info &
-# Anime Reverse Search made for UserGe.
-# AniList Api (GitHub: https://github.com/AniList/ApiV2-GraphQL-Docs)
-# Anime Reverse Search Powered by tracemoepy.
-# TraceMoePy (GitHub: https://github.com/DragSama/tracemoepy)
-# (C) Author: Phyco-Ninja (https://github.com/Phyco-Ninja) (@PhycoNinja13b)
+# alfraeza
 
 import os
 from datetime import datetime
@@ -14,25 +9,25 @@ import flag as cflag
 import humanize
 import tracemoepy
 from aiohttp import ClientSession
-from userge import Message, get_collection, userge
-from userge.utils import media_to_image
-from userge.utils import post_to_telegraph as post_to_tp
+from alphaz import Message, get_collection, alphaz
+from alphaz.utils import media_to_image
+from alphaz.utils import post_to_telegraph as post_to_tp
 
 # Logging Errors
-CLOG = userge.getCLogger(__name__)
+CLOG = alphaz.getCLogger(__name__)
 
 # Default templates for Query Formatting
 ANIME_TEMPLATE = """[{c_flag}]**{romaji}**
 
 **ID | MAL ID:** `{idm}` | `{idmal}`
-➤ **SOURCE:** `{source}`
-➤ **TYPE:** `{formats}`
-➤ **GENRES:** `{genre}`
-➤ **SEASON:** `{season}`
-➤ **EPISODES:** `{episodes}`
-➤ **STATUS:** `{status}`
-➤ **NEXT AIRING:** `{air_on}`
-➤ **SCORE:** `{score}%` 🌟
+➥ **SOURCE:** `{source}`
+➥ **TYPE:** `{formats}`
+➥ **GENRES:** `{genre}`
+➥ **SEASON:** `{season}`
+➥ **EPISODES:** `{episodes}`
+➥ **STATUS:** `{status}`
+➥ **NEXT AIRING:** `{air_on}`
+➥ **SCORE:** `{score}%` 🌟
 ➤ **ADULT RATED:** `{adult}`
 🎬 {trailer_link}
 📖 [Synopsis & More]({synopsis_link})"""
@@ -326,7 +321,7 @@ async def anim_arch(message: Message):
     await message.delete()
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "airing",
     about={
         "header": "Airing Info",
@@ -393,7 +388,7 @@ async def airing_anim(message: Message):
     await message.delete()
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "scheduled",
     about={
         "header": "Scheduled Animes",
@@ -441,7 +436,7 @@ async def get_schuled(message: Message):
         await message.edit(f"[Open in Telegraph]({link})")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "character",
     about={
         "header": "Anime Character",
@@ -516,7 +511,7 @@ async def character_search(message: Message):
     await message.delete()
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "ars",
     about={
         "header": "Anime Reverse Search",
@@ -549,7 +544,7 @@ async def trace_bek(message: Message):
         await message.delete()
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "setemp",
     about={
         "header": "Anime Template",
@@ -572,7 +567,7 @@ async def ani_save_template(message: Message):
     await message.edit("Custom Anime Template Saved")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "anitemp",
     about={
         "header": "Anime Template Settings",

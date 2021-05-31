@@ -3,13 +3,13 @@ import os
 
 from glitch_this import ImageGlitcher
 from PIL import Image
-from userge import Config, Message, userge
-from userge.utils import runcmd, take_screen_shot
+from alphaz import Config, Message, alphaz
+from alphaz.utils import runcmd, take_screen_shot
 
 Glitched = Config.DOWN_PATH + "glitch.gif"
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "glitch",
     about={
         "header": "Reply to any media to glitch",

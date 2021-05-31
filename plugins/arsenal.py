@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from pyrogram.errors import FloodWait
-from userge import Config, Message, logging, userge
+from userge import Config, Message, logging, alphaz
 
 _LOG = logging.getLogger(__name__)
 
@@ -26,13 +26,13 @@ async def banager(message: Message, chat_id: int, user_id: int, until_date: int)
     return log_msg
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "snap",
     about={
         "header": "Ban All",
-        "description": "Haha, a Mighty Thanos snap to Ban"
-        " All Members of a SuperGroup",
-        "flags": {"-k": "Kick Members instead of banning"},
+        "description": "Haha, jepretan Mighty Thanos ke Ban"
+        " Semua Anggota SuperGroup",
+        "flags": {"-k": "Tendang Anggota alih-alih melarang"},
         "usage": "{tr}snap [(optional flag)]",
     },
     allow_private=False,
@@ -44,16 +44,16 @@ async def snapper(message: Message):
     if "-k" in message.flags:
         act = "Kicking"
     await message.edit(
-        f"⚠️ {act} all Members of the chat. [`Check application logs"
-        f" for status`]\nUse `{Config.CMD_TRIGGER}cancel` as reply to "
-        "this message to stop this process."
+        f"⚠️ {act} all Anggota obrolan. [`Periksa log aplikasi"
+        f" untuk status`]\nUse `{Config.CMD_TRIGGER}membatalkan` sebagai balasan untuk "
+        "pesan ini untuk menghentikan proses ini."
     )
-    _LOG.info(f"Wiping out Members in {message.chat.title}")
+    _LOG.info(f"Menghapus Anggota dalam {message.chat.title}")
     s_c = 0
     e_c = 0
     async for member in message.client.iter_chat_members(chat_id):
         if message.process_is_canceled:
-            await message.edit("`Exiting snap...`")
+            await message.edit("`Keluar dari snap...`")
             break
         if (
             member.status in ("administrator", "creator")

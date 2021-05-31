@@ -4,10 +4,10 @@ Syntax: .github USERNAME
 """
 
 import requests
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "github",
     about={
         "header": "Get info about an GitHub User",

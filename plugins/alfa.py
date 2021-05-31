@@ -8,7 +8,7 @@ from userge import Message, userge
 @userge.on_cmd("alfareza$", about={"header": "perkenalkan dulu gais"})
 async def alfareza_(message: Message):
     """perkenalan"""
-    animation_interval = 0.1
+    animation_interval = 0.0
     animation_ttl = range(117)
     await message.edit("`Hallo 🤗`")
     await asyncio.sleep(2)
@@ -22,7 +22,7 @@ async def alfareza_(message: Message):
 @userge.on_cmd("punten$", about={"header": "punten slur"})
 async def punten_(message: Message):
     """Punten Slur"""
-    animation_interval = 0.1
+    animation_interval = 0.0
     animation_ttl = range(117)
     await message.edit("`\n┻┳|―-∩`"
                        "`\n┳┻|     ヽ`"

@@ -4,14 +4,14 @@
 from datetime import datetime
 
 import spamwatch
-from userge import Config, Message, get_collection, userge
-from userge.utils import get_response
+from alphaz import Config, Message, get_collection, userge
+from alphaz.utils import get_response
 
 GBAN_USER_BASE = get_collection("GBAN_USER")
 GMUTE_USER_BASE = get_collection("GMUTE_USER")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "info",
     about={
         "header": "To check User's info",

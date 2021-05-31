@@ -1,17 +1,16 @@
 """Get a user-customised google search meme!"""
 
-# Plugin By - XlayerCharon[XCB]
-# TG ~>>//@CharonCB21
+# Plugin By - Alfareza
 
 import asyncio
 import os
 
 from PIL import Image, ImageDraw, ImageFont
-from userge import Message, userge
+from alphaz import Message, alphaz
 from wget import download
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "fgs",
     about={
         "header": "Get a user-customised google search meme!",

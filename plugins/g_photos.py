@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-#  -*- coding: utf-8 -*-
-#  Telegram UseRGE
-#  Copyright (C) 2020 @UniBorg
-#
-# 0) original: https://github.com/SpEcHiDe/UniBorg/raw/master/stdplugins/google_photos.py
-# വിവരണം അടിച്ചുമാറ്റിക്കൊണ്ട് പോകുന്നവർ ക്രെഡിറ്റ് വെച്ചാൽ സന്തോഷമേ ഉള്ളു..!
+# alfareza
 
 """Google Photos
 """
@@ -19,9 +13,9 @@ import aiohttp
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import client, file
-from userge import Config, Message, userge
-from userge.plugins.misc.download import tg_download, url_download
-from userge.utils import progress
+from alphaz import Config, Message, userge
+from alphaz.plugins.misc.download import tg_download, url_download
+from alphaz.utils import progress
 
 # setup the gPhotos v1 API
 OAUTH_SCOPE = [
@@ -45,7 +39,7 @@ LOG = userge.getLogger(__name__)
 CHANNEL = userge.getCLogger(__name__)
 
 
-@userge.on_cmd("gpsetup", about={"header": "setup gphotos"})
+@alphaz.on_cmd("gpsetup", about={"header": "setup gphotos"})
 async def setup_google_photos(message: Message):
     if G_PHOTOS_CLIENT_ID is None or G_PHOTOS_CLIENT_SECRET is None:
         await message.err("first fill gphoto id and secret")
@@ -108,7 +102,7 @@ async def check_creds(message):
     return None
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "gpupload",
     about={
         "header": "upload files to gphoto",

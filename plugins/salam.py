@@ -1,4 +1,4 @@
-"""Animasi AlphaZ Plugins"""
+"""Command Salam Dan Jawab Salam Di AlphaZ Plugins"""
 import asyncio
 from collections import deque
 

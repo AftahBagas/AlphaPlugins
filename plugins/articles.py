@@ -2,7 +2,7 @@ import re
 from asyncio import sleep
 
 from newspaper import Article, ArticleException
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 regex: str = (
     r"(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\."
@@ -11,12 +11,12 @@ regex: str = (
 max_chars = 3900
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "con",
-    about={"header": "Scrap article content", "usage": "{tr}con [link | reply to msg]"},
+    about={"header": "Memo konten artikel", "usage": "{tr}con [link | reply to msg]"},
 )
 async def con_(message: Message):
-    """Articles Scraper"""
+    """Artikel Scraper"""
     text = message.input_str
     if message.reply_to_message:
         text = message.reply_to_message.text
@@ -44,6 +44,6 @@ async def con_(message: Message):
                 await message.reply(chunk)
                 await sleep(2)
     except AttributeError:
-        await message.edit("`Can't find a valid URL!`")
+        await message.edit("`Tidak dapat menemukan URL yang valid!`")
     except ArticleException:
-        await message.edit("`Failed to scrape the article!`")
+        await message.edit("`Gagal mengikis artikel!`")

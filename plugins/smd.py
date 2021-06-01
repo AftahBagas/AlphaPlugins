@@ -1,13 +1,13 @@
 """Find Songs Fast"""
-# Made by- @DeletedUser420 idea- @AnInnocentboy
+# Alfareza
 
 
 from pyrogram.errors import BadRequest
-from userge import Message, userge
-from userge.utils import get_file_id
+from alphaz import Message, alphaz
+from alphaz.utils import get_file_id
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "smd",
     about={
         "header": "Search from already uploaded 1M Songs",
@@ -36,5 +36,5 @@ async def song_search(message: Message):
     if not f_id:
         await search.edit("⚠️ Song Not Found !", del_in=5)
         return
-    await userge.send_audio(chat_id, f_id)
+    await alphaz.send_audio(chat_id, f_id)
     await search.delete()

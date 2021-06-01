@@ -40,7 +40,7 @@ async def make_qr(message: Message):
     img = qr.make_image(fill_color="black", back_color="white")
     img.save("qrcode.webp", "PNG")
     await message.delete()
-    await userge.send_sticker(
+    await alphaz.send_sticker(
         message.chat.id,
         "qrcode.webp",
         reply_to_message_id=replied.message_id if replied else None,

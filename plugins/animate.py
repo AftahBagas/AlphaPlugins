@@ -15,7 +15,7 @@ async def think_(message: Message):
         deq.rotate(1)
 
 
-@userge.on_cmd("lmaos$", about={"header": "lmaos Bruh! xD Lol"})
+@alphaz.on_cmd("lmaos$", about={"header": "lmaos Bruh! xD Lol"})
 async def lamos_(message: Message):
     """lmaos"""
     deq = deque(list("😂🤣😂🤣😂🤣"))

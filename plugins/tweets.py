@@ -1,22 +1,20 @@
 """ Fun Stickers for Tweet """
 
-# By @Krishna_Singhal [kanged from catuserbot]
-# @Mrconfused and catuserbot for the idea of nekobot API
-# Improved by code-rgb
+# alfareza
 
 import os
 
 import requests
 from PIL import Image
-from userge import Config, Message, userge
-from userge.utils import deEmojify
+from alphaz import Config, Message, alphaz
+from alphaz.utils import deEmojify
 from validators.url import url
 
 CONVERTED_IMG = Config.DOWN_PATH + "img.png"
 CONVERTED_STIKR = Config.DOWN_PATH + "sticker.webp"
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "trump",
     about={
         "header": "Custom Sticker of Trump Tweet",
@@ -37,7 +35,7 @@ async def trump_tweet(msg: Message):
     await _tweets(msg, text, type_="trumptweet")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "modi",
     about={
         "header": "Custom Sticker of Modi Tweet",
@@ -58,7 +56,7 @@ async def modi_tweet(msg: Message):
     await _tweets(msg, text, "narendramodi")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "cmm",
     about={
         "header": "Custom Sticker of Change My Mind",
@@ -79,7 +77,7 @@ async def Change_My_Mind(msg: Message):
     await _tweets(msg, text, type_="changemymind")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "kanna",
     about={
         "header": "Custom text Sticker of kanna",
@@ -100,7 +98,7 @@ async def kanna(msg: Message):
     await _tweets(msg, text, type_="kannagen")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "carry",
     about={
         "header": "Custom text Sticker of Carryminati",
@@ -121,7 +119,7 @@ async def carry_minati(msg: Message):
     await _tweets(msg, text, "carryminati")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "tweet",
     about={
         "header": "Tweet With Custom text Sticker",
@@ -184,7 +182,7 @@ async def _tweets(
     os.remove(CONVERTED_STIKR)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "clb",
     about={
         "header": "Custom text Sticker of Celebrity",

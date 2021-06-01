@@ -2,11 +2,11 @@
 
 import random
 
-from userge import Message, userge
-from userge.utils import deEmojify
+from alphaz import Message, alphaz
+from alphaz.utils import deEmojify
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "waifu",
     about={
         "header": "Creates random anime sticker",
@@ -35,7 +35,7 @@ async def anime_sticker(message: Message):
     await message.delete()
     if "-g" in message.flags:
         try:
-            stickers = await userge.get_inline_bot_results(
+            stickers = await alphaz.get_inline_bot_results(
                 "stickerizerbot", f"#12{deEmojify(text)}"
             )
             await userge.send_inline_bot_result(
@@ -59,18 +59,18 @@ async def anime_sticker(message: Message):
         animus = random.choice(k)
 
     try:
-        stickers = await userge.get_inline_bot_results(
+        stickers = await alphaz.get_inline_bot_results(
             "stickerizerbot", f"#{animus}{deEmojify(text)}"
         )
-        saved = await userge.send_inline_bot_result(
+        saved = await alphaz.send_inline_bot_result(
             chat_id="me",
             query_id=stickers.query_id,
             result_id=stickers.results[0].id,
             hide_via=True,
         )
-        saved = await userge.get_messages("me", int(saved.updates[1].message.id))
+        saved = await alphaz.get_messages("me", int(saved.updates[1].message.id))
         message_id = replied.message_id if replied else None
-        await userge.send_sticker(
+        await alphaz.send_sticker(
             chat_id=message.chat.id,
             sticker=saved.sticker.file_id,
             reply_to_message_id=message_id,

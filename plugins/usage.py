@@ -3,10 +3,10 @@ import asyncio
 
 import requests
 
-from userge import Config, userge, Message
+from alphaz import Config, alphaz, Message
 
 
-@userge.on_cmd("usage", about={'header': "Dapatkan penggunaan jam Dyno"})  # pylint:disable=E0602
+@alphaz.on_cmd("usage", about={'header': "Dapatkan penggunaan jam Dyno"})  # pylint:disable=E0602
 async def usage(message: Message):
     """Dapatkan akun Anda Dyno Usage"""
     if not Config.HEROKU_APP:

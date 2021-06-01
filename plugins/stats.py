@@ -25,7 +25,7 @@ async def get_stats_(message: Message):
         "💁‍♂️ `Collecting your Telegram Stats ...`\n"
         "<b>Please wait it will take some time</b>"
     )
-    owner = await userge.get_me()
+    owner = await alphaz.get_me()
     u_mention = mention_html(owner.id, owner.first_name)
     unread_mentions = 0
     unread_msg = 0

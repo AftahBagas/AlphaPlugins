@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from pyrogram.errors import FloodWait
-from userge import Config, Message, logging, alphaz
+from alphaz import Config, Message, logging, alphaz
 
 _LOG = logging.getLogger(__name__)
 

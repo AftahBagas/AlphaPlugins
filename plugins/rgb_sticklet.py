@@ -3,10 +3,10 @@ import random
 import textwrap
 
 from PIL import Image, ImageDraw, ImageFont
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "plet",
     about={
         "header": "Get a Random RGB Sticker",
@@ -56,7 +56,7 @@ async def sticklet(message: Message):
     image_name = "rgb_sticklet.webp"
     image.save(image_name, "WebP")
 
-    await userge.send_sticker(
+    await alphaz.send_sticker(
         chat_id=message.chat.id, sticker=image_name, reply_to_message_id=reply_to
     )
 
@@ -69,6 +69,6 @@ async def sticklet(message: Message):
 
 
 async def get_font_file():
-    font_file_message_s = await userge.get_history("@FontsRes")
+    font_file_message_s = await alphaz.get_history("@FontsRes")
     font_file_message = random.choice(font_file_message_s)
-    return await userge.download_media(font_file_message)
+    return await alphaz.download_media(font_file_message)

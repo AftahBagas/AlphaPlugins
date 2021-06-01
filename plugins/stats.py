@@ -39,7 +39,7 @@ async def get_stats_(message: Message):
     channels_admin = 0
     channels_creator = 0
     try:
-        async for dialog in userge.iter_dialogs():
+        async for dialog in alphaz.iter_dialogs():
             unread_mentions += dialog.unread_mentions_count
             unread_msg += dialog.unread_messages_count
             chat_type = dialog.chat.type
@@ -97,6 +97,6 @@ async def get_stats_(message: Message):
 #  https://git.colinshark.de/PyroBot/PyroBot/src/branch
 #  /master/pyrobot/modules/admin.py#L69
 async def admin_check(chat_id: int, user_id: int) -> bool:
-    check_status = await userge.get_chat_member(chat_id, user_id)
+    check_status = await alphaz.get_chat_member(chat_id, user_id)
     admin_strings = ["creator", "administrator"]
     return check_status.status in admin_strings

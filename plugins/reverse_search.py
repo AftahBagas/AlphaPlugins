@@ -3,11 +3,11 @@ from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
-from userge import Config, Message, userge
-from userge.utils import take_screen_shot
+from alphaz import Config, Message, alphaz
+from alphaz.utils import take_screen_shot
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "grs",
     about={
         "header": "Google Reverse Search",

@@ -1,8 +1,8 @@
-from userge import Message, userge
-from userge.utils import rand_array
+from alphaz import Message, alphaz
+from alphaz.utils import rand_array
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "rand",
     about={
         "header": "Gives a random Output from given Input",

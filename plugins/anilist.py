@@ -28,7 +28,7 @@ ANIME_TEMPLATE = """[{c_flag}]**{romaji}**
 ➥ **STATUS:** `{status}`
 ➥ **NEXT AIRING:** `{air_on}`
 ➥ **SCORE:** `{score}%` 🌟
-➤ **ADULT RATED:** `{adult}`
+➥ **ADULT RATED:** `{adult}`
 🎬 {trailer_link}
 📖 [Synopsis & More]({synopsis_link})"""
 

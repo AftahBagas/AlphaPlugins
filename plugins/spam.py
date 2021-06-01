@@ -1,12 +1,12 @@
 import asyncio
 import os
 
-from userge import Config, Message, userge
+from alphaz import Config, Message, alphaz
 
-S_LOG = userge.getCLogger(__name__)
+S_LOG = alphaz.getCLogger(__name__)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "spam",
     about={
         "header": "Spam some Messages",

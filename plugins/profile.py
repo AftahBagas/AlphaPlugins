@@ -1,7 +1,6 @@
 """ All Profile Settings for User """
 
-# del_pfp by Phyco-Ninja
-# rewrote poto by code-rgb
+# alfareza
 
 import asyncio
 import os
@@ -16,15 +15,15 @@ from pyrogram.errors import (
     VideoFileInvalid,
 )
 from pyrogram.types import InputMediaPhoto
-from userge import Config, Message, userge
-from userge.utils import progress
+from alphaz import Config, Message, alphaz
+from alphaz.utils import progress
 
-CHANNEL = userge.getCLogger(__name__)
+CHANNEL = alphaz.getCLogger(__name__)
 PHOTO = Config.DOWN_PATH + "profile_pic.jpg"
 USER_DATA = {}
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "setname",
     about={
         "header": "Update first, last name and username",
@@ -53,11 +52,11 @@ async def setname_(message: Message):
         await message.err("Need Text to Change Profile...")
         return
     if "-dlname" in message.flags:
-        await userge.update_profile(last_name="")
+        await alphaz.update_profile(last_name="")
         await message.edit("```Last Name is Successfully Removed ...```", del_in=3)
         return
     if "-duname" in message.flags:
-        await userge.update_username(username="")
+        await alphaz.update_username(username="")
         await message.edit("```Username is successfully Removed ...```", del_in=3)
         return
     arg = message.filtered_input_str
@@ -65,14 +64,14 @@ async def setname_(message: Message):
         await message.err("Need Text to Change Profile...")
         return
     if "-fname" in message.flags:
-        await userge.update_profile(first_name=arg.strip())
+        await alphaz.update_profile(first_name=arg.strip())
         await message.edit("```First Name is Successfully Updated ...```", del_in=3)
     elif "-lname" in message.flags:
-        await userge.update_profile(last_name=arg.strip())
+        await alphaz.update_profile(last_name=arg.strip())
         await message.edit("```Last Name is Successfully Updated ...```", del_in=3)
     elif "-uname" in message.flags:
         try:
-            await userge.update_username(username=arg.strip())
+            await alphaz.update_username(username=arg.strip())
         except UsernameOccupied:
             await message.err("Username is Not Available...")
         else:
@@ -82,7 +81,7 @@ async def setname_(message: Message):
         if not lname:
             await message.err("Need Last Name to Update Profile...")
             return
-        await userge.update_profile(first_name=fname.strip(), last_name=lname.strip())
+        await alphaz.update_profile(first_name=fname.strip(), last_name=lname.strip())
         await message.edit(
             "```My Profile Name is Successfully Updated ...```", del_in=3
         )
@@ -90,7 +89,7 @@ async def setname_(message: Message):
         await message.err("Invalid Args, Exiting...")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "bio",
     about={
         "header": "Update bio, Maximum limit 70 characters",
@@ -111,7 +110,7 @@ async def bio_(message: Message):
         return
     if message.input_str:
         try:
-            await userge.update_profile(bio=message.input_str)
+            await alphaz.update_profile(bio=message.input_str)
         except AboutTooLong:
             await message.err("Bio is More then 70 characters...")
         else:
@@ -120,7 +119,7 @@ async def bio_(message: Message):
             )
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "setpfp",
     about={"header": "Set profile picture", "usage": "{tr}setpfp [reply to any photo]"},
     allow_via_bot=False,
@@ -141,7 +140,7 @@ async def set_profile_picture(message: Message):
         )
     ):
 
-        await userge.download_media(
+        await alphaz.download_media(
             message=replied,
             file_name=PHOTO,
             progress=progress,
@@ -158,7 +157,7 @@ async def set_profile_picture(message: Message):
 
     elif replied and replied.media and (replied.video or replied.animation):
         VIDEO = Config.DOWN_PATH + "profile_vid.mp4"
-        await userge.download_media(
+        await alphaz.download_media(
             message=replied,
             file_name=VIDEO,
             progress=progress,
@@ -166,7 +165,7 @@ async def set_profile_picture(message: Message):
         )
 
         try:
-            await userge.set_profile_photo(video=VIDEO)
+            await alphaz.set_profile_photo(video=VIDEO)
         except VideoFileInvalid:
             await message.err("Video File is Invalid")
         else:
@@ -178,7 +177,7 @@ async def set_profile_picture(message: Message):
         await message.err("Reply to any photo or video to set profile pic...")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "vpf",
     about={
         "header": "View Profile of any user",
@@ -255,7 +254,7 @@ async def view_profile(message: Message):
             await message.edit("<code>{}</code>".format(username), parse_mode="html")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "delpfp",
     about={
         "header": "Delete Profile Pics",
@@ -286,7 +285,7 @@ async def del_pfp(message: Message):
         await message.reply_sticker(sticker="CAADAQAD0wAD976IR_CYoqvCwXhyFgQ")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "clone",
     about={
         "header": "Clone first name, last name, bio and profile picture of any user",
@@ -324,8 +323,8 @@ async def clone_(message: Message):
     await message.edit("`clonning...`")
 
     try:
-        chat = await userge.get_chat(input_)
-        user = await userge.get_users(input_)
+        chat = await alphaz.get_chat(input_)
+        user = await alphaz.get_users(input_)
     except UsernameNotOccupied:
         await message.err("Don't know that User!...")
         return
@@ -336,22 +335,22 @@ async def clone_(message: Message):
             await message.err("First Revert!...")
             return
         USER_DATA["first_name"] = me.first_name or ""
-        await userge.update_profile(first_name=user.first_name or "")
+        await alphaz.update_profile(first_name=user.first_name or "")
         await message.edit("```First Name is Successfully cloned ...```", del_in=3)
     elif "-lname" in message.flags:
         if "last_name" in USER_DATA:
             await message.err("First Revert!...")
             return
         USER_DATA["last_name"] = me.last_name or ""
-        await userge.update_profile(last_name=user.last_name or "")
+        await alphaz.update_profile(last_name=user.last_name or "")
         await message.edit("```Last name is successfully cloned ...```", del_in=3)
     elif "-bio" in message.flags:
         if "bio" in USER_DATA:
             await message.err("First Revert!...")
             return
-        mychat = await userge.get_chat(me.id)
+        mychat = await alphaz.get_chat(me.id)
         USER_DATA["bio"] = mychat.bio or ""
-        await userge.update_profile(
+        await alphaz.update_profile(
             bio=(chat.bio or "")[:69]
         )  # 70 is the max bio limit
         await message.edit("```Bio is Successfully Cloned ...```", del_in=3)
@@ -362,14 +361,14 @@ async def clone_(message: Message):
         if not user.photo:
             await message.err("User not have any profile pic...")
             return
-        await userge.download_media(user.photo.big_file_id, file_name=PHOTO)
-        await userge.set_profile_photo(photo=PHOTO)
+        await alphaz.download_media(user.photo.big_file_id, file_name=PHOTO)
+        await alphaz.set_profile_photo(photo=PHOTO)
         await message.edit("```Profile photo is Successfully Cloned ...```", del_in=3)
     else:
         if USER_DATA or os.path.exists(PHOTO):
             await message.err("First Revert!...")
             return
-        mychat = await userge.get_chat(me.id)
+        mychat = await alphaz.get_chat(me.id)
         USER_DATA.update(
             {
                 "first_name": me.first_name or "",
@@ -377,7 +376,7 @@ async def clone_(message: Message):
                 "bio": mychat.bio or "",
             }
         )
-        await userge.update_profile(
+        await alphaz.update_profile(
             first_name=user.first_name or "",
             last_name=user.last_name or "",
             bio=(chat.bio or "")[:69],
@@ -387,12 +386,12 @@ async def clone_(message: Message):
                 "`User not have profile photo, Cloned Name and bio...`", del_in=5
             )
             return
-        await userge.download_media(user.photo.big_file_id, file_name=PHOTO)
-        await userge.set_profile_photo(photo=PHOTO)
+        await alphaz.download_media(user.photo.big_file_id, file_name=PHOTO)
+        await alphaz.set_profile_photo(photo=PHOTO)
         await message.edit("```Profile is Successfully Cloned ...```", del_in=3)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "revert",
     about={"header": "Returns original profile", "usage": "{tr}revert"},
     allow_via_bot=False,
@@ -403,12 +402,12 @@ async def revert_(message: Message):
         await message.err("Already Reverted!...")
         return
     if USER_DATA:
-        await userge.update_profile(**USER_DATA)
+        await alphaz.update_profile(**USER_DATA)
         USER_DATA.clear()
     if os.path.exists(PHOTO):
         me = await userge.get_me()
-        photo = (await userge.get_profile_photos(me.id, limit=1))[0]
-        await userge.delete_profile_photos(photo.file_id)
+        photo = (await alphaz.get_profile_photos(me.id, limit=1))[0]
+        await alphaz.delete_profile_photos(photo.file_id)
         os.remove(PHOTO)
     await message.edit("```Profile is Successfully Reverted...```", del_in=3)
 
@@ -432,7 +431,7 @@ async def send_single(message: Message, peer_id, pos, reply_id):
 
 
 # photo grabber
-@userge.on_cmd(
+@alphaz.on_cmd(
     "poto",
     about={
         "header": "use this plugin to get photos of user or chat",
@@ -441,8 +440,8 @@ async def send_single(message: Message, peer_id, pos, reply_id):
         "examples": [
             "{tr}poto",
             "{tr}poto [reply to chat message]",
-            "{tr}poto @midnightmadwalk -p5\n    (i.e sends photo at position 5)",
-            "{tr}poto @midnightmadwalk -l5\n    (i.e sends an album of first 5 photos)",
+            "{tr}poto @kanjengingsun -p5\n    (i.e sends photo at position 5)",
+            "{tr}poto @kanjengungsun -l5\n    (i.e sends an album of first 5 photos)",
         ],
     },
 )
@@ -465,8 +464,8 @@ async def poto_x(message: Message):
         await message.err(type_, del_in=7)
         return
     if type_ in ("group", "supergroup", "channel") and message.client.is_bot:
-        photo_ = await userge.bot.download_media(f_id)
-        await userge.bot.send_photo(chat_id, photo_, reply_to_message_id=reply_id)
+        photo_ = await alphaz.bot.download_media(f_id)
+        await alphaz.bot.send_photo(chat_id, photo_, reply_to_message_id=reply_id)
         os.remove(photo_)
         await message.delete()
         return
@@ -498,7 +497,7 @@ async def poto_x(message: Message):
             return
         try:
             for poto_ in media_group:
-                await userge.send_media_group(chat_id, media=poto_)
+                await alphaz.send_media_group(chat_id, media=poto_)
                 await asyncio.sleep(2)
         except FloodWait as e:
             await asyncio.sleep(e.x + 3)

@@ -405,7 +405,7 @@ async def revert_(message: Message):
         await alphaz.update_profile(**USER_DATA)
         USER_DATA.clear()
     if os.path.exists(PHOTO):
-        me = await userge.get_me()
+        me = await alphaz.get_me()
         photo = (await alphaz.get_profile_photos(me.id, limit=1))[0]
         await alphaz.delete_profile_photos(photo.file_id)
         os.remove(PHOTO)

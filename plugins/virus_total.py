@@ -7,13 +7,13 @@ import json
 import os
 
 import requests
-from userge import Config, Message, userge
-from userge.utils import humanbytes, progress
+from alphaz import Config, Message, alphaz
+from alphaz.utils import humanbytes, progress
 
 API_KEY = os.environ.get("VT_API_KEY", None)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "scan",
     about={
         "header": "Virus-Total module to check virus in document files.",

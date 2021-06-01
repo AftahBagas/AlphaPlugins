@@ -1,16 +1,16 @@
 """ Generate QR code or get QR code data """
 
-# by @krishna_singhal
+# by @kanjengungsun
 
 import asyncio
 import os
 
 import qrcode
 from bs4 import BeautifulSoup
-from userge import Config, Message, userge
+from alphaz import Config, Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "mkqr",
     about={
         "header": "Returns Qr code of text or replied text",
@@ -48,7 +48,7 @@ async def make_qr(message: Message):
     os.remove("qrcode.webp")
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "getqr",
     about={
         "header": "Get data of any qr code",

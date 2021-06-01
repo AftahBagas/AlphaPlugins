@@ -1,13 +1,13 @@
 """ Sangmata """
 
-# By @Krishna_Singhal
+# By @kanjengungsun
 
 from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
-from userge import Message, userge
-from userge.utils.exceptions import StopConversation
+from alphaz import Message, alphaz
+from alphaz.utils.exceptions import StopConversation
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "sg",
     about={
         "header": "Sangmata gives you user's last updated names and usernames.",
@@ -27,7 +27,7 @@ async def sangmata_(message: Message):
     msgs = []
     ERROR_MSG = "For your kind information, you blocked @Sangmatainfo_bot, Unblock it"
     try:
-        async with userge.conversation(chat) as conv:
+        async with alphaz.conversation(chat) as conv:
             try:
                 await conv.send_message("/search_id {}".format(user))
             except YouBlockedUser:

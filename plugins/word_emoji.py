@@ -1,11 +1,11 @@
 """ enjoy word_emoji """
 
-# by @krishna_singhal
+# alfareza
 
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "hii",
     about={
         "header": "Use HI to greet someone",
@@ -38,7 +38,7 @@ async def hii_(message: Message):
     await message.edit(pay)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "lol",
     about={
         "header": "Lol also known as lots of laugh used to indicate "
@@ -85,7 +85,7 @@ async def lol_(message: Message):
     await message.edit(pay)
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "wtf",
     about={
         "header": "WTF Generally stands for 'What the fuck' use for fun",

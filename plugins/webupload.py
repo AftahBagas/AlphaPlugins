@@ -3,11 +3,11 @@ import os
 import re
 import shlex
 
-from userge import Config, Message, userge
-from userge.utils import progress
+from alphaz import Config, Message, alphaz
+from alphaz.utils import progress
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "web ?(.+?|) (anonfiles|transfer|filebin|anonymousfiles"
     "|megaupload|bayfiles|vshare|0x0|fileio|ninja)",
     about={

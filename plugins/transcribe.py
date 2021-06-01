@@ -7,11 +7,11 @@ from asyncio import sleep
 from aiohttp import ClientSession
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
-from userge import Config, Message, userge
-from userge.plugins.misc.download import tg_download, url_download
-from userge.utils.exceptions import ProcessCanceled
+from alphaz import Config, Message, alphaz
+from alphaz.plugins.misc.download import tg_download, url_download
+from alphaz.utils.exceptions import ProcessCanceled
 
-logger = userge.getLogger(__name__)
+logger = alphaz.getLogger(__name__)
 
 
 class WitAiAPI:
@@ -108,7 +108,7 @@ class WitAiAPI:
             yield None, "`Error decoding the audio file. ", "Ensure that the provided audio is a valid audio file!`"
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "stt",
     about={
         "header": "transcribe a file (speech to text)",

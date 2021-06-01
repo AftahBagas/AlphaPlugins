@@ -1,19 +1,17 @@
 """Get Your Telegram Stats"""
 
-# For USERGE-X
-# Idea : https://github.com/kantek/.../kantek/plugins/private/stats.py
-# Module By: github/code-rgb [TG - @DeletedUser420]
+# Alfareza 😎
 
 
 import asyncio
 import time
 
 from pyrogram.errors import FloodWait, UserNotParticipant
-from userge import Message, userge
-from userge.utils import mention_html, time_formatter
+from alphaz import Message, alphaz
+from alphaz.utils import mention_html, time_formatter
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "stats",
     about={
         "header": "Get your Telegram Stats like no. Groups, Channels etc.",
@@ -78,16 +76,16 @@ async def get_stats_(message: Message):
 👤 User:  <b>{u_mention}</b>
 
 <b>Private Chats:</b> <code>{private_chats}</code><code>
-    • Users: {users_}
-    • Bots: {bots}</code>
+    🤵 Users: {users_}
+    🤖 Bots: {bots}</code>
 <b>Groups:</b> <code>{groups}</code>
 <b>Channels:</b> <code>{channels}</code>
 <b>Admin in Groups:</b> <code>{groups_admin}</code><code>
-    ★ Creator: {groups_creator}
-    • Admin Rights: {groups_admin - groups_creator}</code>
+    ⚙️ Creator: {groups_creator}
+    👮 Admin Rights: {groups_admin - groups_creator}</code>
 <b>Admin in Channels:</b> <code>{channels_admin}</code><code>
-    ★ Creator: {channels_creator}
-    • Admin Rights: {channels_admin - channels_creator}</code>
+    ⚙️ Creator: {channels_creator}
+    👮 Admin Rights: {channels_admin - channels_creator}</code>
 <b>Unread Messages:</b> <code>{unread_msg}</code>
 <b>Unread Mentions:</b> <code>{unread_mentions}</code>
 """

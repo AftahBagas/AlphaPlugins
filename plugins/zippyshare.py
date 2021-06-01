@@ -1,14 +1,12 @@
-#!/usr/bin/env python3
-# https://github.com/Sorrow446/ZS-DL
-# plugin by @aryanvikash
+# alfareza
 
 import re
 
 import requests
-from userge import Message, pool, userge
+from alphaz import Message, pool, alphaz
 
 
-@userge.on_cmd(
+@alphaz.on_cmd(
     "zippy",
     about={
         "header": "generate Direct link of zippyshare url",

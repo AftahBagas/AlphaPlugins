@@ -1,11 +1,11 @@
-"""Command Salam Dan Jawab Salam Di AlphaZ Plugins"""
+"""Command Salam Dan Jawab Salam"""
 import asyncio
 from collections import deque
 
-from userge import Message, userge
+from alphaz import Message, alphaz
 
 
-@userge.on_cmd("p$", about={"header": "Salam Dulu"})
+@alphaz.on_cmd("p$", about={"header": "Salam Dulu"})
 async def tiger_(message: Message):
     """salam"""
     animation_interval = 0.1
@@ -13,7 +13,7 @@ async def tiger_(message: Message):
     await message.edit("`Assalamu'alaikum`")
 
 
-@userge.on_cmd("l$", about={"header": "Jawab Salam"})
+@alphaz.on_cmd("l$", about={"header": "Jawab Salam"})
 async def tiger_(message: Message):
     """jawab salam"""
     animation_interval = 0.1

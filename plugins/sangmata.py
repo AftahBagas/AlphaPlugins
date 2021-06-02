@@ -3,11 +3,11 @@
 # By @kanjengungsun
 
 from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
-from alphaz import Message, alphaz
-from alphaz.utils.exceptions import StopConversation
+from alpha import Message, alpha
+from alpha.utils.exceptions import StopConversation
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "sg",
     about={
         "header": "Sangmata gives you user's last updated names and usernames.",

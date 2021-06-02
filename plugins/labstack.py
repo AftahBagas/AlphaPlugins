@@ -10,11 +10,11 @@ from urllib.parse import unquote_plus
 
 import requests
 from pySmartDL import SmartDL
-from alphaz import Config, Message, alphaz
-from alphaz.utils import humanbytes, progress
+from alpha import Config, Message, alpha
+from alpha.utils import humanbytes, progress
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "labstack",
     about={
         "header": "Uploads and shares files for free on Labstack,"

@@ -4,10 +4,10 @@
 
 import re
 
-from userge import Message, userge
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "cdown",
     about={
         "header": "Creates Count Down",

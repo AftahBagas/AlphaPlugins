@@ -3,16 +3,16 @@ import random
 import textwrap
 
 from PIL import Image, ImageDraw, ImageFont
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "plet",
     about={
         "header": "Get a Random RGB Sticker",
         "description": "Generates A RGB Sticker with provided text",
         "usage": "{tr}plet [text | reply]",
-        "examples": "{tr}plet @theUserge",
+        "examples": "{tr}plet @TheAlphaSupport",
     },
     allow_via_bot=False,
 )

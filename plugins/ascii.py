@@ -7,11 +7,11 @@ import random
 import numpy as np
 from colour import Color
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-from alphaz import Config, Message, alphaz
-from alphaz.utils import media_to_image
+from alpha import Config, Message, alpha
+from alpha.utils import media_to_image
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "ascii",
     about={
         "header": "Ascii Image",

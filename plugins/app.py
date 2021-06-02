@@ -5,10 +5,10 @@ By - @kanjengingsun
 
 import bs4
 import requests
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "app",
     about={
         "header": "Search application details of any app\n"

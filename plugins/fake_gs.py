@@ -6,11 +6,11 @@ import asyncio
 import os
 
 from PIL import Image, ImageDraw, ImageFont
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 from wget import download
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "fgs",
     about={
         "header": "Get a user-customised google search meme!",

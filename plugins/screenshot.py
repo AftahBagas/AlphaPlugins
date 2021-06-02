@@ -4,11 +4,11 @@ import random
 
 from hachoir.metadata import extractMetadata as XMan
 from hachoir.parser import createParser as CPR
-from alphaz import Config, Message, alphaz
-from alphaz.utils import progress, take_screen_shot
+from alpha import Config, Message, alpha
+from alpha.utils import progress, take_screen_shot
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "ss",
     about={
         "header": "Screen Shot Generator",

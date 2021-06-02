@@ -8,11 +8,11 @@ import aiohttp
 
 # if you prefer requests
 # import requests
-from alphaz import Config, Message, alphaz
-from alphaz.utils import media_to_image
+from alpha import Config, Message, alpha
+from alpha.utils import media_to_image
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "detect",
     about={
         "header": "Scan media for nsfw content",

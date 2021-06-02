@@ -1,10 +1,10 @@
 import calendar
 from datetime import datetime
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "cal",
     about={
         "header": "Print calendar of any month of any year.",

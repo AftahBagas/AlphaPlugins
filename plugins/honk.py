@@ -2,11 +2,11 @@
 
 """ PEPEify via @honka_says_bot """
 
-from alphaz import Message, alphaz
-from alphaz.utils import deEmojify
+from alpha import Message, alpha
+from alpha.utils import deEmojify
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "honk",
     about={
         "header": "Creates PEPE sticker",

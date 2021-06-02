@@ -4,7 +4,7 @@ Syntax: .github USERNAME
 """
 
 import requests
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
 @alpha.on_cmd(

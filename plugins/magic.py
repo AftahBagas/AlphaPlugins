@@ -7,12 +7,12 @@ import os
 from shutil import rmtree
 
 from PIL import Image, ImageOps
-from alphaz import Config, Message, alphaz
-from alphaz.plugins.utils.circle import crop_vid
-from alphaz.utils import media_to_image, runcmd, safe_filename
+from alphaz import Config, Message, alpha
+from alpha.plugins.utils.circle import crop_vid
+from alpha.utils import media_to_image, runcmd, safe_filename
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "(invert|mirror|flip)$",
     about={
         "header": "Invert, Mirror or Flip any media",
@@ -63,7 +63,7 @@ async def transform_media(image_path, transform_choice):
     return webp_file
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "rotate",
     about={
         "header": "Rotate any media",
@@ -105,7 +105,7 @@ async def rotate_(message: Message):
     os.remove(webp_file)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "spin",
     about={
         "header": "Brr... 🌀",

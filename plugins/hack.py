@@ -2,10 +2,10 @@
 
 import asyncio
 
-from alphaz import alphaz
+from alpha import alpha
 
 
-@alphaz.on_cmd("hack$", about={'header': "kensar hacking animation"})
+@alpha.on_cmd("hack$", about={'header': "kensar hacking animation"})
 async def hack_func(message):
     user = await message.client.get_user_dict(message.from_user.id)
     heckerman = user['mention']

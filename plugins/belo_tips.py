@@ -1,9 +1,9 @@
 import random
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "belo",
     about={"header": "Get a Logical Quote", "usage": "{tr}belo"},
     allow_via_bot=False,
@@ -14,7 +14,7 @@ async def being_logical(message: Message):
     await message.edit(raw_message.text)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tips", about={"header": "Get a Pro Tip", "usage": "{tr}tips"}, allow_via_bot=False
 )
 async def pro_tips(message: Message):

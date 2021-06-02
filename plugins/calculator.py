@@ -1,14 +1,14 @@
 """enjoy calculator"""
 
-# by krishna
+# by pe
 
 import asyncio
 import math
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "add",
     about={
         "header": "Returns the addition of given numbers.",
@@ -45,7 +45,7 @@ async def add_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "subtract",
     about={
         "header": "Returns the Subtraction of given numbers.",
@@ -82,7 +82,7 @@ async def subtract_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "multiply",
     about={
         "header": "Returns the Multiplication of given numbers.",
@@ -118,7 +118,7 @@ async def multiply_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "divide",
     about={
         "header": "Returns the division of given numbers.",
@@ -154,7 +154,7 @@ async def divide_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "fdivide",
     about={
         "header": "Dividing two integers to get only Quotient known as floor division.",
@@ -190,7 +190,7 @@ async def fdivide_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "modulo",
     about={
         "header": "Modulo operation finds the\n"
@@ -228,7 +228,7 @@ async def modulo_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "factorial",
     about={
         "header": "Returns the factorial of X number.",
@@ -252,7 +252,7 @@ async def factorial_(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "power",
     about={
         "header": "Returns X raised to the power Y.",
@@ -289,7 +289,7 @@ async def power_(message: Message):
         await message.err(e)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "sqrt",
     about={
         "header": "Returns the sqaure root of X number.",
@@ -313,7 +313,7 @@ async def sqrt_(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "sin",
     about={
         "header": "Returns the SINE function(x)",
@@ -337,7 +337,7 @@ async def sin_(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "cos",
     about={
         "header": "Returns the COSINE function(x)",
@@ -361,7 +361,7 @@ async def cos_(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tan",
     about={
         "header": "Returns the TANGENT(x)",
@@ -385,7 +385,7 @@ async def tan_(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "deg",
     about={
         "header": "Converts angle X from radians to degrees",
@@ -409,7 +409,7 @@ async def deg_(message: Message):
     )
 
 
-@userge.on_cmd(
+@alpha.on_cmd(
     "rad",
     about={
         "header": "Converts angle X from degrees to radians",
@@ -433,7 +433,7 @@ async def rad_(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "log",
     about={
         "header": "Returns the logarithm of X to the base",

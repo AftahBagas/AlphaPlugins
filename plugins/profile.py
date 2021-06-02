@@ -18,7 +18,7 @@ from pyrogram.types import InputMediaPhoto
 from alpha import Config, Message, alpha
 from alpha.utils import progress
 
-CHANNEL = alphaz.getCLogger(__name__)
+CHANNEL = alpha.getCLogger(__name__)
 PHOTO = Config.DOWN_PATH + "profile_pic.jpg"
 USER_DATA = {}
 

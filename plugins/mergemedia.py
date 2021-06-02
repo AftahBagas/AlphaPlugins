@@ -8,12 +8,12 @@ import shutil
 from pathlib import Path
 
 from hachoir.stream.input import InputStreamError, NullStreamError
-from alphaz import Message, userge
-from alphaz.plugins.misc.upload import upload
-from alphaz.utils import progress, runcmd, safe_filename
+from alpha import Message, alpha
+from alpha.plugins.misc.upload import upload
+from alpha.utils import progress, runcmd, safe_filename
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "mergesave",
     about={
         "header": "save file for {tr}merge",
@@ -31,14 +31,14 @@ async def mergesave_(message: Message):
     else:
         replied_media = await message.client.download_media(
             message=message.reply_to_message,
-            file_name="alphaz/xcache/merge/",
+            file_name="alpha/xcache/merge/",
             progress=progress,
             progress_args=(message, "`Saving for further merge !`"),
         )
         await message.edit(f"Saved in {safe_filename(replied_media)}")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "merge",
     about={
         "header": "Merge Media.",
@@ -84,7 +84,7 @@ async def merge_(message: Message):
     os.remove("merge.txt")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "mergeclear",
     about={
         "header": "Incase you saved wrong media",

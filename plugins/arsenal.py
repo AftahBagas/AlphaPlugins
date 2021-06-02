@@ -2,7 +2,7 @@ import asyncio
 import time
 
 from pyrogram.errors import FloodWait
-from alphaz import Config, Message, logging, alphaz
+from alpha import Config, Message, logging, alpha
 
 _LOG = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ async def banager(message: Message, chat_id: int, user_id: int, until_date: int)
     return log_msg
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "snap",
     about={
         "header": "Ban All",

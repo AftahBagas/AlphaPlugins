@@ -7,10 +7,10 @@ import os
 
 import qrcode
 from bs4 import BeautifulSoup
-from alphaz import Config, Message, alphaz
+from alpha import Config, Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "mkqr",
     about={
         "header": "Returns Qr code of text or replied text",
@@ -48,7 +48,7 @@ async def make_qr(message: Message):
     os.remove("qrcode.webp")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "getqr",
     about={
         "header": "Get data of any qr code",

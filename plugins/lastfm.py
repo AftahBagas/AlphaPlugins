@@ -3,8 +3,8 @@
 # Copyright (C) 2020 BY AlphaZ Plugins
 
 
-from alphaz import Config, Message, alphaz
-from alphaz.utils import get_response, rand_array
+from alpha import Config, Message, alpha
+from alpha.utils import get_response, rand_array
 
 API = "http://ws.audioscrobbler.com/2.0"
 
@@ -17,7 +17,7 @@ PIC_URL = [
 ]
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "lastfm",
     about={"header": "Get Lastfm now playing pic"},
 )
@@ -75,7 +75,7 @@ async def last_fm_pic_(message: Message):
     await message.edit(f"<a href={img}>\u200c</a>" + rep + get_tags, parse_mode="html")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "lastuser",
     about={
         "header": "Get Lastfm user info",
@@ -127,7 +127,7 @@ async def last_fm_user_info_(message: Message):
     await message.edit(result, parse_mode="html")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "lastlove",
     about={
         "header": "Get Lastfm Loved Tracks",
@@ -166,7 +166,7 @@ async def last_fm_loved_tracks_(message: Message):
     await message.edit(rep, disable_web_page_preview=True, parse_mode="html")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "lastplayed",
     about={
         "header": "Get recently played LastFm Songs",

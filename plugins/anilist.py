@@ -14,7 +14,7 @@ from alpha.utils import media_to_image
 from alpha.utils import post_to_telegraph as post_to_tp
 
 # Logging Errors
-CLOG = alphaz.getCLogger(__name__)
+CLOG = alpha.getCLogger(__name__)
 
 # Default templates for Query Formatting
 ANIME_TEMPLATE = """[{c_flag}]**{romaji}**

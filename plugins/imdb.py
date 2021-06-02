@@ -4,12 +4,12 @@ import re
 import bs4
 import requests
 import wget
-from alphaz import Config, Message, alphaz
+from alpha import Config, Message, alpha
 
 THUMB_PATH = Config.DOWN_PATH + "imdb_thumb.jpg"
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "imdb",
     about={
         "header": "Scrap Movies & Tv Shows from IMDB",

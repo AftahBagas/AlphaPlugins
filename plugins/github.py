@@ -1,4 +1,4 @@
-"""Userge Plugin for getting information about an user on GitHub
+"""Alpha Plugin for getting information about an user on GitHub
 
 Syntax: .github USERNAME
 """
@@ -7,7 +7,7 @@ import requests
 from alphaz import Message, alphaz
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "github",
     about={
         "header": "Get info about an GitHub User",

@@ -4,12 +4,12 @@
 
 
 import requests
-from alphaz import Message, alphaz
-from alphaz.utils import deEmojify, rand_array
+from alpha import Message, alpha
+from alpha.utils import deEmojify, rand_array
 from validators.url import url
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "sc",
     about={
         "header": "Membuat Adegan Potongan Anime Acak",

@@ -6,7 +6,7 @@ import asyncio
 import time
 
 from pyrogram.errors import FloodWait
-from alphaz import Message, get_collection, alphaz
+from alpha import Message, get_collection, alpha
 
 from resources.quotes import ENGLISH_QUOTES, HINDI_QUOTES
 
@@ -16,8 +16,8 @@ BIO_QUOTES = ENGLISH_QUOTES
 
 USER_DATA = get_collection("CONFIGS")
 
-CHANNEL = alphaz.getCLogger(__name__)
-LOG = alphaz.getLogger(__name__)
+CHANNEL = alpha.getCLogger(__name__)
+LOG = alpha.getLogger(__name__)
 
 
 async def _init() -> None:
@@ -30,7 +30,7 @@ async def _init() -> None:
         AUTOBIO_TIMEOUT = b_t["data"]
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "autobio",
     about={
         "header": "Pembaruan Otomatis Bio Profil Anda dengan 2 bahasa.",
@@ -62,7 +62,7 @@ async def auto_bio(msg: Message):
     BIO_UPDATION = asyncio.get_event_loop().create_task(_autobio_worker())
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "sabto",
     about={
         "header": "Setel batas waktu bio otomatis",
@@ -85,7 +85,7 @@ async def set_bio_timeout(message: Message):
     await message.edit(f"`Set auto bio timeout as {t_o} seconds!`", del_in=5)
 
 
-@alphaz.on_cmd("vabto", about={"header": "View auto bio timeout"})
+@alpha.on_cmd("vabto", about={"header": "View auto bio timeout"})
 async def view_bio_timeout(message: Message):
     """view bio timeout"""
     await message.edit(
@@ -93,7 +93,7 @@ async def view_bio_timeout(message: Message):
     )
 
 
-@alphaz.add_task
+@alpha.add_task
 async def _autobio_worker():
     while BIO_UPDATION:
         for quote in BIO_QUOTES:

@@ -2,10 +2,10 @@
 
 from geopy.geocoders import Nominatim
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "gps",
     about={
         "header": "locate the coordinates by address, cities, countries "

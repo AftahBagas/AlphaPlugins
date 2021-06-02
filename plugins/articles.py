@@ -2,7 +2,7 @@ import re
 from asyncio import sleep
 
 from newspaper import Article, ArticleException
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 regex: str = (
     r"(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\."
@@ -11,7 +11,7 @@ regex: str = (
 max_chars = 3900
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "con",
     about={"header": "Memo konten artikel", "usage": "{tr}con [link | reply to msg]"},
 )

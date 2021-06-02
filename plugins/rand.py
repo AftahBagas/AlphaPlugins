@@ -1,8 +1,8 @@
-from alphaz import Message, alphaz
-from alphaz.utils import rand_array
+from alpha import Message, alpha
+from alpha.utils import rand_array
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "rand",
     about={
         "header": "Gives a random Output from given Input",

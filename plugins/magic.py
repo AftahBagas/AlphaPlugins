@@ -1,13 +1,13 @@
 """ Invert, flip/mirror, rotate or spin"""
 
-#  Copyright (C) 2020 BY AlphaZ Plugins
+#  Copyright (C) 2021 BY Alpha
 
 
 import os
 from shutil import rmtree
 
 from PIL import Image, ImageOps
-from alphaz import Config, Message, alpha
+from alpha import Config, Message, alpha
 from alpha.plugins.utils.circle import crop_vid
 from alpha.utils import media_to_image, runcmd, safe_filename
 

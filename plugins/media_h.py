@@ -4,8 +4,8 @@
 import time
 
 from prettytable import PrettyTable
-from alphaz import Message, alphaz
-from alphaz.utils import humanbytes, mention_html, time_formatter
+from alpha import Message, alpha
+from alpha.utils import humanbytes, mention_html, time_formatter
 
 TYPES = [
     "photo",
@@ -19,7 +19,7 @@ TYPES = [
 ]
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "media_h",
     about={
         "header": "Find media history of a User",

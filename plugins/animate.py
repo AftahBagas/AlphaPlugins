@@ -2,10 +2,10 @@
 import asyncio
 from collections import deque
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd("think$", about={"header": "Berpura-pura Berpikir"})
+@alpha.on_cmd("think$", about={"header": "Berpura-pura Berpikir"})
 async def think_(message: Message):
     """think"""
     deq = deque(list("🤔🧐🤔🧐🤔🧐"))
@@ -15,7 +15,7 @@ async def think_(message: Message):
         deq.rotate(1)
 
 
-@alphaz.on_cmd("lmaos$", about={"header": "lmaos Bruh! xD Lol"})
+@alpha.on_cmd("lmaos$", about={"header": "lmaos Bruh! xD Lol"})
 async def lamos_(message: Message):
     """lmaos"""
     deq = deque(list("😂🤣😂🤣😂🤣"))
@@ -25,7 +25,7 @@ async def lamos_(message: Message):
         deq.rotate(1)
 
 
-@alphaz.on_cmd("nothappy$", about={"header": "Perubahan emosi secara cepat"})
+@alpha.on_cmd("nothappy$", about={"header": "Perubahan emosi secara cepat"})
 async def Moods_(message: Message):
     """Mood Swing"""
     deq = deque(list("😁☹️😁☹️😁☹️😁"))
@@ -35,7 +35,7 @@ async def Moods_(message: Message):
         deq.rotate(1)
 
 
-@alphaz.on_cmd("muah$", about={"header": "LUV"})
+@alpha.on_cmd("muah$", about={"header": "LUV"})
 async def muah_(message: Message):
     """MUAH"""
     deq = deque(list("😗😙😚😚😘"))
@@ -45,7 +45,7 @@ async def muah_(message: Message):
         deq.rotate(1)
 
 
-@alphaz.on_cmd("heart$", about={"header": "Hati pelangi"})
+@alpha.on_cmd("heart$", about={"header": "Hati pelangi"})
 async def heart_(message: Message):
     """♥️"""
     deq = deque(list("❤️🧡💛💚💙💜🖤"))
@@ -55,7 +55,7 @@ async def heart_(message: Message):
         deq.rotate(1)
 
 
-@alphaz.on_cmd("gym$", about={"header": "Jadilah Aktif !, Tetap sehat 💪"})
+@alpha.on_cmd("gym$", about={"header": "Jadilah Aktif !, Tetap sehat 💪"})
 async def gym_(message: Message):
     """Gym"""
     deq = deque(list("🏃‍🏋‍🤸‍🏃‍🏋‍🤸‍🏃‍🏋‍🤸‍"))
@@ -65,7 +65,7 @@ async def gym_(message: Message):
         deq.rotate(1)
 
 
-@alphaz.on_cmd("smoon$", about={"header": "Animasi kensar moon lainnya"})
+@alpha.on_cmd("smoon$", about={"header": "Animasi kensar moon lainnya"})
 async def smoon_(message: Message):
     """smoon"""
     animation_interval = 0.1
@@ -86,7 +86,7 @@ async def smoon_(message: Message):
         await message.edit(animation_chars[i % 8])
 
 
-@alphaz.on_cmd("tmoon$", about={"header": "Animasi kensar moon lainnya"})
+@alpha.on_cmd("tmoon$", about={"header": "Animasi kensar moon lainnya"})
 async def tmoon_(message: Message):
     """tmoon"""
     animation_interval = 0.1

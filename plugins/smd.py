@@ -3,11 +3,11 @@
 
 
 from pyrogram.errors import BadRequest
-from alphaz import Message, alphaz
-from alphaz.utils import get_file_id
+from alpha import Message, alpha
+from alpha.utils import get_file_id
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "smd",
     about={
         "header": "Search from already uploaded 1M Songs",
@@ -36,5 +36,5 @@ async def song_search(message: Message):
     if not f_id:
         await search.edit("⚠️ Song Not Found !", del_in=5)
         return
-    await alphaz.send_audio(chat_id, f_id)
+    await alpha.send_audio(chat_id, f_id)
     await search.delete()

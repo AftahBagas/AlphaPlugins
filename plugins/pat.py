@@ -3,13 +3,13 @@ from random import choice
 from urllib import parse
 
 import requests
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 BASE_URL = "https://headp.at/pats/{}"
 PAT_IMAGE = "pat.jpg"
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "pat", about={"header": "Give head Pat xD", "usage": "{tr}pat [reply | username]"}
 )
 async def pat_(message: Message):

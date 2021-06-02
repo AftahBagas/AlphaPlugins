@@ -5,10 +5,10 @@
 import os
 
 import lottie
-from alphaz import Config, Message, pool, alphaz
+from alpha import Config, Message, pool, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "gif",
     about={
         "header": "Convert Telegram Animated Sticker to GiF",

@@ -8,10 +8,10 @@
 
 from bs4 import BeautifulSoup
 from requests import get
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "twrp",
     about={"header": "Find twrp for you device", "usage": "{tr}twrp <device codename>"},
     allow_via_bot=True,
@@ -44,7 +44,7 @@ async def device_recovery(message: Message):
     await message.edit(reply)
 
 
-@alphaz.on_cmd("magisk$", about={"header": "Get Latest Magisk Zip and Manager"})
+@alpha.on_cmd("magisk$", about={"header": "Get Latest Magisk Zip and Manager"})
 async def magisk_(message: Message):
     """Get Latest MAGISK"""
     magisk_repo = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"

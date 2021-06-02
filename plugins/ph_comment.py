@@ -6,12 +6,12 @@ import os
 
 import requests
 from html_telegraph_poster.upload_images import upload_image
-from alphaz import Config, Message, alphaz
-from alphaz.utils import deEmojify
+from alpha import Config, Message, alpha
+from alpha.utils import deEmojify
 from validators.url import url
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "ph",
     about={
         "header": "P*rnhub Comment",

@@ -1,10 +1,10 @@
 # alfareza
 
 import requests
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "carb",
     about={
         "header": "Create a carbon",

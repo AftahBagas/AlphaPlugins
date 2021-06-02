@@ -13,9 +13,9 @@ import aiohttp
 from apiclient.discovery import build
 from httplib2 import Http
 from oauth2client import client, file
-from alphaz import Config, Message, userge
-from alphaz.plugins.misc.download import tg_download, url_download
-from alphaz.utils import progress
+from alpha import Config, Message, alpha
+from alpha.plugins.misc.download import tg_download, url_download
+from alpha.utils import progress
 
 # setup the gPhotos v1 API
 OAUTH_SCOPE = [
@@ -35,11 +35,11 @@ G_PHOTOS_CLIENT_SECRET = os.environ.get(
 TOKEN_FILE_NAME = os.path.join(Config.DOWN_PATH, "gPhoto_credentials_UserGe.json")
 G_PHOTOS_AUTH_TOKEN_ID = int(os.environ.get("G_PHOTOS_AUTH_TOKEN_ID", 0))
 
-LOG = userge.getLogger(__name__)
-CHANNEL = userge.getCLogger(__name__)
+LOG = alpha.getLogger(__name__)
+CHANNEL = alpha.getCLogger(__name__)
 
 
-@alphaz.on_cmd("gpsetup", about={"header": "setup gphotos"})
+@alpha.on_cmd("gpsetup", about={"header": "setup gphotos"})
 async def setup_google_photos(message: Message):
     if G_PHOTOS_CLIENT_ID is None or G_PHOTOS_CLIENT_SECRET is None:
         await message.err("first fill gphoto id and secret")
@@ -102,7 +102,7 @@ async def check_creds(message):
     return None
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "gpupload",
     about={
         "header": "upload files to gphoto",

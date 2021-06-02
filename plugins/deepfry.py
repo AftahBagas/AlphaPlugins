@@ -5,11 +5,11 @@ import random
 
 from PIL import Image, ImageEnhance, ImageOps
 from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
-from alphaz import Config, Message, alphaz
-from alphaz.utils import progress, runcmd, take_screen_shot
+from alpha import Config, Message, alpha
+from alpha.utils import progress, runcmd, take_screen_shot
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "deepfry",
     about={
         "header": "Deep Fryer",
@@ -131,7 +131,7 @@ async def deepfry(img):
 # fry by @kanjengingsun
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "fry",
     about={
         "header": "frying media",

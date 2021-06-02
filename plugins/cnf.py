@@ -25,10 +25,10 @@ Portions Copyright (c) tl;dr; authors and contributors <https://github.com/tldr-
 
 import requests
 from bs4 import BeautifulSoup
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "cnf",
     about={
         "header": "Install any command on any operating system.",

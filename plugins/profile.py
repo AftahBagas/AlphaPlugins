@@ -15,15 +15,15 @@ from pyrogram.errors import (
     VideoFileInvalid,
 )
 from pyrogram.types import InputMediaPhoto
-from alphaz import Config, Message, alphaz
-from alphaz.utils import progress
+from alpha import Config, Message, alpha
+from alpha.utils import progress
 
 CHANNEL = alphaz.getCLogger(__name__)
 PHOTO = Config.DOWN_PATH + "profile_pic.jpg"
 USER_DATA = {}
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "setname",
     about={
         "header": "Update first, last name and username",
@@ -89,7 +89,7 @@ async def setname_(message: Message):
         await message.err("Invalid Args, Exiting...")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "bio",
     about={
         "header": "Update bio, Maximum limit 70 characters",
@@ -119,7 +119,7 @@ async def bio_(message: Message):
             )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "setpfp",
     about={"header": "Set profile picture", "usage": "{tr}setpfp [reply to any photo]"},
     allow_via_bot=False,
@@ -177,7 +177,7 @@ async def set_profile_picture(message: Message):
         await message.err("Reply to any photo or video to set profile pic...")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "vpf",
     about={
         "header": "View Profile of any user",
@@ -254,7 +254,7 @@ async def view_profile(message: Message):
             await message.edit("<code>{}</code>".format(username), parse_mode="html")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "delpfp",
     about={
         "header": "Delete Profile Pics",
@@ -285,7 +285,7 @@ async def del_pfp(message: Message):
         await message.reply_sticker(sticker="CAADAQAD0wAD976IR_CYoqvCwXhyFgQ")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "clone",
     about={
         "header": "Clone first name, last name, bio and profile picture of any user",
@@ -431,7 +431,7 @@ async def send_single(message: Message, peer_id, pos, reply_id):
 
 
 # photo grabber
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "poto",
     about={
         "header": "use this plugin to get photos of user or chat",

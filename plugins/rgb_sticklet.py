@@ -56,7 +56,7 @@ async def sticklet(message: Message):
     image_name = "rgb_sticklet.webp"
     image.save(image_name, "WebP")
 
-    await alphaz.send_sticker(
+    await alpha.send_sticker(
         chat_id=message.chat.id, sticker=image_name, reply_to_message_id=reply_to
     )
 
@@ -71,4 +71,4 @@ async def sticklet(message: Message):
 async def get_font_file():
     font_file_message_s = await alphaz.get_history("@FontsRes")
     font_file_message = random.choice(font_file_message_s)
-    return await alphaz.download_media(font_file_message)
+    return await alpha.download_media(font_file_message)

@@ -12,9 +12,9 @@ from pyrogram.errors import (
     UsernameNotOccupied,
     UsernameOccupied,
 )
-from alphaz import Config, Message, alphaz
+from alpha import Config, Message, alpha
 
-LOG = alphaz.getLogger(__name__)
+LOG = alpha.getLogger(__name__)
 
 PATH = Config.DOWN_PATH + "chat_pic.jpg"
 
@@ -23,7 +23,7 @@ def mention_html(user_id, name):
     return '<a href="tg://user?id={}">{}</a>'.format(user_id, html.escape(name))
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "join",
     about={
         "header": "Bergabunglah dengan obrolan",
@@ -55,7 +55,7 @@ async def join_chat(message: Message):
         await asyncio.sleep(2)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "leave",
     about={
         "header": "Tinggalkan Obrolan",
@@ -86,7 +86,7 @@ async def leave_chat(message: Message):
         await asyncio.sleep(2)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "invite",
     about={
         "header": "Buat tautan Undangan obrolan",
@@ -124,7 +124,7 @@ async def invite_link(message: Message):
             await message.err(e_f)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tagall",
     about={
         "header": "Tagall recent 100 members with caption",
@@ -158,7 +158,7 @@ async def tagall_(message: Message):
     await message.edit("```Tagged recent Members Successfully...```", del_in=3)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "stagall",
     about={
         "header": "Silent tag recent 100 members with caption",
@@ -187,7 +187,7 @@ async def stagall_(message: Message):
     await alphaz.send_message(chat_id, text, reply_to_message_id=message_id)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tadmins",
     about={
         "header": "Tag admins in group",
@@ -225,7 +225,7 @@ async def tadmins_(message: Message):
     await message.edit("```Admins tagged Successfully...```", del_in=3)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "schat",
     about={
         "header": "Update and delete chat info",
@@ -293,7 +293,7 @@ async def set_chat(message: Message):
         await message.edit("```Invalid args, Exiting...  ```", del_in=5)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "vchat",
     about={
         "header": "View Chat",
@@ -340,7 +340,7 @@ async def view_chat(message: Message):
                 os.remove(PATH)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "bots",
     about={
         "header": "View Chat bots",

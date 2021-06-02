@@ -10,7 +10,7 @@ from textwrap import wrap
 
 from PIL import Image, ImageDraw, ImageFont
 from requests import get
-from alphaz import Config, Message, alphaz
+from alpha import Config, Message, alpha
 
 CLRS = {
     "red": 1,
@@ -28,7 +28,7 @@ CLRS = {
 }
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "amongus",
     about={
         "header": "Create a Sticker based on the popular game Among Us",

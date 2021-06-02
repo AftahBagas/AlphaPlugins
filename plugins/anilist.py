@@ -9,9 +9,9 @@ import flag as cflag
 import humanize
 import tracemoepy
 from aiohttp import ClientSession
-from alphaz import Message, get_collection, alphaz
-from alphaz.utils import media_to_image
-from alphaz.utils import post_to_telegraph as post_to_tp
+from alpha import Message, get_collection, alpha
+from alpha.utils import media_to_image
+from alpha.utils import post_to_telegraph as post_to_tp
 
 # Logging Errors
 CLOG = alphaz.getCLogger(__name__)
@@ -321,7 +321,7 @@ async def anim_arch(message: Message):
     await message.delete()
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "airing",
     about={
         "header": "Airing Info",
@@ -388,7 +388,7 @@ async def airing_anim(message: Message):
     await message.delete()
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "scheduled",
     about={
         "header": "Scheduled Animes",
@@ -436,7 +436,7 @@ async def get_schuled(message: Message):
         await message.edit(f"[Open in Telegraph]({link})")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "character",
     about={
         "header": "Anime Character",
@@ -511,7 +511,7 @@ async def character_search(message: Message):
     await message.delete()
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "ars",
     about={
         "header": "Anime Reverse Search",
@@ -544,7 +544,7 @@ async def trace_bek(message: Message):
         await message.delete()
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "setemp",
     about={
         "header": "Anime Template",
@@ -567,7 +567,7 @@ async def ani_save_template(message: Message):
     await message.edit("Custom Anime Template Saved")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "anitemp",
     about={
         "header": "Anime Template Settings",

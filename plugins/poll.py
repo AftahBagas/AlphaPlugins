@@ -4,10 +4,10 @@
 
 import random
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "poll",
     about={
         "header": "Create Poll of Suggestion to get opinion",
@@ -26,7 +26,7 @@ async def create_poll(msg: Message):
     if replied:
         query = "Do you agree with that replied Suggestion..?"
         msg_id = replied.message_id
-        await userge.send_poll(
+        await alpha.send_poll(
             chat_id=msg.chat.id,
             question=query,
             options=options,
@@ -41,7 +41,7 @@ async def create_poll(msg: Message):
     await msg.delete()
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "vote",
     about={
         "header": "Vote poll",
@@ -62,7 +62,7 @@ async def vote_poll(msg: Message):
             option = random.randint(0, len(replied.poll.options) - 1)
 
         try:
-            await alphaz.vote_poll(msg.chat.id, replied.message_id, option)
+            await alpha.vote_poll(msg.chat.id, replied.message_id, option)
         except Exception as e_f:
             await msg.err(e_f)
         else:
@@ -71,7 +71,7 @@ async def vote_poll(msg: Message):
         await msg.err("How can I vote without reply to poll")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "stop",
     about={
         "header": "Stop a poll which was sent by you.",
@@ -95,7 +95,7 @@ async def stop_poll(msg: Message):
         await msg.err("How can I stop poll without reply a poll")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "retract",
     about={
         "header": "Retract your vote in a Poll",

@@ -2,10 +2,10 @@
 import asyncio
 from collections import deque
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd("p$", about={"header": "Salam Dulu"})
+@alpha.on_cmd("p$", about={"header": "Salam Dulu"})
 async def tiger_(message: Message):
     """salam"""
     animation_interval = 0.1
@@ -13,7 +13,7 @@ async def tiger_(message: Message):
     await message.edit("`Assalamu'alaikum`")
 
 
-@alphaz.on_cmd("l$", about={"header": "Jawab Salam"})
+@alpha.on_cmd("l$", about={"header": "Jawab Salam"})
 async def tiger_(message: Message):
     """jawab salam"""
     animation_interval = 0.1

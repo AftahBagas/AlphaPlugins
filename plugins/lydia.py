@@ -11,10 +11,10 @@ from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError
 from coffeehouse.lydia import LydiaAI, Session
 from pyrogram.errors import PeerIdInvalid
-from alphaz import Message, filters, get_collection, pool, alphaz
-from alphaz.utils import get_file_id
+from alpha import Message, filters, get_collection, pool, alpha
+from alpha.utils import get_file_id
 
-LOGGER = alphaz.getCLogger(__name__)
+LOGGER = alpha.getCLogger(__name__)
 LYDIA_CHATS = get_collection("LYDIA_CHATS")
 CH_LYDIA_API = os.environ.get("CH_LYDIA_API", None)
 CUSTOM_REPLY_CHANNEL = int(os.environ.get("CUSTOM_REPLY_CHANNEL", 0))
@@ -43,7 +43,7 @@ async def _init():
             CUSTOM_REPLIES_IDS.append(message.message_id)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "lydia",
     about={
         "header": "Lydia AI Chat Bot",
@@ -171,7 +171,7 @@ async def lydia_session(message: Message):
         )
 
 
-@alphaz.on_filters(
+@alpha.on_filters(
     ~filters.me & ~filters.edited & (filters.mentioned | filters.private), group=2
 )
 async def lydia_ai_chat(message: Message):
@@ -208,7 +208,7 @@ async def lydia_ai_chat(message: Message):
     message.continue_propagation()
 
 
-@alphaz.add_task
+@alpha.add_task
 async def lydia_queue() -> None:
     """queue handler"""
     msg: Message

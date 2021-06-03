@@ -197,7 +197,7 @@ def make_it_rw(time_stamp, as_countdown=False):
     return str(humanize.naturaldate(datetime.fromtimestamp(time_stamp)))
 
 
-@userge.on_cmd(
+@alpha.on_cmd(
     "anime",
     about={
         "header": "Anime Search",

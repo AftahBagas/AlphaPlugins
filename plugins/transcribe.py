@@ -7,11 +7,11 @@ from asyncio import sleep
 from aiohttp import ClientSession
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
-from alphaz import Config, Message, alphaz
-from alphaz.plugins.misc.download import tg_download, url_download
-from alphaz.utils.exceptions import ProcessCanceled
+from alpha import Config, Message, alpha
+from alpha.plugins.misc.download import tg_download, url_download
+from alpha.utils.exceptions import ProcessCanceled
 
-logger = alphaz.getLogger(__name__)
+logger = alpha.getLogger(__name__)
 
 
 class WitAiAPI:
@@ -108,7 +108,7 @@ class WitAiAPI:
             yield None, "`Error decoding the audio file. ", "Ensure that the provided audio is a valid audio file!`"
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "stt",
     about={
         "header": "transcribe a file (speech to text)",

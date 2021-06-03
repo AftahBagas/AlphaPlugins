@@ -1,12 +1,12 @@
 import asyncio
 import os
 
-from alphaz import Config, Message, alphaz
+from alpha import Config, Message, alpha
 
-S_LOG = alphaz.getCLogger(__name__)
+S_LOG = alpha.getCLogger(__name__)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "spam",
     about={
         "header": "Spam some Messages",

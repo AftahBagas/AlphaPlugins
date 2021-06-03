@@ -2,10 +2,10 @@
 
 # alfareza
 
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "hii",
     about={
         "header": "Use HI to greet someone",
@@ -38,7 +38,7 @@ async def hii_(message: Message):
     await message.edit(pay)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "lol",
     about={
         "header": "Lol also known as lots of laugh used to indicate "
@@ -85,7 +85,7 @@ async def lol_(message: Message):
     await message.edit(pay)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "wtf",
     about={
         "header": "WTF Generally stands for 'What the fuck' use for fun",

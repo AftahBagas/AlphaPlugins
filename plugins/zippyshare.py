@@ -3,10 +3,10 @@
 import re
 
 import requests
-from alphaz import Message, pool, alphaz
+from alpha import Message, pool, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "zippy",
     about={
         "header": "generate Direct link of zippyshare url",

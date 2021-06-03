@@ -1,17 +1,17 @@
 """Get Your Telegram Stats"""
 
-# Alfareza 😎
+# Alfareza 
 
 
 import asyncio
 import time
 
 from pyrogram.errors import FloodWait, UserNotParticipant
-from alphaz import Message, alphaz
-from alphaz.utils import mention_html, time_formatter
+from alpha import Message, alpha
+from alpha.utils import mention_html, time_formatter
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "stats",
     about={
         "header": "Get your Telegram Stats like no. Groups, Channels etc.",
@@ -25,7 +25,7 @@ async def get_stats_(message: Message):
         "💁‍♂️ `Collecting your Telegram Stats ...`\n"
         "<b>Please wait it will take some time</b>"
     )
-    owner = await alphaz.get_me()
+    owner = await alpha.get_me()
     u_mention = mention_html(owner.id, owner.first_name)
     unread_mentions = 0
     unread_msg = 0

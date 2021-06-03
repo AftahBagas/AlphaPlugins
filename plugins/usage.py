@@ -3,10 +3,10 @@ import asyncio
 
 import requests
 
-from alphaz import Config, alphaz, Message
+from alpha import Config, alpha, Message
 
 
-@alphaz.on_cmd("usage", about={'header': "Dapatkan penggunaan jam Dyno"})  # pylint:disable=E0602
+@alpha.on_cmd("usage", about={'header': "Dapatkan penggunaan jam Dyno"})  # pylint:disable=E0602
 async def usage(message: Message):
     """Dapatkan akun Anda Dyno Usage"""
     if not Config.HEROKU_APP:
@@ -54,12 +54,12 @@ async def usage(message: Message):
     await asyncio.sleep(1.5)
 
     await message.edit("⚙️ **Informasi Dyno** ⚙️\n\n"
-                       f"┏━━━━━━━━━━━━━━━━━━━━━┓\n"
-                       f" ⛽ `Penggunaan Dyno`  **{Config.HEROKU_APP_NAME}**:\n"
+                       f"┏━━━━━━━━━━━━━━━━━━┓\n"
+                       f" ⛽`Penggunaan Dyno`  **{Config.HEROKU_APP_NAME}**:\n"
                        f"     ➥ `{AppHours}`**h**  `{AppMinutes}`**m**  "
                        f"**|**  [`{AppPercentage}`**%**]"
                        "\n"
-                       " 🛢️ `Sisa kuota jam Dyno bulan ini`:\n"
+                       " 🛢️`Sisa kuota jam Dyno bulan ini`:\n"
                        f"     ➥ `{hours}`**h**  `{minutes}`**m**  "
                        f"**|**  [`{percentage}`**%**]\n"
-                       f"┗━━━━━━━━━━━━━━━━━━━━━┛")
+                       f"┗━━━━━━━━━━━━━━━━━━┛")

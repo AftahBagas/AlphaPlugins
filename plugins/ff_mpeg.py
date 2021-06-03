@@ -1,17 +1,15 @@
-import asyncio
 import os
 import time
+import asyncio
 from datetime import datetime
 
-from alpha import Config, Message, alpha
-from alpha.utils import progress, safe_filename
+from alpha import alpha, Message, Config
+from alpha.utils import progress
 
 FF_MPEG_DOWN_LOAD_MEDIA_PATH = "/app/downloads/userge.media.ffmpeg"
 
 
-@alpha.on_cmd(
-    "ffmpegsave", about={"header": "Save a media that is to be used in ffmpeg"}
-)
+@alpha.on_cmd("ffmpegsave", about={'header': "Save a media that is to be used in ffmpeg"})
 async def ffmpegsave(message: Message):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         if not os.path.isdir(Config.DOWN_PATH):
@@ -24,39 +22,31 @@ async def ffmpegsave(message: Message):
                     message=reply_message,
                     file_name=FF_MPEG_DOWN_LOAD_MEDIA_PATH,
                     progress=progress,
-                    progress_args=(message, "trying to download"),
+                    progress_args=(message, "trying to download")
                 )
-                downloaded_file_name = safe_filename(downloaded_file_name)
             except Exception as e:  # pylint:disable=C0103,W0703
                 await message.edit(str(e))
             else:
                 end = datetime.now()
                 ms = (end - start).seconds
                 await message.edit(
-                    "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms)
-                )
+                    "Downloaded to `{}` in {} seconds.".format(downloaded_file_name, ms))
         else:
             await message.edit("Reply to a Telegram media file")
     else:
         await message.edit(
             "a media file already exists in path. "
-            f"Please remove the media and try again!\n`.term rm {FF_MPEG_DOWN_LOAD_MEDIA_PATH}`"
-        )
+            f"Please remove the media and try again!\n`.term rm {FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
 
 
-@alpha.on_cmd(
-    "ffmpegtrim",
-    about={
-        "header": "Trim a given media",
-        "usage": "{tr}ffmpegtrim [start time] [end time]",
-    },
-)
+@alpha.on_cmd("ffmpegtrim", about={
+    'header': "Trim a given media",
+    'usage': "{tr}ffmpegtrim [start time] [end time]"})
 async def ffmpegtrim(message: Message):
     if not os.path.exists(FF_MPEG_DOWN_LOAD_MEDIA_PATH):
         await message.edit(
             "a media file needs to be downloaded, and saved to the "
-            f"following path: `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`"
-        )
+            f"following path: `{FF_MPEG_DOWN_LOAD_MEDIA_PATH}`")
         return
     current_message_text = message.text
     cmt = current_message_text.split(" ")
@@ -65,11 +55,16 @@ async def ffmpegtrim(message: Message):
         # output should be video
         _, start_time, end_time = cmt
         o = await cult_small_video(
-            FF_MPEG_DOWN_LOAD_MEDIA_PATH, Config.DOWN_PATH, start_time, end_time
+            FF_MPEG_DOWN_LOAD_MEDIA_PATH,
+            Config.DOWN_PATH,
+            start_time,
+            end_time
         )
         try:
             await message.client.send_video(
-                chat_id=message.chat.id, video=o, caption=" ".join(cmt[1:])
+                chat_id=message.chat.id,
+                video=o,
+                caption=" ".join(cmt[1:])
             )
             os.remove(o)
         except Exception as e:
@@ -78,12 +73,16 @@ async def ffmpegtrim(message: Message):
         # output should be image
         _, start_time = cmt
         o = await take_screen_shot(
-            FF_MPEG_DOWN_LOAD_MEDIA_PATH, Config.DOWN_PATH, start_time
+            FF_MPEG_DOWN_LOAD_MEDIA_PATH,
+            Config.DOWN_PATH,
+            start_time
         )
 
         try:
             await message.client.send_photo(
-                chat_id=message.chat.id, photo=o, caption=" ".join(cmt[1:])
+                chat_id=message.chat.id,
+                photo=o,
+                caption=" ".join(cmt[1:])
             )
             os.remove(o)
         except Exception as e:
@@ -98,7 +97,8 @@ async def ffmpegtrim(message: Message):
 
 async def take_screen_shot(video_file, output_directory, ttl):
     # https://stackoverflow.com/a/13891070/4723940
-    out_put_file_name = output_directory + "/" + str(time.time()) + ".jpg"
+    out_put_file_name = output_directory + \
+        "/" + str(time.time()) + ".jpg"
     file_genertor_command = [
         "ffmpeg",
         "-ss",
@@ -107,7 +107,7 @@ async def take_screen_shot(video_file, output_directory, ttl):
         video_file,
         "-vframes",
         "1",
-        out_put_file_name,
+        out_put_file_name
     ]
     # width = "90"
     process = await asyncio.create_subprocess_exec(
@@ -122,13 +122,13 @@ async def take_screen_shot(video_file, output_directory, ttl):
         return out_put_file_name
     return None
 
-
 # https://github.com/Nekmo/telegram-upload/blob/master/telegram_upload/video.py#L26
 
 
 async def cult_small_video(video_file, output_directory, start_time, end_time):
     # https://stackoverflow.com/a/13891070/4723940
-    out_put_file_name = output_directory + "/" + str(round(time.time())) + ".mp4"
+    out_put_file_name = output_directory + \
+        "/" + str(round(time.time())) + ".mp4"
     file_genertor_command = [
         "ffmpeg",
         "-i",
@@ -141,7 +141,7 @@ async def cult_small_video(video_file, output_directory, start_time, end_time):
         "1",
         "-strict",
         "-2",
-        out_put_file_name,
+        out_put_file_name
     ]
     process = await asyncio.create_subprocess_exec(
         *file_genertor_command,

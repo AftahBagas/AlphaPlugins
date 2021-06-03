@@ -4,9 +4,9 @@ import re
 from typing import Optional, Tuple
 
 import wget
-from alphaz import Config, Message, alphaz, get_version, logging, versions
-from alphaz.core.ext import pool
-from alphaz.utils import get_file_id_of_media
+from alpha import Config, Message, alpha, get_version, logging, versions
+from alpha.core.ext import pool
+from alpha.utils import get_file_id_of_media
 from pyrogram.errors import (
     BadRequest,
     ChannelInvalid,
@@ -31,7 +31,7 @@ _LOGO_ID = None
 
 
 @alpha.on_cmd(
-    "alive", about={"header": "This command is just for fun"}, allow_channels=False
+    "logo", about={"header": "This command is just for fun"}, allow_channels=False
 )
 async def alive(message: Message):
     if not (_CHAT and _MSG_ID):

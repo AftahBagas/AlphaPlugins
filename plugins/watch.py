@@ -3,14 +3,14 @@
 import os
 
 from justwatch import JustWatch, justwatchapi
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 # https://github.com/dawoudt/JustWatchAPI/issues/47#issuecomment-691357371
 justwatchapi.__dict__["HEADER"] = {
     "User-Agent": "JustWatch client (github.com/dawoudt/JustWatchAPI)"
 }
 
-LOGGER = alphaz.getLogger(__name__)
+LOGGER = alpha.getLogger(__name__)
 WATCH_COUNTRY = os.environ.get("WATCH_COUNTRY", "IN")
 
 
@@ -59,7 +59,7 @@ def get_stream_data(query):
     return stream_data
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "watch",
     about={
         "header": "Get stream link for a Movie and TV Shows",

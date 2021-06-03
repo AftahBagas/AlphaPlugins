@@ -110,7 +110,7 @@ async def retract_vote(msg: Message):
 
     if replied and replied.poll:
         try:
-            await alphaz.retract_vote(msg.chat.id, replied.message_id)
+            await alpha.retract_vote(msg.chat.id, replied.message_id)
         except Exception as e_f:
             await msg.err(e_f)
         else:

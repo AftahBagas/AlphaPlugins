@@ -4,8 +4,8 @@ from typing import Union
 from spotdl.download.downloader import DownloadManager
 from spotdl.search import spotifyClient
 from spotdl.search.songObj import SongObj
-from alphaz import Message, pool, alphaz
-from alphaz.plugins.misc.upload import audio_upload
+from alpha import Message, pool, alpha
+from alpha.plugins.misc.upload import audio_upload
 
 
 def init_client() -> None:
@@ -26,7 +26,7 @@ async def download_track(url: Union[str, SongObj]) -> Path:
     return await DownloadManager().download_song(song)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "stdl",
     about={
         "header": "Spotify Track Downloader",

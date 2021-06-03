@@ -6,15 +6,15 @@ import os
 
 import requests
 from PIL import Image
-from alphaz import Config, Message, alphaz
-from alphaz.utils import deEmojify
+from alpha import Config, Message, alpha
+from alpha.utils import deEmojify
 from validators.url import url
 
 CONVERTED_IMG = Config.DOWN_PATH + "img.png"
 CONVERTED_STIKR = Config.DOWN_PATH + "sticker.webp"
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "trump",
     about={
         "header": "Custom Sticker of Trump Tweet",
@@ -35,7 +35,7 @@ async def trump_tweet(msg: Message):
     await _tweets(msg, text, type_="trumptweet")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "modi",
     about={
         "header": "Custom Sticker of Modi Tweet",
@@ -56,7 +56,7 @@ async def modi_tweet(msg: Message):
     await _tweets(msg, text, "narendramodi")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "cmm",
     about={
         "header": "Custom Sticker of Change My Mind",
@@ -77,7 +77,7 @@ async def Change_My_Mind(msg: Message):
     await _tweets(msg, text, type_="changemymind")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "kanna",
     about={
         "header": "Custom text Sticker of kanna",
@@ -98,7 +98,7 @@ async def kanna(msg: Message):
     await _tweets(msg, text, type_="kannagen")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "carry",
     about={
         "header": "Custom text Sticker of Carryminati",
@@ -119,7 +119,7 @@ async def carry_minati(msg: Message):
     await _tweets(msg, text, "carryminati")
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tweet",
     about={
         "header": "Tweet With Custom text Sticker",
@@ -182,7 +182,7 @@ async def _tweets(
     os.remove(CONVERTED_STIKR)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "clb",
     about={
         "header": "Custom text Sticker of Celebrity",

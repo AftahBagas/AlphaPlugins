@@ -45,7 +45,7 @@ async def tele_text(message: Message):
         else:
             media_link = f'<img src="https://telegra.ph{link}">'
         text = media_link + text
-    user = await alphaz.get_me()
+    user = await alpha.get_me()
     user_n = f"@{user.username}" if user.username else user.first_name
     title = message.filtered_input_str
     if not title:

@@ -7,13 +7,13 @@ import json
 import os
 
 import requests
-from alphaz import Config, Message, alphaz
-from alphaz.utils import humanbytes, progress
+from alpha import Config, Message, alpha
+from alpha.utils import humanbytes, progress
 
 API_KEY = os.environ.get("VT_API_KEY", None)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "scan",
     about={
         "header": "Virus-Total module to check virus in document files.",

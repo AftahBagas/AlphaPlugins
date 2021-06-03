@@ -9,7 +9,7 @@ from datetime import datetime as dt
 from pytz import country_names as c_n
 from pytz import country_timezones as c_tz
 from pytz import timezone as tz
-from alphaz import Message, get_collection, alphaz
+from alpha import Message, get_collection, alpha
 
 COUNTRY_CITY = os.environ.get("COUNTRY_CITY", None)
 LOC_NAME = get_collection("LOC_NAME")
@@ -40,7 +40,7 @@ async def get_tz(con):
         return
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "dt(?: |$)(.*)(?<![0-9])(?: |$)([0-9]+)?",
     about={
         "header": "Get Date and Time of a country",
@@ -113,7 +113,7 @@ async def date_time_func(message: Message):
     )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "setloc",
     about={
         "header": "Set the location disaplay name with the time zone you set",

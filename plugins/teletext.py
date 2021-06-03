@@ -2,13 +2,13 @@
 
 import time
 
-from alphaz import Message, alphaz
-from alphaz.utils import post_to_telegraph, time_formatter
+from alpha import Message, alpha
+from alpha.utils import post_to_telegraph, time_formatter
 
 from ..utils.telegraph import upload_media_
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tg",
     about={
         "header": "For Posting Text on Telegraph",

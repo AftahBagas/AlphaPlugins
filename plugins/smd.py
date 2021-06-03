@@ -24,7 +24,7 @@ async def song_search(message: Message):
     chat_id = message.chat.id
     f_id = ""
     try:
-        async for msg in userge.search_messages(
+        async for msg in alpha.search_messages(
             -1001271479322, query=song, limit=1, filter="audio"
         ):
             f_id = get_file_id(msg)

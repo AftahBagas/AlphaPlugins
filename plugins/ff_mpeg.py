@@ -44,7 +44,7 @@ async def ffmpegsave(message: Message):
         )
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "ffmpegtrim",
     about={
         "header": "Trim a given media",

@@ -1,6 +1,7 @@
+
 """ Search for Anime related Info """
 
-# alfraeza
+# Alfareza
 
 import os
 from datetime import datetime
@@ -9,26 +10,26 @@ import flag as cflag
 import humanize
 import tracemoepy
 from aiohttp import ClientSession
-from alpha import Message, get_collection, alpha
-from alpha.utils import media_to_image
-from alpha.utils import post_to_telegraph as post_to_tp
+from html_telegraph_poster import TelegraphPoster
+
+from alpha import alpha, Message, get_collection, Config
+from alpha.utils import progress, take_screen_shot
 
 # Logging Errors
 CLOG = alpha.getCLogger(__name__)
 
 # Default templates for Query Formatting
 ANIME_TEMPLATE = """[{c_flag}]**{romaji}**
-
 **ID | MAL ID:** `{idm}` | `{idmal}`
-➥ **SOURCE:** `{source}`
-➥ **TYPE:** `{formats}`
-➥ **GENRES:** `{genre}`
-➥ **SEASON:** `{season}`
-➥ **EPISODES:** `{episodes}`
-➥ **STATUS:** `{status}`
-➥ **NEXT AIRING:** `{air_on}`
-➥ **SCORE:** `{score}%` 🌟
-➥ **ADULT RATED:** `{adult}`
+➤ **SOURCE:** `{source}`
+➤ **TYPE:** `{formats}`
+➤ **GENRES:** `{genre}`
+➤ **SEASON:** `{season}`
+➤ **EPISODES:** `{episodes}`
+➤ **STATUS:** `{status}`
+➤ **NEXT AIRING:** `{air_on}`
+➤ **SCORE:** `{score}%` 🌟
+➤ **ADULT RATED:** `{adult}`
 🎬 {trailer_link}
 📖 [Synopsis & More]({synopsis_link})"""
 
@@ -172,24 +173,36 @@ query ($search: String, $asHtml: Boolean) {
 
 async def _init():
     global ANIME_TEMPLATE  # pylint: disable=global-statement
-    template = await SAVED.find_one({"_id": "ANIME_TEPLATE"})
+    template = await SAVED.find_one({'_id': "ANIME_TEPLATE"})
     if template:
-        ANIME_TEMPLATE = template["anime_data"]
+        ANIME_TEMPLATE = template['anime_data']
 
 
 async def return_json_senpai(query, vars_):
-    """Makes a Post to https://graphql.anilist.co."""
+    """ Makes a Post to https://graphql.anilist.co. """
     url_ = "https://graphql.anilist.co"
-    async with ClientSession() as session:
-        async with session.post(
-            url_, json={"query": query, "variables": vars_}
-        ) as post_con:
-            json_data = await post_con.json()
-    return json_data
+    async with ClientSession() as api_:
+        post_con = await api_.post(url_, json={'query': query, 'variables': vars_})
+        json_data = await post_con.json()
+        return json_data
+
+
+def post_to_tp(a_title, content):
+    """ Create a Telegram Post using HTML Content """
+    post_client = TelegraphPoster(use_api=True)
+    auth_name = "@PhycoNinja13b"
+    post_client.create_api_token(auth_name)
+    post_page = post_client.post(
+        title=a_title,
+        author=auth_name,
+        author_url="https://t.me/PhycoNinja13b",
+        text=content
+    )
+    return post_page['url']
 
 
 def make_it_rw(time_stamp, as_countdown=False):
-    """Converting Time Stamp to Readable Format"""
+    """ Converting Time Stamp to Readable Format """
     if as_countdown:
         now = datetime.now()
         air_time = datetime.fromtimestamp(time_stamp)
@@ -197,77 +210,85 @@ def make_it_rw(time_stamp, as_countdown=False):
     return str(humanize.naturaldate(datetime.fromtimestamp(time_stamp)))
 
 
-@alpha.on_cmd(
-    "anime",
-    about={
-        "header": "Anime Search",
-        "description": "Search for Anime using AniList API",
-        "flags": {"-mid": "Search Anime using MAL ID", "-wp": "Get webpage previews "},
-        "usage": "{tr}anime [flag] [anime name | ID]",
-        "examples": [
-            "{tr}anime 98444",
-            "{tr}anime -mid 39576",
-            "{tr}anime Asterisk war",
-        ],
-    },
-)
+@alpha.on_cmd("anime", about={
+    'header': "Anime Search",
+    'description': "Search for Anime using AniList API",
+    'flags': {
+        '-mid': "Search Anime using MAL ID",
+        '-wp': "Get webpage previews "},
+    'usage': "{tr}anime [flag] [anime name | ID]",
+    'examples': [
+        "{tr}anime 98444", "{tr}anime -mid 39576",
+        "{tr}anime Asterisk war"]})
 async def anim_arch(message: Message):
-    """Search Anime Info"""
+    """ Search Anime Info """
     query = message.filtered_input_str
     if not query:
         await message.err("NameError: 'query' not defined")
         return
-    vars_ = {"search": query, "asHtml": True, "type": "ANIME"}
+    vars_ = {
+        'search': query,
+        'asHtml': True,
+        'type': "ANIME"
+    }
     if query.isdigit():
-        vars_ = {"id": int(query), "asHtml": True, "type": "ANIME"}
-        if "-mid" in message.flags:
-            vars_ = {"idMal": int(query), "asHtml": True, "type": "ANIME"}
+        vars_ = {
+            'id': int(query),
+            'asHtml': True,
+            'type': "ANIME"
+        }
+        if '-mid' in message.flags:
+            vars_ = {
+                'idMal': int(query),
+                'asHtml': True,
+                'type': "ANIME"
+            }
 
     result = await return_json_senpai(ANIME_QUERY, vars_)
-    error = result.get("errors")
+    error = result.get('errors')
     if error:
         await CLOG.log(f"**ANILIST RETURNED FOLLOWING ERROR:**\n\n`{error}`")
-        error_sts = error[0].get("message")
+        error_sts = error[0].get('message')
         await message.err(f"[{error_sts}]")
         return
 
-    data = result["data"]["Media"]
+    data = result['data']['Media']
 
     # Data of all fields in returned json
     # pylint: disable=possibly-unused-variable
-    idm = data.get("id")
-    idmal = data.get("idMal")
-    romaji = data["title"]["romaji"]
-    english = data["title"]["english"]
-    native = data["title"]["native"]
-    formats = data.get("format")
-    status = data.get("status")
-    synopsis = data.get("description")
-    season = data.get("season")
-    episodes = data.get("episodes")
-    duration = data.get("duration")
-    country = data.get("countryOfOrigin")
+    idm = data.get('id')
+    idmal = data.get('idMal')
+    romaji = data['title']['romaji']
+    english = data['title']['english']
+    native = data['title']['native']
+    formats = data.get('format')
+    status = data.get('status')
+    synopsis = data.get('description')
+    season = data.get('season')
+    episodes = data.get('episodes')
+    duration = data.get('duration')
+    country = data.get('countryOfOrigin')
     c_flag = cflag.flag(country)
-    source = data.get("source")
-    coverImg = data.get("coverImage")["extraLarge"]
-    bannerImg = data.get("bannerImage")
-    genres = data.get("genres")
+    source = data.get('source')
+    coverImg = data.get('coverImage')['extraLarge']
+    bannerImg = data.get('bannerImage')
+    genres = data.get('genres')
     genre = genres[0]
     if len(genres) != 1:
         genre = ", ".join(genres)
-    score = data.get("averageScore")
+    score = data.get('averageScore')
     air_on = None
-    if data["nextAiringEpisode"]:
-        nextAir = data["nextAiringEpisode"]["airingAt"]
+    if data['nextAiringEpisode']:
+        nextAir = data['nextAiringEpisode']['airingAt']
         air_on = make_it_rw(nextAir)
-    s_date = data.get("startDate")
-    adult = data.get("isAdult")
+    s_date = data.get('startDate')
+    adult = data.get('isAdult')
     trailer_link = "N/A"
 
-    if data["trailer"] and data["trailer"]["site"] == "youtube":
+    if data['trailer'] and data['trailer']['site'] == 'youtube':
         trailer_link = f"[Trailer](https://youtu.be/{data['trailer']['id']})"
     html_char = ""
-    for character in data["characters"]["nodes"]:
+    for character in data['characters']['nodes']:
         html_ = ""
         html_ += "<br>"
         html_ += f"""<a href="{character['siteUrl']}">"""
@@ -276,15 +297,13 @@ async def anim_arch(message: Message):
         html_ += f"<h3>{character['name']['full']}</h3>"
         html_ += f"<em>{c_flag} {character['name']['native']}</em><br>"
         html_ += f"<b>Character ID</b>: {character['id']}<br>"
-        html_ += (
-            f"<h4>About Character and Role:</h4>{character.get('description', 'N/A')}"
-        )
+        html_ += f"<h4>About Character and Role:</h4>{character.get('description', 'N/A')}"
         html_char += f"{html_}<br><br>"
 
     studios = ""
-    for studio in data["studios"]["nodes"]:
-        studios += "<a href='{}'>• {}</a> ".format(studio["siteUrl"], studio["name"])
-    url = data.get("siteUrl")
+    for studio in data['studios']['nodes']:
+        studios += "<a href='{}'>• {}</a> ".format(studio['siteUrl'], studio['name'])
+    url = data.get('siteUrl')
 
     title_img = coverImg or bannerImg
     # Telegraph Post mejik
@@ -313,7 +332,7 @@ async def anim_arch(message: Message):
         await message.err(kys)
         return
 
-    if "-wp" in message.flags:
+    if '-wp' in message.flags:
         finals_ = f"[\u200b]({title_img}) {finals_}"
         await message.edit(finals_)
         return
@@ -321,54 +340,58 @@ async def anim_arch(message: Message):
     await message.delete()
 
 
-@alpha.on_cmd(
-    "airing",
-    about={
-        "header": "Airing Info",
-        "description": "Fetch Airing Detail of a Anime",
-        "usage": "{tr}airing [Anime Name | Anilist ID]",
-        "examples": "{tr}airing 108632",
-    },
-)
+@alpha.on_cmd("airing", about={
+    'header': "Airing Info",
+    'description': "Fetch Airing Detail of a Anime",
+    'usage': "{tr}airing [Anime Name | Anilist ID]",
+    'examples': "{tr}airing 108632"})
 async def airing_anim(message: Message):
-    """Get Airing Detail of Anime"""
+    """ Get Airing Detail of Anime """
     query = message.input_str
     if not query:
         await message.err("NameError: 'query' not defined")
         return
-    vars_ = {"search": query, "asHtml": True, "type": "ANIME"}
+    vars_ = {
+        'search': query,
+        'asHtml': True,
+        'type': "ANIME"
+    }
     if query.isdigit():
-        vars_ = {"id": int(query), "asHtml": True, "type": "ANIME"}
+        vars_ = {
+            'id': int(query),
+            'asHtml': True,
+            'type': "ANIME"
+        }
     result = await return_json_senpai(ANIME_QUERY, vars_)
-    error = result.get("errors")
+    error = result.get('errors')
     if error:
         await CLOG.log(f"**ANILIST RETURNED FOLLOWING ERROR:**\n\n`{error}`")
-        error_sts = error[0].get("message")
+        error_sts = error[0].get('message')
         await message.err(f"[{error_sts}]")
         return
 
-    data = result["data"]["Media"]
+    data = result['data']['Media']
 
     # Airing Details
-    mid = data.get("id")
-    romaji = data["title"]["romaji"]
-    english = data["title"]["english"]
-    native = data["title"]["native"]
-    status = data.get("status")
-    episodes = data.get("episodes")
-    country = data.get("countryOfOrigin")
+    mid = data.get('id')
+    romaji = data['title']['romaji']
+    english = data['title']['english']
+    native = data['title']['native']
+    status = data.get('status')
+    episodes = data.get('episodes')
+    country = data.get('countryOfOrigin')
     c_flag = cflag.flag(country)
-    source = data.get("source")
-    coverImg = data.get("coverImage")["extraLarge"]
-    genres = data.get("genres")
+    source = data.get('source')
+    coverImg = data.get('coverImage')['extraLarge']
+    genres = data.get('genres')
     genre = genres[0]
     if len(genres) != 1:
         genre = ", ".join(genres)
-    score = data.get("averageScore")
+    score = data.get('averageScore')
     air_on = None
-    if data["nextAiringEpisode"]:
-        nextAir = data["nextAiringEpisode"]["airingAt"]
-        episode = data["nextAiringEpisode"]["episode"]
+    if data['nextAiringEpisode']:
+        nextAir = data['nextAiringEpisode']['airingAt']
+        episode = data['nextAiringEpisode']['episode']
         air_on = make_it_rw(nextAir, True)
 
     title_ = english or romaji
@@ -388,41 +411,37 @@ async def airing_anim(message: Message):
     await message.delete()
 
 
-@alpha.on_cmd(
-    "scheduled",
-    about={
-        "header": "Scheduled Animes",
-        "description": "Fetch a list of Scheduled Animes from "
-        "AniList API. [<b>Note:</b> If Query exceeds "
-        "Limit (i.e. 9 aprox) remaining Animes from "
-        "will be directly posted to Log Channel "
-        "to avoid Spam of Current Chat.]",
-        "usage": "{tr}scheduled",
-    },
-)
+@alpha.on_cmd("scheduled", about={
+    'header': "Scheduled Animes",
+    'description': "Fetch a list of Scheduled Animes from "
+                   "AniList API. [<b>Note:</b> If Query exceeds "
+                   "Limit (i.e. 9 aprox) remaining Animes from "
+                   "will be directly posted to Log Channel "
+                   "to avoid Spam of Current Chat.]",
+    'usage': "{tr}scheduled"})
 async def get_schuled(message: Message):
-    """Get List of Scheduled Anime"""
-    var = {"notYetAired": True}
+    """ Get List of Scheduled Anime """
+    var = {'notYetAired': True}
     await message.edit("`Fetching Scheduled Animes`")
     result = await return_json_senpai(AIRING_QUERY, var)
-    error = result.get("errors")
+    error = result.get('errors')
     if error:
         await CLOG.log(f"**ANILIST RETURNED FOLLOWING ERROR:**\n\n{error}")
-        error_sts = error[0].get("message")
+        error_sts = error[0].get('message')
         await message.err(f"[{error_sts}]")
         return
 
-    data = result["data"]["Page"]["airingSchedules"]
+    data = result['data']['Page']['airingSchedules']
     c = 0
     totl_schld = len(data)
     out = ""
     for air in data:
-        romaji = air["media"]["title"]["romaji"]
-        english = air["media"]["title"]["english"]
-        mid = air["mediaId"]
-        epi_air = air["episode"]
-        air_at = make_it_rw(air["airingAt"], True)
-        site = air["media"]["siteUrl"]
+        romaji = air['media']['title']['romaji']
+        english = air['media']['title']['english']
+        mid = air['mediaId']
+        epi_air = air['episode']
+        air_at = make_it_rw(air['airingAt'], True)
+        site = air['media']['siteUrl']
         title_ = english or romaji
         out += f"<h3>[🇯🇵]{title_}</h3>"
         out += f" • <b>ID:</b> {mid}<br>"
@@ -436,54 +455,53 @@ async def get_schuled(message: Message):
         await message.edit(f"[Open in Telegraph]({link})")
 
 
-@alpha.on_cmd(
-    "character",
-    about={
-        "header": "Anime Character",
-        "description": "Get Info about a Character and much more",
-        "usage": "{tr}character [Name of Character]",
-        "examples": "{tr}character Subaru Natsuki",
-    },
-)
+@alpha.on_cmd("character", about={
+    'header': "Anime Character",
+    'description': "Get Info about a Character and much more",
+    'usage': "{tr}character [Name of Character]",
+    'examples': "{tr}character Subaru Natsuki"})
 async def character_search(message: Message):
-    """Get Info about a Character"""
+    """ Get Info about a Character """
     query = message.input_str
     if not query:
         await message.err("NameError: 'query' not defined")
         return
-    var = {"search": query, "asHtml": True}
+    var = {
+        'search': query,
+        'asHtml': True
+    }
     result = await return_json_senpai(CHARACTER_QUERY, var)
-    error = result.get("errors")
+    error = result.get('errors')
     if error:
         await CLOG.log(f"**ANILIST RETURNED FOLLOWING ERROR:**\n\n`{error}`")
-        error_sts = error[0].get("message")
+        error_sts = error[0].get('message')
         await message.err(f"[{error_sts}]")
         return
 
-    data = result["data"]["Character"]
+    data = result['data']['Character']
 
     # Character Data
-    id_ = data["id"]
-    name = data["name"]["full"]
-    native = data["name"]["native"]
-    img = data["image"]["large"]
-    site_url = data["siteUrl"]
-    description = data["description"]
-    featured = data["media"]["nodes"]
+    id_ = data['id']
+    name = data['name']['full']
+    native = data['name']['native']
+    img = data['image']['large']
+    site_url = data['siteUrl']
+    description = data['description']
+    featured = data['media']['nodes']
 
     sp = 0
     cntnt = ""
     for cf in featured:
         out = "<br>"
-        out += f"""<img src="{cf['coverImage']['extraLarge']}"/>"""
+        out += f'''<img src="{cf['coverImage']['extraLarge']}"/>'''
         out += "<br>"
-        title = cf["title"]["english"] or cf["title"]["romaji"]
+        title = cf['title']['english'] if cf['title']['english'] else cf['title']['romaji']
         out += f"<h3>{title}</h3>"
         out += f"<em>[🇯🇵] {cf['title']['native']}</em><br>"
-        out += f"""<a href="{cf['siteUrl']}>{cf['type']}</a><br>"""
+        out += f'''<a href="{cf['siteUrl']}>{cf['type']}</a><br>'''
         out += f"<b>Media ID:</b> {cf['id']}<br>"
         out += f"<b>SCORE:</b> {cf['averageScore']}/100<br>"
-        out += cf.get("description", "N/A") + "<br>"
+        out += cf.get('description', "N/A") + "<br>"
         cntnt += out
         sp += 1
         out = ""
@@ -504,89 +522,98 @@ async def character_search(message: Message):
     (`{name}`)
 **ID:** {id_}
 [About Character]({url_})
-
 [Visit Website]({site_url})"""
 
     await message.reply_photo(img, caption=cap_text)
     await message.delete()
 
 
-@alpha.on_cmd(
-    "ars",
-    about={
-        "header": "Anime Reverse Search",
-        "description": "Reverse Search any anime by providing "
-        "a snap, or short clip of anime.",
-        "usage": "{tr}ars [reply to Photo/Gif/Video]",
-    },
-)
+@alpha.on_cmd("ars", about={
+    'header': "Anime Reverse Search",
+    'description': "Reverse Search any anime by providing "
+                   "a snap, or short clip of anime.",
+    'usage': "{tr}ars [reply to Photo/Gif/Video]"})
 async def trace_bek(message: Message):
-    """Reverse Search Anime Clips/Photos"""
-    dls_loc = await media_to_image(message)
+    """ Reverse Search Anime Clips/Photos """
+    replied = message.reply_to_message
+    if not replied:
+        await message.edit("Ara Ara... Reply to a Media Senpai")
+        return
+    if not (replied.photo or replied.video or replied.animation):
+        await message.err("Nani, reply to gif/photo/video")
+        return
+    if not os.path.isdir(Config.DOWN_PATH):
+        os.makedirs(Config.DOWN_PATH)
+    await message.edit("He he, let me use my skills")
+    dls = await message.client.download_media(
+        message=message.reply_to_message,
+        file_name=Config.DOWN_PATH,
+        progress=progress,
+        progress_args=(message, "Downloading Media")
+    )
+    dls_loc = os.path.join(Config.DOWN_PATH, os.path.basename(dls))
+    if replied.animation or replied.video:
+        img_loc = os.path.join(Config.DOWN_PATH, "trace.png")
+        await take_screen_shot(dls_loc, 0, img_loc)
+        if not os.path.lexists(img_loc):
+            await message.err("Media not found...", del_in=5)
+            return
+        os.remove(dls_loc)
+        dls_loc = img_loc
     if dls_loc:
-        async with ClientSession() as session:
-            tracemoe = tracemoepy.AsyncTrace(session=session)
-            search = await tracemoe.search(dls_loc, upload_file=True)
-            os.remove(dls_loc)
-            result = search["docs"][0]
-            caption = (
-                f"**Title**: **{result['title_english']}**\n"
-                f"   🇯🇵 (`{result['title_romaji']} - {result['title_native']}`)\n"
-                f"\n**Anilist ID:** `{result['anilist_id']}`"
-                f"\n**Similarity**: `{result['similarity']*100}`"
-                f"\n**Episode**: `{result['episode']}`"
-            )
-            preview = await tracemoe.natural_preview(search)
-        with open("preview.mp4", "wb") as f:
+        tracemoe = tracemoepy.async_trace.Async_Trace()
+        search = await tracemoe.search(dls_loc, encode=True)
+        os.remove(dls_loc)
+        result = search['docs'][0]
+        caption = (f"**Title**: **{result['title_english']}**\n"
+                   f"   🇯🇵 (`{result['title_romaji']} - {result['title_native']}`)\n"
+                   f"\n**Anilist ID:** `{result['anilist_id']}`"
+                   f"\n**Similarity**: `{result['similarity']*100}`"
+                   f"\n**Episode**: `{result['episode']}`")
+        preview = await tracemoe.natural_preview(search)
+        with open('preview.mp4', 'wb') as f:
             f.write(preview)
-        await message.reply_video("preview.mp4", caption=caption)
-        os.remove("preview.mp4")
+        await message.reply_video('preview.mp4', caption=caption)
+        os.remove('preview.mp4')
         await message.delete()
 
 
-@alpha.on_cmd(
-    "setemp",
-    about={
-        "header": "Anime Template",
-        "description": "Set your own Custom Anime Template "
-        "that will be used to format .anime "
-        "searches [<b>NOTE:</b> Requires "
-        "proper key to be entered in curly braces]",
-        "usage": "{tr}setemp [Reply to text Message | Content]",
-    },
-)
+@alpha.on_cmd("setemp", about={
+    'header': "Anime Template",
+    'description': "Set your own Custom Anime Template "
+                   "that will be used to format .anime "
+                   "searches [<b>NOTE:</b> Requires "
+                   "proper key to be entered in curly braces]",
+    'usage': "{tr}setemp [Reply to text Message | Content]"})
 async def ani_save_template(message: Message):
-    """Set Custom Template for .anime"""
+    """ Set Custom Template for .anime """
     text = message.input_or_reply_str
     if not text:
         await message.err("Invalid Syntax")
         return
-    await SAVED.update_one(
-        {"_id": "ANIME_TEMPLATE"}, {"$set": {"anime_data": text}}, upsert=True
-    )
+    await SAVED.update_one({'_id': "ANIME_TEMPLATE"}, {"$set": {'anime_data': text}}, upsert=True)
     await message.edit("Custom Anime Template Saved")
 
 
-@alpha.on_cmd(
-    "anitemp",
-    about={
-        "header": "Anime Template Settings",
-        "description": "Remove or View current Custom " "that is being used. ",
-        "flags": {"-d": "Delete Saved Template", "-v": "View Saved Template"},
-        "usage": "{tr}anitemp [A valid flag]",
-    },
-)
+@alpha.on_cmd("anitemp", about={
+    'header': "Anime Template Settings",
+    'description': "Remove or View current Custom "
+                   "that is being used. ",
+    'flags': {
+        '-d': "Delete Saved Template",
+        '-v': "View Saved Template"},
+    'usage': "{tr}anitemp [A valid flag]"})
 async def view_del_ani(message: Message):
-    """View or Delete .anime Template"""
+    """ View or Delete .anime Template """
     if not message.flags:
         await message.err("Flag Required")
         return
-    template = await SAVED.find_one({"_id": "ANIME_TEMPLATE"})
+    template = await SAVED.find_one({'_id': "ANIME_TEMPLATE"})
     if not template:
         await message.err("No Custom Anime Template Saved Peru")
         return
     if "-d" in message.flags:
-        await SAVED.delete_one({"_id": "ANIME_TEMPLATE"})
+        await SAVED.delete_one({'_id': "ANIME_TEMPLATE"})
         await message.edit("Custom Anime Template deleted Successfully")
     if "-v" in message.flags:
-        await message.edit(template["anime_data"])
+        await message.edit(template['anime_data'])

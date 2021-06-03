@@ -3,10 +3,10 @@ import os
 from gtts import gTTS
 from hachoir.metadata import extractMetadata as XMan
 from hachoir.parser import createParser as CPR
-from alphaz import Message, alphaz
+from alpha import Message, alpha
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "tts",
     about={
         "header": "Text To Speech (default language is en)",

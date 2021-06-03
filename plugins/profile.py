@@ -391,7 +391,7 @@ async def clone_(message: Message):
         await message.edit("```Profile is Successfully Cloned ...```", del_in=3)
 
 
-@alphaz.on_cmd(
+@alpha.on_cmd(
     "revert",
     about={"header": "Returns original profile", "usage": "{tr}revert"},
     allow_via_bot=False,

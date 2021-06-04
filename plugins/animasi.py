@@ -9,7 +9,7 @@ from alpha import Message, alpha
 async def alfareza_(message: Message):
     """perkenalan"""
     animation_interval = 0.0
-    animation_ttl = range(117)
+    animation_ttl = range(10000)
     await message.edit("🕛")
     await message.edit("🕐")
     await message.edit("🕑")

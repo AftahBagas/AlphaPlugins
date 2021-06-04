@@ -19,11 +19,11 @@ async def sangmata_(message: Message):
     """Get User's Updated previous Names and Usernames"""
     replied = message.reply_to_message
     if not replied:
-        await message.err("```Reply to get Name and Username History...```", del_in=5)
+        await message.err("```Balas untuk mendapatkan Nama dan Riwayat Nama Pengguna...```", del_in=5)
         return
     user = replied.from_user.id
     chat = "@Sangmatainfo_bot"
-    await message.edit("```Getting info, Wait plox ...```")
+    await message.edit("```Mendapatkan Informasi Pergantian Nama ...```")
     msgs = []
     ERROR_MSG = "For your kind information, you blocked @Sangmatainfo_bot, Unblock it"
     try:
@@ -38,18 +38,18 @@ async def sangmata_(message: Message):
             msgs.append(await conv.get_response(timeout=3, mark_read=True))
     except StopConversation:
         pass
-    name = "Name History"
-    username = "Username History"
+    name = "📄 **Riwayat Pergantian Nama**"
+    username = "📄 **Riwayat Pergantian Username**"
     for msg in msgs:
         if "-u" in message.flags:
-            if msg.text.startswith("No records found"):
-                await message.edit("```User never changed his Username...```", del_in=5)
+            if msg.text.startswith("Tidak ada catatan yang ditemukan"):
+                await message.edit("```Pengguna tidak pernah mengubah Nama Penggunanya...```", del_in=5)
                 return
             if msg.text.startswith(username):
                 await message.edit(f"`{msg.text}`")
         else:
             if msg.text.startswith("No records found"):
-                await message.edit("```User never changed his Name...```", del_in=5)
+                await message.edit("```Pengguna tidak pernah mengubah Namanya...```", del_in=5)
                 return
             if msg.text.startswith(name):
                 await message.edit(f"`{msg.text}`")

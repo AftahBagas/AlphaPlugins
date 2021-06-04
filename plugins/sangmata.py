@@ -27,7 +27,7 @@ async def sangmata_(message: Message):
     msgs = []
     ERROR_MSG = "For your kind information, you blocked @Sangmatainfo_bot, Unblock it"
     try:
-        async with alphaz.conversation(chat) as conv:
+        async with alpha.conversation(chat) as conv:
             try:
                 await conv.send_message("/search_id {}".format(user))
             except YouBlockedUser:

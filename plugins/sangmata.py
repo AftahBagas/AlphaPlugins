@@ -22,11 +22,11 @@ async def sangmata_(message: Message):
         return
     user = replied.from_user.id
     chat = "@Sangmatainfo_bot"
-    await message.edit("```Getting info, Wait plox ...```")
+    await message.edit("```Mendapatkan Riwayat Pergantian Nama Pengguna ...```")
     msgs = []
     ERROR_MSG = "For your kind information, you blocked @Sangmatainfo_bot, Unblock it"
     try:
-        async with userge.conversation(chat) as conv:
+        async with alpha.conversation(chat) as conv:
             try:
                 await conv.send_message("/search_id {}".format(user))
             except YouBlockedUser:

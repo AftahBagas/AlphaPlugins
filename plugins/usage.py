@@ -55,6 +55,8 @@ async def usage(message: Message):
 
     await message.edit("⚙️ **Informasi Dyno** ⚙️\n\n"
                        f"**Penggunaan Dyno** [`{AppPercentage}`%] **Bulan Ini** =\n"
-                       f"   • **{AppHours} hours**\n• **{AppMinutes} minutes**  "
+                       f"   • **{AppHours} hours**\n"
+                       f"   • **{AppMinutes} minutes**\n"
                        f"**Sisa Dyno {Config.HEROKU_APP_NAME} [`{percentage}`%] Bulan Ini** =\n"
-                       f"   • **{hours} hours*"\n**• {minutes} minutes**")
+                       f"   • **{hours} hours**\n"
+                       f"   • **{minutes} minutes**")

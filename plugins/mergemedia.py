@@ -10,7 +10,7 @@ from pathlib import Path
 from hachoir.stream.input import InputStreamError, NullStreamError
 from alpha import Message, alpha
 from alpha.plugins.misc.upload import upload
-from alpha.utils import progress, runcmd, safe_filename
+from alpha.utils import progress, runcmd
 
 
 @alpha.on_cmd(

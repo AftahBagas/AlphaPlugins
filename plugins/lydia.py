@@ -12,7 +12,7 @@ from coffeehouse.exception import CoffeeHouseError
 from coffeehouse.lydia import LydiaAI, Session
 from pyrogram.errors import PeerIdInvalid
 from alpha import Message, filters, get_collection, pool, alpha
-from alpha.utils import get_file_id
+from alpha.utils import get_file_id_of_media
 
 LOGGER = alpha.getCLogger(__name__)
 LYDIA_CHATS = get_collection("LYDIA_CHATS")

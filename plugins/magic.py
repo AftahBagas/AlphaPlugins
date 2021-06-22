@@ -8,7 +8,6 @@ from shutil import rmtree
 
 from PIL import Image, ImageOps
 from alpha import Config, Message, alpha
-from alpha.plugins.utils.circle import crop_vid
 from alpha.utils import media_to_image, runcmd, safe_filename
 
 

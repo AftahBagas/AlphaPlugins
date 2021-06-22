@@ -4,7 +4,7 @@
 
 from pyrogram.errors import BadRequest
 from alpha import Message, alpha
-from alpha.utils import get_file_id
+from alpha.utils import get_file_id_of_media
 
 
 @alpha.on_cmd(

@@ -4,7 +4,7 @@
 
 from pyrogram.errors.exceptions.bad_request_400 import YouBlockedUser
 
-from alpha import userge, Message
+from alpha import alpha, Message
 from alpha.utils.exceptions import StopConversation
 
 

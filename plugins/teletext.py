@@ -5,8 +5,6 @@ import time
 from alpha import Message, alpha
 from alpha.utils import post_to_telegraph, time_formatter
 
-from ..utils.telegraph import upload_media_
-
 
 @alpha.on_cmd(
     "tg",

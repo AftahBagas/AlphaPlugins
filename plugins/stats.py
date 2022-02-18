@@ -39,7 +39,7 @@ async def get_stats_(message: Message):
     channels_admin = 0
     channels_creator = 0
     try:
-        async for dialog in alphaz.iter_dialogs():
+        async for dialog in alpha.iter_dialogs():
             unread_mentions += dialog.unread_mentions_count
             unread_msg += dialog.unread_messages_count
             chat_type = dialog.chat.type

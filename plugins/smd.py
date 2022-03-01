@@ -27,7 +27,7 @@ async def song_search(message: Message):
         async for msg in alpha.search_messages(
             -1001271479322, query=song, limit=1, filter="audio"
         ):
-            f_id = get_file_id(msg)
+            f_id = get_file_id_of_media(msg)
     except BadRequest:
         await search.edit(
             "Join [THIS](https://t.me/joinchat/DdR2SUvJPBouSW4QlbJU4g) channel first"

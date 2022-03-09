@@ -41,9 +41,9 @@ async def join_chat(message: Message):
         )
         return
     try:
-        chat = await alphaz.get_chat(text)
-        await alphaz.join_chat(text)
-        await alphaz.send_message(text, f"```Bergabung {chat.title} Berhasil...```")
+        chat = await alpha.get_chat(text)
+        await alpha.join_chat(text)
+        await alpha.send_message(text, f"```Bergabung {chat.title} Berhasil...```")
     except UsernameNotOccupied:
         await message.edit("```Nama pengguna, Anda masuk, tidak ada... ```", del_in=3)
         return
@@ -69,8 +69,8 @@ async def leave_chat(message: Message):
     input_str = message.input_str
     text = input_str or message.chat.id
     try:
-        await alphaz.send_message(text, "```Selamat tinggal, Dunia Kejam ... :-) ```")
-        await alphaz.leave_chat(text)
+        await alpha.send_message(text, "```Selamat tinggal, Dunia Kejam ... :-) ```")
+        await alpha.leave_chat(text)
     except UsernameNotOccupied:
         await message.edit(
             "```Nama pengguna yang Anda masukkan, tidak ada... ```", del_in=3
@@ -103,10 +103,10 @@ async def invite_link(message: Message):
         user_id = message.reply_to_message.from_user.id
     if not user_id:
         try:
-            chat = await userge.get_chat(chat_id)
+            chat = await alpha.get_chat(chat_id)
             chat_name = chat.title
             if chat.type in ["group", "supergroup"]:
-                link = await alphaz.export_chat_invite_link(chat_id)
+                link = await alpha.export_chat_invite_link(chat_id)
                 await message.edit(
                     "**Invite link Genrated Successfully for\n"
                     f"{chat_name}**\n[Click here to join]({link})",
@@ -118,7 +118,7 @@ async def invite_link(message: Message):
             await message.err(e_f)
     else:
         try:
-            await alphaz.add_chat_members(chat_id, user_id)
+            await alpha.add_chat_members(chat_id, user_id)
             await message.edit("`Invited Successfully...`")
         except Exception as e_f:
             await message.err(e_f)
@@ -170,7 +170,7 @@ async def tagall_(message: Message):
 async def stagall_(message: Message):
     """tag recent members without spam"""
     chat_id = message.chat.id
-    chat = await alphaz.get_chat(chat_id)
+    chat = await alpha.get_chat(chat_id)
     await message.edit(f"```tagging everyone in {chat.title}```")
     replied = message.reply_to_message
     text = message.input_str
@@ -179,12 +179,12 @@ async def stagall_(message: Message):
         return
     text = f"`{text}`" if text else ""
     message_id = replied.message_id if replied else None
-    member = alphaz.iter_chat_members(chat_id)
+    member = alpha.iter_chat_members(chat_id)
     async for members in member:
         if not members.user.is_bot:
             text += mention_html(members.user.id, "\u200b")
     await message.delete()
-    await alphaz.send_message(chat_id, text, reply_to_message_id=message_id)
+    await alpha.send_message(chat_id, text, reply_to_message_id=message_id)
 
 
 @alpha.on_cmd(
@@ -246,12 +246,12 @@ async def set_chat(message: Message):
     if not message.flags:
         await message.err("```Flags required!...```", del_in=3)
         return
-    chat = await alphaz.get_chat(message.chat.id)
+    chat = await alpha.get_chat(message.chat.id)
     if "-ddes" in message.flags:
         if not chat.description:
             await message.edit("```Chat already not have description...```", del_in=5)
         else:
-            await userge.set_chat_description(message.chat.id, "")
+            await alpha.set_chat_description(message.chat.id, "")
             await message.edit(
                 "```Chat Description is Successfully removed...```", del_in=3
             )
@@ -260,11 +260,11 @@ async def set_chat(message: Message):
         await message.edit("```Need Text to Update chat info...```", del_in=5)
         return
     if "-title" in message.flags:
-        await alphaz.set_chat_title(message.chat.id, args.strip())
+        await alpha.set_chat_title(message.chat.id, args.strip())
         await message.edit("```Chat Title is Successfully Updated...```", del_in=3)
     elif "-uname" in message.flags:
         try:
-            await userge.update_chat_username(message.chat.id, args.strip())
+            await alpha.update_chat_username(message.chat.id, args.strip())
         except ValueError:
             await message.edit("```I think its a private chat...(^_-)```", del_in=3)
             return
@@ -282,7 +282,7 @@ async def set_chat(message: Message):
             )
     elif "-des" in message.flags:
         try:
-            await userge.set_chat_description(message.chat.id, args.strip())
+            await alpha.set_chat_description(message.chat.id, args.strip())
         except BadRequest:
             await message.edit("```Chat description is Too Long...  ```", del_in=3)
         else:
@@ -309,7 +309,7 @@ async def set_chat(message: Message):
 async def view_chat(message: Message):
     """View chat info"""
     chat_id = message.chat.id
-    chat = await alphaz.get_chat(chat_id)
+    chat = await alpha.get_chat(chat_id)
     if "-title" in message.flags:
         await message.edit("```checking, wait plox !...```", del_in=3)
         title = chat.title
